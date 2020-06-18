@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/18 16:23:22 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/18 16:44:28 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,8 @@ t_f3_ret		get_fields(char *line)
 		{
 			atod_ret = ft_atod(line + data.i);
 			data.i += atod_ret.i;
-			// if (data.fields == 0)
-			// 	data.f_info.x = atod_ret.val;
 			data.f_info.x = data.fields == 0 ? atod_ret.val : data.f_info.x;
-			// if (data.fields == 1)
-			// 	data.f_info.y = atod_ret.val;
 			data.f_info.y = data.fields == 1 ? atod_ret.val : data.f_info.y;
-			// if (data.fields == 2)
-			// 	data.f_info.z = atod_ret.val;
 			data.f_info.z = data.fields == 2 ? atod_ret.val : data.f_info.z;
 			data.fields++;
 			data.i += line[data.i] == ',' ? 1 : 0;

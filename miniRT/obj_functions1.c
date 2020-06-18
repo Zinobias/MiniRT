@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/18 13:43:41 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/18 17:31:54 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,9 @@ t_object	get_sphere(char *line)
 	i += f_ret.i;
 	i_ret = get_int(line + i);
 	sphere.diam = i_ret.val;
-	i += f_ret.i;
+	i += i_ret.i;
+	while (line[i] == ' ')
+		i++;
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
 	sphere.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);

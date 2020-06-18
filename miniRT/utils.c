@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/06 18:35:54 by zgargasc       #+#    #+#                */
-/*   Updated: 2020/03/12 19:27:37 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/06/18 13:27:46 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	error(int code)
 {
 	// destroy window
 	if (code == INVAL)
-		write(1, "ERROR\n INVALID SCENE", 21);
+		write(1, "ERROR\nINVALID SCENE", 20);
 	if (code == MALLOC)
-		write(1, "ERROR\n MALLOC", 14);
+		write(1, "ERROR\nMALLOC", 13);
 	if (code == GNL)
-		write(1, "ERROR\n GET_NEXT_LINE", 21);
+		write(1, "ERROR\nGET_NEXT_LINE", 20);
 	exit(1);
 }

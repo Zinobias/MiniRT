@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/09 18:54:10 by zgargasc       #+#    #+#                */
-/*   Updated: 2020/03/12 18:56:55 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/06/18 16:23:22 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void			line_handler(char *line, t_obj_list **head)
 	if (((*line == 'A' && ra & 1) || (*line == 'R' && ra & 2)))
 		error(INVAL);
 	if (*line == 'R')
-		ra |= 1;
-	if (*line == 'A')
 		ra |= 2;
+	if (*line == 'A')
+		ra |= 1;
 	obj_add(line_to_data(line), head, line);
 	return ;
 }
@@ -88,20 +88,26 @@ t_f3_ret		get_fields(char *line)
 	data.i = 0;
 	while (line[data.i] == ' ' && line[data.i])
 		data.i++;
-	if (line[data.i] >= '0' || line[data.i] <= '9' || line[data.i] == '-')
+	while (line[data.i] && line[data.i] != ' ')
 	{
-		atod_ret = ft_atod(line + data.i);
-		data.i += atod_ret.i;
-		if (data.fields == 0)
-			data.f_info.x = atod_ret.val;
-		if (data.fields == 1)
-			data.f_info.y = atod_ret.val;
-		if (data.fields == 2)
-			data.f_info.z = atod_ret.val;
-		data.fields++;
-		data.i++;
+		if ((line[data.i] >= '0' && line[data.i] <= '9') || line[data.i] == '-')
+		{
+			atod_ret = ft_atod(line + data.i);
+			data.i += atod_ret.i;
+			// if (data.fields == 0)
+			// 	data.f_info.x = atod_ret.val;
+			data.f_info.x = data.fields == 0 ? atod_ret.val : data.f_info.x;
+			// if (data.fields == 1)
+			// 	data.f_info.y = atod_ret.val;
+			data.f_info.y = data.fields == 1 ? atod_ret.val : data.f_info.y;
+			// if (data.fields == 2)
+			// 	data.f_info.z = atod_ret.val;
+			data.f_info.z = data.fields == 2 ? atod_ret.val : data.f_info.z;
+			data.fields++;
+			data.i += line[data.i] == ',' ? 1 : 0;
+		}
 	}
-	if (data.fields != 2 || line[data.i] != ' ')
+	if (data.fields != 3 && (line[data.i] == ' ' || line[data.i] == '\0'))
 		error(INVAL);
 	return (data);
 }
@@ -132,23 +138,18 @@ t_i_ret			get_int(char *line)
 {
 	t_i_ret		ret;
 	t_atod_ret	atod_data;
-	int			i;
 
 	ret.val = 0;
 	ret.i = 0;
 	while (line[ret.i] == ' ')
 		ret.i++;
-	i = line[ret.i] == '-' ? ret.i + 1 : ret.i;
-	while (line[i] >= '0' || line[i] <= '9')
-		i++;
-	if (line[i + 1] != ' ')
-		error(INVAL);
-	if (line[ret.i] >= '0' || line[ret.i] <= '9' || line[ret.i] == '-')
+	if ((line[ret.i] >= '0' && line[ret.i] <= '9') || line[ret.i] == '-')
 	{
 		atod_data = ft_atod(line + ret.i);
 		ret.val = atod_data.val;
 		ret.i += atod_data.i;
-		ret.i++;
 	}
+	else
+		error(INVAL);
 	return (ret);
 }

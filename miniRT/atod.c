@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/05 17:19:13 by zgargasc       #+#    #+#                */
-/*   Updated: 2020/03/12 18:57:40 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/03/05 17:19:13 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/06/18 15:53:00 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ t_atod_ret	ft_atod(char *str)
 	int			d;
 
 	d = 0;
+	dec = 0;
 	ret.i = *str == '-' ? 1 : 0;
 	ret.val = 0;
 	while (str[ret.i] >= '0' && str[ret.i] <= '9')
 	{
-		ret.val += (str[ret.i] - '0') * 10;
+		ret.val = ret.val * 10 + str[ret.i] - '0';
 		ret.i++;
 	}
 	if (str[ret.i] == '.')
@@ -31,7 +32,7 @@ t_atod_ret	ft_atod(char *str)
 		ret.i++;
 		while (str[ret.i] >= '0' && str[ret.i] <= '9')
 		{
-			dec += (str[ret.i] - '0') * 10;
+			dec = dec * 10 + str[ret.i] - '0';
 			d++;
 			ret.i++;
 		}

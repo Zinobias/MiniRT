@@ -5,19 +5,19 @@
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/06 18:44:10 by zgargasc       #+#    #+#                */
-/*   Updated: 2020/03/10 21:00:48 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/03/06 18:44:10 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/06/18 16:02:51 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_obj_list	**parser(void)
+t_obj_list	*parser(void)
 {
 	int			ret;
 	char		*line;
 	int			fd;
-	t_obj_list	**head;
+	t_obj_list	*head;
 
 	fd = open("scene.rt", O_RDONLY);
 	ret = 3;
@@ -33,5 +33,25 @@ t_obj_list	**parser(void)
 	close(fd);
 	if (line)
 		free(line);
-	return (&head);
+	return (head);
+}
+
+int		main(void)
+{
+	t_obj_list *list;
+	t_object	res;
+	t_object	amb;
+	t_object	cam;
+
+	list = parser();
+	res = list->object;
+	list = list->next;
+	amb = list->object;
+	list = list->next;
+	cam = list->object;
+	printf("%f, %f, %f, %f, %f, %f, %f\n", cam.cam.view_p.x, cam.cam.view_p.y, cam.cam.view_p.z, cam.cam.norm_vec.x, cam.cam.norm_vec.y, cam.cam.norm_vec.z, cam.cam.fov);
+	printf("%i / %i\n", res.res.x, res.res.y);
+	printf("%i / %f\n", amb.amb.colors, amb.amb.ratio);
+	exit(0);
+	return (0);
 }

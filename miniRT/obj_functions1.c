@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/09 19:29:08 by zgargasc       #+#    #+#                */
-/*   Updated: 2020/03/12 19:26:05 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/06/18 13:43:41 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ t_object	get_res(char *line)
 	t_res	ret;
 	t_i_ret	int_ret;
 	int		i;
-
+	
 	i = 1;
 	int_ret = get_int(line + i);
-	ret.x = int_ret.val;
+	ret.x = (int)int_ret.val;
 	i += int_ret.i;
 	int_ret = get_int(line + i);
 	ret.y = int_ret.val;

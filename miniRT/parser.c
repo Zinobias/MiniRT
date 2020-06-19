@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:44:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/18 17:10:44 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/19 10:01:25 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,16 @@ int		main(void)
 	t_object	amb;
 	t_object	cam;
 
+	
 	list = parser();
+	if (list->rac & 1)
+		printf("test 1\n");
+	if (list->rac & 2)
+		printf("test 2\n");
+	if (list->rac & 4)
+		printf("test 4\n");
+	if (!(list->rac & 1) || !(list->rac & 2) || !(list->rac & 4))
+		error(INVAL);
 	res = list->object;
 	list = list->next;
 	amb = list->object;

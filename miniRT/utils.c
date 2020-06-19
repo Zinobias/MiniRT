@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/18 13:27:46 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/19 10:00:04 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	make_head(t_obj_list **head)
 	new_head = (t_obj_list *)malloc(sizeof(t_obj_list));
 	if (!new_head)
 		error(MALLOC);
+	new_head->rac = 0;
 	new_head->obj_type = NULL;
 	*head = new_head;
 	return ;

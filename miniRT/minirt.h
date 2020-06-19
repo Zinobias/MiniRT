@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/02/14 16:17:19 by zgargasc       #+#    #+#                */
-/*   Updated: 2020/06/18 13:07:54 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/06/19 10:07:19 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ typedef struct  s_f_data {
 typedef struct  s_obj_list {
     t_f_data			*obj_type;
 	t_object			object;
-	// struct s_obj_list	*next;
+	unsigned short		rac;
 	void 				*next;
 }               t_obj_list;
 

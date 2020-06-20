@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 17:31:58 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/20 18:11:11 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,20 @@ void	error(int code)
 	exit(1);
 }
 
-int	close_window_esc(int keycode, t_data *mlx)
-{
-	if (keycode == 53)
-	{
-		mlx_destroy_image(mlx->mlx, mlx->img);
-		mlx_destroy_window(mlx->mlx, mlx->win);
-		exit(0);
-	}
-	return (0);
-}
+// int	close_window_esc(int keycode, t_data *mlx)
+// {
+// 	if (keycode == 53)
+// 	{
+// 		mlx_destroy_image(mlx->mlx, mlx->img);
+// 		mlx_destroy_window(mlx->mlx, mlx->win);
+// 		exit(0);
+// 	}
+// 	return (0);
+// }
 
-int		close_win_x(t_data *mlx)
-{
-	mlx_destroy_image(mlx->mlx, mlx->img);
-	mlx_destroy_window(mlx->mlx, mlx->win);
-	exit(0);
-}
+// int		close_win_x(t_data *mlx)
+// {
+// 	mlx_destroy_image(mlx->mlx, mlx->img);
+// 	mlx_destroy_window(mlx->mlx, mlx->win);
+// 	exit(0);
+// }

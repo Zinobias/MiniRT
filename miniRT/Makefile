@@ -6,13 +6,13 @@
 #    By: zgargasc <zgargasc@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/14 16:37:58 by zgargasc      #+#    #+#                  #
-#    Updated: 2020/06/20 17:11:18 by zgargasc      ########   odam.nl          #
+#    Updated: 2020/06/20 18:10:22 by zgargasc      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME := MiniRT
 
-SRC := practice.c
+SRC := atod.c minirt.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
 
 MLX_PATH := ./mlx/
 

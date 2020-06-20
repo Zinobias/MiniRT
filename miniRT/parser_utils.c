@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/19 10:06:16 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/06/20 18:05:02 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void			obj_add(t_f_data *obj_data, t_obj_list **head, char *line)
 
 void			line_handler(char *line, t_obj_list **head)
 {
-	static	int	rac;
-
 	if (((*line == 'A' && (*head)->rac & 1) || (*line == 'R' && (*head)->rac & 2)))
 		error(INVAL);
 	if (*line == 'R')

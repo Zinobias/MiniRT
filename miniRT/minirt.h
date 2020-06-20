@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 17:32:44 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/20 18:10:39 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <math.h>
 #include <limits.h>
 #include <fcntl.h>
-#include <mlx.h>
+// #include <mlx.h>
 
 typedef	enum	e_error {
 ERROR = -1,
@@ -201,5 +201,6 @@ void				check_vec3_range(t_vec3 data, double min, double max);
 int					rgba(int t, int r, int g, int b);
 t_obj_list			*parser(void);
 int					close_window_esc(int keycode, t_data *mlx);
-int				close_win_x(t_data *mlx);
+int					close_win_x(t_data *mlx);
+void				rendering(void);
 #endif

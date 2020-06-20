@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/18 17:31:54 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/20 18:05:43 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ t_object	get_light(char *line)
 t_object	get_plane(char *line)
 {
 	t_f3_ret	f_ret;
-	t_d_ret		d_ret;
 	t_pl		plane;
 	int			i;
 

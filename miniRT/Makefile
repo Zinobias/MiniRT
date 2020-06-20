@@ -6,7 +6,7 @@
 #    By: zgargasc <zgargasc@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/14 16:37:58 by zgargasc      #+#    #+#                  #
-#    Updated: 2020/06/20 17:10:57 by zgargasc      ########   odam.nl          #
+#    Updated: 2020/06/20 17:11:18 by zgargasc      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,13 +38,14 @@ testc:
 
 make testr: testc test
 
-git push:
+git:
 	@printf "\e[1;34mAdding\n\e[0m"
 	@git add *
 	@git commit -m "yahr"
 	@printf "\e[1;34mCommit\n\e[0m"
 	@git push
 	@printf "\e[1;34mPushed\n\e[0m"
+
 all: $(NAME)
 
 $(NAME): $(MLX) $(OBJ)

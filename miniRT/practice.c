@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 15:57:48 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 17:08:02 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/20 17:14:33 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		main(void)
 	// mlx_put_image_to_window(mlx, mlx_w, img.img, 0, 0);
 	mlx_loop(mlx.mlx);
 	mlx_key_hook(&mlx.win, close_window_esc, &mlx);
-	mlx_hook(mlx.win, , 0, close_win_x, &mlx);
+	mlx_hook(mlx.win, 17, 0, close_win_x, &mlx);
 	// escape = 53
 	// int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color);
 	// /*

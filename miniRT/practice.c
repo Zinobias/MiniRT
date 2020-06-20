@@ -6,21 +6,29 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 15:57:48 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 16:57:57 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/20 17:08:02 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include "minirt.h"
 
-int	close_window(int keycode, t_data *mlx)
+int	close_window_esc(int keycode, t_data *mlx)
 {
 	if (keycode == 53)
 	{
+		mlx_destroy_image(mlx->mlx, mlx->img);
 		mlx_destroy_window(mlx->mlx, mlx->win);
 		exit(0);
 	}
 	return (0);
+}
+
+int		close_win_x(t_data *mlx)
+{
+	mlx_destroy_image(mlx->mlx, mlx->img);
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	exit(0);
 }
 
 int		main(void)
@@ -47,7 +55,8 @@ int		main(void)
  	//my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
 	// mlx_put_image_to_window(mlx, mlx_w, img.img, 0, 0);
 	mlx_loop(mlx.mlx);
-	mlx_key_hook(&mlx.win, close_window, &mlx);
+	mlx_key_hook(&mlx.win, close_window_esc, &mlx);
+	mlx_hook(mlx.win, , 0, close_win_x, &mlx);
 	// escape = 53
 	// int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color);
 	// /*

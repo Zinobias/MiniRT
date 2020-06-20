@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/19 10:07:19 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/06/20 16:57:11 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef	enum	e_error {
 ERROR = -1,
 INVAL = 1,
 MALLOC = 2,
-GNL = 3
+GNL = 3,
+MLX = 4,
 }				t_error;
 
 typedef	enum	e_f_code {
@@ -156,6 +157,8 @@ typedef struct  s_obj_list {
 
 // rename data to something more specific
 typedef struct  s_data {
+	void		*mlx;
+	void		*win;
 	t_res		res;
 	int			ambient_light;
     void        *img;
@@ -195,5 +198,5 @@ t_object			get_triangle(char *line);
 void				check_line_valid(char *line);
 void				check_vec3_range(t_vec3 data, double min, double max);
 int					rgba(int t, int r, int g, int b);
-// add ft_atoi // get_next_line
+t_obj_list			*parser(void);
 #endif

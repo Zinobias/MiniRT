@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/19 10:00:04 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/06/20 13:56:33 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,7 @@ void	error(int code)
 		write(1, "ERROR\nMALLOC", 13);
 	if (code == GNL)
 		write(1, "ERROR\nGET_NEXT_LINE", 20);
+	if (code == MLX)
+		write(1, "ERROR\nMLX", 10);
 	exit(1);
 }

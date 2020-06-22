@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 18:10:39 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/22 12:57:19 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <math.h>
 #include <limits.h>
 #include <fcntl.h>
-// #include <mlx.h>
+#include <mlx.h>
 
 typedef	enum	e_error {
 ERROR = -1,

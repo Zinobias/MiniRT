@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 18:05:02 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/22 12:58:15 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void			obj_add(t_f_data *obj_data, t_obj_list **head, char *line)
 	current = *head;
 	if (current->obj_type)
 	{
-		while (current->next)
+		while (current->next != NULL)
 			current = current->next;
 		current->next = (t_obj_list *)malloc(sizeof(t_obj_list));
 		if (!current->next)

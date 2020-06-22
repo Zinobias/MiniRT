@@ -1,18 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: zgargasc <zgargasc@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2020/02/14 16:37:58 by zgargasc      #+#    #+#                  #
-#    Updated: 2020/06/20 18:10:22 by zgargasc      ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
 
-NAME := MiniRT
+NAME := miniRT
 
-SRC := atod.c minirt.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
+SRC := atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c \
+utils.c GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c
 
 MLX_PATH := ./mlx/
 
@@ -22,13 +12,13 @@ INC := minirt.h
 
 CFLAGS := -Wall -Wextra -Werror -I.
 
-LXFLAGS := -Lmlx/ -lmlx -framework OpenGL -framework AppKit
+LXFLAGS := -Lmlx/ -framework OpenGL -framework AppKit
 
 OBJ := $(SRC:.c=.o)
 
 test:
 	@printf "\e[1;34mMaking test\n\e[0m"
-	@gcc -g atod.c minirt.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
+	@gcc -g $(CFLAGS) atod.c minirt.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
 	@./a.out
 	
 testc:
@@ -41,7 +31,7 @@ make testr: testc test
 git:
 	@printf "\e[1;34mAdding\n\e[0m"
 	@git add *
-	@git commit -m "yahr"
+	@git commit -m "Automated git"
 	@printf "\e[1;34mCommit\n\e[0m"
 	@git push
 	@printf "\e[1;34mPushed\n\e[0m"
@@ -50,7 +40,7 @@ all: $(NAME)
 
 $(NAME): $(MLX) $(OBJ)
 	@printf "\e[1;34mCompiling Project\n\e[0m"
-	@$(CC) $(LXFLAGS) $(CFLAGS) -o $(NAME) $(OBJ)
+	@$(CC) $(CFLAGS) $(LXFLAGS) -o $(NAME) $(OBJ)
 
 $(MLX):
 	@printf "\e[1;34mCompiling MLX\e[0m"
@@ -65,6 +55,7 @@ $(MLX):
 clean:
 	@printf "\e[1;34mMaking clean\n\e[0m"
 	@$(RM) $(OBJ)
+	@$(RM) get_next_line_bonus.o get_next_line_utils_bonus.o
 	@$(MAKE) -C $(MLX_PATH) clean
 
 fclean: clean

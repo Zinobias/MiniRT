@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/20 18:11:11 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/22 12:54:34 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void	make_head(t_obj_list **head)
 		error(MALLOC);
 	new_head->rac = 0;
 	new_head->obj_type = NULL;
+	new_head->next = NULL;
 	*head = new_head;
 	return ;
 }
 
 void	error(int code)
 {
-	// destroy window
 	if (code == INVAL)
 		write(1, "ERROR\nINVALID SCENE", 20);
 	if (code == MALLOC)

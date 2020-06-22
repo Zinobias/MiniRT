@@ -6,11 +6,12 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/22 12:54:34 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/06/22 13:10:23 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+#include "mlx.h"
 
 t_vec3	vec3(int x, int y, int z)
 {
@@ -79,20 +80,21 @@ void	error(int code)
 	exit(1);
 }
 
-// int	close_window_esc(int keycode, t_data *mlx)
-// {
-// 	if (keycode == 53)
-// 	{
-// 		mlx_destroy_image(mlx->mlx, mlx->img);
-// 		mlx_destroy_window(mlx->mlx, mlx->win);
-// 		exit(0);
-// 	}
-// 	return (0);
-// }
+int	close_window_esc(int keycode, t_data *mlx)
+{
+	if (keycode == 53)
+	{
+		mlx_destroy_image(mlx->mlx, mlx->img);
+		mlx_destroy_window(mlx->mlx, mlx->win);
+		exit(0);
+	}
+	return (0);
+}
 
-// int		close_win_x(t_data *mlx)
-// {
-// 	mlx_destroy_image(mlx->mlx, mlx->img);
-// 	mlx_destroy_window(mlx->mlx, mlx->win);
-// 	exit(0);
-// }
+int		close_win_x(t_data *mlx)
+{
+	mlx_destroy_image(mlx->mlx, mlx->img);
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	exit(0);
+	return (0);
+}

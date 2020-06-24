@@ -10,15 +10,15 @@ MLX := libmlx.dylib
 
 INC := minirt.h
 
-CFLAGS := -Wall -Wextra -Werror -I.
+CFLAGS := -fsanitize=address -Wall -Wextra -Werror -I.
 
-LXFLAGS := -Lmlx/ -framework OpenGL -framework AppKit
+LXFLAGS := -Lmlx/ -Lmlx -framework OpenGL -framework AppKit
 
 OBJ := $(SRC:.c=.o)
 
 test:
 	@printf "\e[1;34mMaking test\n\e[0m"
-	@gcc -g $(CFLAGS) atod.c minirt.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
+	@gcc -g $(CFLAGS) atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
 	@./a.out
 	
 testc:
@@ -59,7 +59,7 @@ clean:
 	@$(MAKE) -C $(MLX_PATH) clean
 
 fclean: clean
-	@$(RM) $(MLX) $(NAME)
+	@$(RM) $(MLX) $(NAME) $(NAME).h.gch
 
 re: fclean all
 

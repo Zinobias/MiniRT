@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/22 12:58:15 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/06/24 17:34:05 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void			obj_add(t_f_data *obj_data, t_obj_list **head, char *line)
 		if (!current->next)
 			error(MALLOC);
 		current = current->next;
+		current->next = NULL;
 	}
 	current->obj_type = obj_data;
 	current->object = (*obj_data->function)(line);
@@ -88,9 +89,9 @@ t_f3_ret		get_fields(char *line)
 	data.i = 0;
 	while (line[data.i] == ' ' && line[data.i])
 		data.i++;
-	while (line[data.i] && line[data.i] != ' ')
-	{
-		if ((line[data.i] >= '0' && line[data.i] <= '9') || line[data.i] == '-')
+	// while (line[data.i])
+	// {
+		while ((line[data.i] >= '0' && line[data.i] <= '9') || line[data.i] == '-')
 		{
 			atod_ret = ft_atod(line + data.i);
 			data.i += atod_ret.i;
@@ -98,9 +99,11 @@ t_f3_ret		get_fields(char *line)
 			data.f_info.y = data.fields == 1 ? atod_ret.val : data.f_info.y;
 			data.f_info.z = data.fields == 2 ? atod_ret.val : data.f_info.z;
 			data.fields++;
-			data.i += line[data.i] == ',' ? 1 : 0;
+			data.i += line[data.i] == ',' && data.fields != 3 ? 1 : 0;
 		}
-	}
+	// 	else
+	// 		break;
+	// }
 	if (data.fields != 3 && (line[data.i] == ' ' || line[data.i] == '\0'))
 		error(INVAL);
 	return (data);

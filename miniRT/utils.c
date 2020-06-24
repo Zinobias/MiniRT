@@ -6,12 +6,11 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/22 13:10:23 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/06/24 17:24:15 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include "mlx.h"
 
 t_vec3	vec3(int x, int y, int z)
 {

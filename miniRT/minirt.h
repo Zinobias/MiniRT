@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/26 10:45:57 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/26 10:57:58 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,9 @@ typedef struct  s_data {
 }               t_data;
 
 typedef struct s_img_list {
-	void *img;
-	char *addr;
+	void 				*img;
+	char 				*addr;
+	struct s_img_list	*next;
 }				t_img_list;
 
 int					get_next_line(int fd, char **line);
@@ -189,7 +190,7 @@ t_i_ret				get_int(char *line);
 t_f3_ret			get_fields(char *line);
 t_atod_ret			ft_atod(char *str);
 void				line_handler(char *line, t_obj_list **obj);
-void           		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void           		my_mlx_pixel_put(t_img_list *img_l, t_data *data, int x, int y, int color);
 t_f_data			*line_to_data(char *line);
 void				make_head(t_obj_list **head);
 t_object			get_res(char *line);

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/24 17:24:15 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/26 10:46:28 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,66 @@ int		close_win_x(t_data *mlx)
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	exit(0);
 	return (0);
+}
+
+t_amb	l_get_A(t_obj_list **list)
+{
+	t_obj_list	*current;
+
+	current = *list;
+	if (current->obj_type->f_code == AMB)
+		return(current->object.amb);
+	else while (current->next)
+	{
+		if (current->obj_type->f_code == AMB)
+			break;
+		current = current->next;
+	}
+	rm_element(list, AMB);
+	return (current->object.amb);
+}
+
+t_res	l_get_R(t_obj_list **list)
+{
+	t_obj_list	*current;
+
+	current = *list;
+	if (current->obj_type->f_code == RES)
+		return(current->object.res);
+	else while (current->next)
+	{
+		if (current->obj_type->f_code == RES)
+			break;
+		current = current->next;
+	}
+	rm_element(list, RES);
+	return (current->object.res);
+}
+
+void	rm_element(t_obj_list **list, int obj_code)
+{
+	t_obj_list *current;
+	t_obj_list *temp;
+
+	current = *list;
+	if (current->obj_type->f_code == obj_code)
+	{
+		if (current->next)
+			*list = current->next;
+		free(current);
+	}
+	else while (current->next)
+	{
+		if (current->next->obj_type->f_code == obj_code)
+		{
+			temp = current->next;
+			current = current->next->next;
+			free(temp);
+			break;
+		}
+		current->next = current->next;
+	}
+
+	// check if exit properly frees this
+	return ;
 }

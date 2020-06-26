@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/24 17:24:29 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/26 10:45:57 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ typedef struct  s_obj_list {
     t_f_data			*obj_type;
 	t_object			object;
 	unsigned short		rac;
-	void 				*next;
+	struct s_obj_list	*next;
 }               t_obj_list;
 
 // rename data to something more specific
@@ -161,13 +161,18 @@ typedef struct  s_data {
 	void		*mlx;
 	void		*win;
 	t_res		res;
-	int			ambient_light;
+	t_amb		ambient_light;
     void        *img;
     char        *addr;
     int         bits_p_p;
     int         line_l;
     int         endian;
 }               t_data;
+
+typedef struct s_img_list {
+	void *img;
+	char *addr;
+}				t_img_list;
 
 int					get_next_line(int fd, char **line);
 void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);
@@ -202,5 +207,8 @@ int					rgba(int t, int r, int g, int b);
 t_obj_list			*parser(void);
 int					close_window_esc(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);
-void				rendering(void);
+void				rendering(t_obj_list *list);
+t_amb				l_get_A(t_obj_list **list);
+t_res				l_get_R(t_obj_list **list);
+void				rm_element(t_obj_list **list, int obj_code);
 #endif

@@ -133,38 +133,41 @@
 
 int		main(void)
 {
-	t_obj_list *list;
-	t_object	res;
-	t_object	amb;
-	t_object	cam;
+	// t_obj_list *list;
+	// t_object	res;
+	// t_object	amb;
+	// t_object	cam;
 
 	
-	list = parser();
-	if (list->rac & 1)
-		printf("test 1\n");
-	if (list->rac & 2)
-		printf("test 2\n");
-	if (list->rac & 4)
-		printf("test 4\n");
-	if (!(list->rac & 1) || !(list->rac & 2) || !(list->rac & 4))
-		error(INVAL);
-	res = list->object;
-	list = list->next;
-	amb = list->object;
-	list = list->next;
-	cam = list->object;
-	printf("%f, %f, %f, %f, %f, %f, %f\n", cam.cam.view_p.x, cam.cam.view_p.y, cam.cam.view_p.z, cam.cam.norm_vec.x, cam.cam.norm_vec.y, cam.cam.norm_vec.z, cam.cam.fov);
-	printf("%i / %i\n", res.res.x, res.res.y);
-	printf("%i / %f\n", amb.amb.colors, amb.amb.ratio);
-	rendering();
+
+	// if (list->rac & 1)
+	// 	printf("test 1\n");
+	// if (list->rac & 2)
+	// 	printf("test 2\n");
+	// if (list->rac & 4)
+	// 	printf("test 4\n");
+	// if (!(list->rac & 1) || !(list->rac & 2) || !(list->rac & 4))
+	// 	error(INVAL);
+	// res = list->object;
+	// list = list->next;
+	// amb = list->object;
+	// list = list->next;
+	// cam = list->object;
+	// printf("%f, %f, %f, %f, %f, %f, %f\n", cam.cam.view_p.x, cam.cam.view_p.y, cam.cam.view_p.z, cam.cam.norm_vec.x, cam.cam.norm_vec.y, cam.cam.norm_vec.z, cam.cam.fov);
+	// printf("%i / %i\n", res.res.x, res.res.y);
+	// printf("%i / %f\n", amb.amb.colors, amb.amb.ratio);
+	rendering(parser());
 	exit(0);
 	return (0);
 }
 
-void	rendering(void)
+void	rendering(t_obj_list *list)
 {
 	t_data	mlx;
+	// t_img_list img_l;
 
+	mlx.res = l_get_R(&list);
+	mlx.ambient_light = l_get_A(&list);
 	mlx.mlx = mlx_init();
 	if (!mlx.mlx)
 		error(MLX);

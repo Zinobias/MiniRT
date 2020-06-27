@@ -169,7 +169,7 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	if (!mlx)
 		error(MALLOC);
 	*mlx_data = mlx;
-	mlx->head = &mlx->img_l;
+	// mlx->head = &mlx->img_l;
 	mlx->res = l_get_R(list);
 	mlx->ambient_light = l_get_A(list);
 	mlx->mlx = mlx_init();
@@ -225,7 +225,7 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 	{
 		if (current->obj_type->f_code == CAM)
 		{
-			if (!*mlx->head)
+			if (!mlx->img_l)
 				cam_head(&mlx);
 			else while (mlx->img_l->next)
 			{
@@ -239,9 +239,21 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 	return ;
 }
 
-mlx_load_cams(&mlx, &list)
+void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 {
-
+	t_img_list 	*current;
+	t_data		*mlx;
+	
+	mlx = *mlx_data;
+	current = mlx->img_l;
+	while (current)
+	{
+		current->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
+		current->addr =	mlx_get_data_addr(current->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
+		ray_magic(&current);
+		current = current->next;
+	}
+	return ;
 }
 void	rendering(t_obj_list *list)
 {

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/27 14:57:15 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/27 17:19:37 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ typedef struct  s_data {
     int         endian;
 	// void		*img;
 	// char		*addr;
-	t_img_list **head;
+	// t_img_list **head;
 	t_img_list *img_l;
 }               t_data;
 

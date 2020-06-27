@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/26 10:57:58 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/27 14:57:15 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,24 +156,29 @@ typedef struct  s_obj_list {
 	struct s_obj_list	*next;
 }               t_obj_list;
 
+typedef struct s_img_list {
+	void 				*img;
+	char 				*addr;
+	int					cam;
+	struct s_img_list	*next;
+}				t_img_list;
+
 // rename data to something more specific
 typedef struct  s_data {
 	void		*mlx;
 	void		*win;
 	t_res		res;
 	t_amb		ambient_light;
-    void        *img;
-    char        *addr;
     int         bits_p_p;
     int         line_l;
     int         endian;
+	// void		*img;
+	// char		*addr;
+	t_img_list **head;
+	t_img_list *img_l;
 }               t_data;
 
-typedef struct s_img_list {
-	void 				*img;
-	char 				*addr;
-	struct s_img_list	*next;
-}				t_img_list;
+
 
 int					get_next_line(int fd, char **line);
 void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);

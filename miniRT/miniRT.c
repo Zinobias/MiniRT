@@ -1,3 +1,5 @@
+# define FOV 30
+
 // How to read a plane. // line of sight
 // Calculation from plane to square.
 // Camera 
@@ -156,7 +158,7 @@ int		main(void)
 	// printf("%f, %f, %f, %f, %f, %f, %f\n", cam.cam.view_p.x, cam.cam.view_p.y, cam.cam.view_p.z, cam.cam.norm_vec.x, cam.cam.norm_vec.y, cam.cam.norm_vec.z, cam.cam.fov);
 	// printf("%i / %i\n", res.res.x, res.res.y);
 	// printf("%i / %f\n", amb.amb.colors, amb.amb.ratio);
-	rendering(parser());
+	raytracer_(parser());
 	exit(0);
 	return (0);
 }
@@ -186,55 +188,32 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	// 		my_mlx_pixel_put(mlx->img_l, mlx, i, j, rgba(0, 55, 55, 255));
 	// 	}
 	// }
-void cam_head(t_data **mlx_data)
+
+
+void	render_(t_data **mlx_, t_obj_list **head, t_cam cam_)
 {
-	t_data *mlx;
+	t_data 	*mlx;
+	t_ray	ray;
+	double 	aspect_ratio;
+	int		y;
+	int		x;
+	double angle;
 
-	mlx = *mlx_data;
-	mlx->img_l = (t_img_list*)malloc(sizeof(t_img_list));
-	if (!mlx->img_l)
-		error(MALLOC);
-	mlx->img_l->cam = 1;
-	mlx->img_l->next = NULL;
-	return ;
-}
-
-void create_cam_node(t_img_list **img_l)
-{
-	int			temp;
-	t_img_list *current;
-
-	current = *img_l;
-	temp = current->cam;
-	current->next = (t_img_list*)malloc(sizeof(t_img_list));
-	if (!current->next)
-		error(MALLOC);
-	current->next->cam = temp + 1;
-	current->next->next = NULL;
-	return ;
-}
-
-void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
-{
-	t_data *mlx;
-	t_obj_list *current;
-	
-	mlx = *mlx_data;
-	current = *obj_l;
-	while (current)
+	angle = tan(M_PI * 0.5 * FOV / 180.);
+	y = 0;
+	x = 0;
+	mlx = *mlx_;
+	aspect_ratio = mlx->res.x / mlx->res.y;
+	while (y < mlx->res.y)
 	{
-		if (current->obj_type->f_code == CAM)
+		while (x < mlx->res.x);
 		{
-			if (!mlx->img_l)
-				cam_head(&mlx);
-			else while (mlx->img_l->next)
-			{
-				mlx->img_l = mlx->img_l->next;
-				create_cam_node(mlx->img_l);
-			}
-			rm_element(obj_l, CAM);
+			ray.dir = vec3((2 * ((x + 0.5) * 1 / mlx->res.x) - 1) * angle * aspect_ratio,  
+			(1 - 2 * ((y + 0.5) * 1 / mlx->res.y)) * angle, -1);
+			trace(mlx, head, cam_);
+			x++;
 		}
-		current = current->next;
+		y++;
 	}
 	return ;
 }
@@ -248,34 +227,22 @@ void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 	current = mlx->img_l;
 	while (current)
 	{
-		current->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
-		current->addr =	mlx_get_data_addr(current->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
+		render_(mlx_data, head, current->cam_vals);
 		ray_magic(&current);
 		current = current->next;
 	}
 	return ;
 }
-void	rendering(t_obj_list *list)
+
+void	raytracing(t_obj_list *list)
 {
 	t_data	*mlx;
 
 	mlx_start(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
 	mlx_load_cams(&mlx, &list);
-	// mlx->img_l = (t_img_list*)malloc(sizeof(t_img_list));
-	// if (!mlx->img_l)
-	// 	error(MALLOC);
-	// mlx->head = &mlx->img_l;
-
-	mlx->img_l->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
-	if (!mlx->img_l->img)
-		error(MLX);
-	mlx->img_l->addr = mlx_get_data_addr(mlx->img_l->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
-
+	mlx_hooks(&mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
-	mlx_key_hook(mlx->win, close_window_esc, mlx);
-	mlx_hook(mlx->win, 17, 0, close_win_x, mlx);
-	mlx_loop(mlx->mlx);
 	return ;
 }
 
@@ -287,3 +254,12 @@ void            my_mlx_pixel_put(t_img_list *img_l, t_data *mlx, int x, int y, i
     *(unsigned int*)dst = color;
 }
 
+// mlx->img_l = (t_img_list*)malloc(sizeof(t_img_list));
+	// if (!mlx->img_l)
+	// 	error(MALLOC);
+	// mlx->head = &mlx->img_l;
+
+	// mlx->img_l->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
+	// if (!mlx->img_l->img)
+	// 	error(MLX);
+	// mlx->img_l->addr = mlx_get_data_addr(mlx->img_l->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);

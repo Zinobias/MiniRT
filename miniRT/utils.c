@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/27 16:20:58 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/30 13:18:45 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,98 @@ void	rm_element(t_obj_list **list, int obj_code)
 		}
 		current = current->next;
 	}
-
-	// check if exit properly frees this
 	return ;
+}
+
+void cam_head(t_data **mlx_data, t_cam vals)
+{
+	t_data *mlx;
+
+	mlx = *mlx_data;
+	mlx->img_l = (t_img_list*)malloc(sizeof(t_img_list));
+	if (!mlx->img_l)
+		error(MALLOC);
+	mlx->img_l->cam = 1;
+	mlx->img_l->next = NULL;
+	mlx->img_l->back = NULL;
+	mlx->img_l->addr = NULL;
+	mlx->img_l->img = NULL;
+	mlx->img_l->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
+	if (!mlx->img_l->img)
+		error(MLX);
+	mlx->img_l->addr =	mlx_get_data_addr(mlx->img_l->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
+	if (!mlx->img_l->addr)
+		error(MLX);
+	mlx->img_l->cam_vals = vals;
+	return ;
+}
+
+void create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals)
+{
+	int			temp;
+	t_img_list *current;
+	t_data *mlx;
+
+	mlx = *mlx_data;
+	current = *img_l;
+	temp = current->cam;
+	current->next = (t_img_list*)malloc(sizeof(t_img_list));
+	if (!current->next)
+		error(MALLOC);
+	current->next->cam = temp + 1;
+	current->next->back = current;
+	current->next->next = NULL;
+	current->next->back = NULL;
+	current->next->addr = NULL;
+	current->next->img = NULL;
+	current->next->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
+	if (!current->next->img)
+		error(MLX);
+	current->next->addr =	mlx_get_data_addr(current->next->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
+	if (!current->next->addr)
+		error(MLX);
+	current->next->cam_vals = vals;
+	return ;
+}
+
+void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
+{
+	t_data 		*mlx;
+	t_obj_list 	*current;
+	t_obj_list	*temp;
+	
+	mlx = *mlx_data;
+	current = *obj_l;
+	while (current)
+	{
+		if (current->obj_type->f_code == CAM)
+		{
+			if (!mlx->img_l)
+				cam_head(&mlx, current->object.cam);
+			else while (mlx->img_l->next)
+			{
+				mlx->img_l = mlx->img_l->next;
+				create_cam_node(mlx->img_l, mlx_data, current->object.cam);
+			}
+			rm_element(obj_l, CAM);
+		}
+		current = current->next;
+	}
+	return ;
+}
+
+void	mlx_hooks_(t_data **mlx_)
+{
+	t_data *mlx;
+
+	mlx = *mlx_;
+	mlx_key_hook(mlx->win, close_window_esc, mlx);
+	mlx_hook(mlx->win, 17, 0, close_win_x, mlx);
+	mlx_loop(mlx->mlx);
+	return ;
+}
+
+void	vec_normalize(t_vec3 vec3)
+{
+	
 }

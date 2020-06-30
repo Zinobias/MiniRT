@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/27 17:19:37 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/30 13:04:16 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,12 @@ typedef struct	s_sph {
 	int			colors;
 }				t_sph;
 
+typedef struct  s_ray {
+	t_vec3		dir;
+	t_vec3		norm_dir;
+	t_vec3		orig;
+}               t_ray;
+
 typedef	union	u_object
 {
 	t_res		res;
@@ -160,7 +166,9 @@ typedef struct s_img_list {
 	void 				*img;
 	char 				*addr;
 	int					cam;
+	t_cam				cam_vals;
 	struct s_img_list	*next;
+	struct s_img_list	*back;
 }				t_img_list;
 
 // rename data to something more specific
@@ -213,8 +221,12 @@ int					rgba(int t, int r, int g, int b);
 t_obj_list			*parser(void);
 int					close_window_esc(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);
-void				rendering(t_obj_list *list);
+void				raytracer_(t_obj_list *list);
 t_amb				l_get_A(t_obj_list **list);
 t_res				l_get_R(t_obj_list **list);
 void				rm_element(t_obj_list **list, int obj_code);
+void 				create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals);
+void 				cam_head(t_data **mlx_data, t_cam vals);
+void 				mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
+void				mlx_hooks_(t_data **mlx_);
 #endif

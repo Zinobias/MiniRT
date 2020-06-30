@@ -40,7 +40,7 @@ all: $(NAME)
 
 $(NAME): $(MLX) $(OBJ)
 	@printf "\e[1;34mCompiling Project\n\e[0m"
-	@$(CC) $(CFLAGS) $(LXFLAGS) -o $(NAME) $(OBJ) $(MLX)
+	@$(CC) $(CFLAGS) $(LXFLAGS) -g -o $(NAME) $(OBJ) $(MLX)
 
 $(MLX):
 	@printf "\e[1;34mCompiling MLX\e[0m"

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/30 13:04:16 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/06/30 16:42:54 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ typedef struct	s_sph {
 
 typedef struct  s_ray {
 	t_vec3		dir;
-	t_vec3		norm_dir;
+	float		norm_dir;
+	double		angle;
 	t_vec3		orig;
 }               t_ray;
 
@@ -177,6 +178,7 @@ typedef struct  s_data {
 	void		*win;
 	t_res		res;
 	t_amb		ambient_light;
+	double		aspect_ratio;
     int         bits_p_p;
     int         line_l;
     int         endian;
@@ -221,7 +223,6 @@ int					rgba(int t, int r, int g, int b);
 t_obj_list			*parser(void);
 int					close_window_esc(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);
-void				raytracer_(t_obj_list *list);
 t_amb				l_get_A(t_obj_list **list);
 t_res				l_get_R(t_obj_list **list);
 void				rm_element(t_obj_list **list, int obj_code);
@@ -229,4 +230,9 @@ void 				create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals);
 void 				cam_head(t_data **mlx_data, t_cam vals);
 void 				mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
 void				mlx_hooks_(t_data **mlx_);
+void				render_(t_data **mlx_, t_obj_list **head, t_img_list *dest);
+float				vec_normalize(t_vec3 vec3, float N);
+void				raytracer_(t_obj_list *list);
+float 				vectorDot(t_vec3 *v1, t_vec3 *v2);
+t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 #endif

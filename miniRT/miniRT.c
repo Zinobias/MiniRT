@@ -1,5 +1,3 @@
-# define FOV 30
-
 // How to read a plane. // line of sight
 // Calculation from plane to square.
 // Camera 
@@ -135,7 +133,7 @@
 
 int		main(void)
 {
-	// t_obj_list *list;
+	t_obj_list *list;
 	// t_object	res;
 	// t_object	amb;
 	// t_object	cam;
@@ -158,7 +156,9 @@ int		main(void)
 	// printf("%f, %f, %f, %f, %f, %f, %f\n", cam.cam.view_p.x, cam.cam.view_p.y, cam.cam.view_p.z, cam.cam.norm_vec.x, cam.cam.norm_vec.y, cam.cam.norm_vec.z, cam.cam.fov);
 	// printf("%i / %i\n", res.res.x, res.res.y);
 	// printf("%i / %f\n", amb.amb.colors, amb.amb.ratio);
-	raytracer_(parser());
+
+	list = parser();
+	raytracer_(list);
 	exit(0);
 	return (0);
 }
@@ -171,13 +171,13 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	if (!mlx)
 		error(MALLOC);
 	*mlx_data = mlx;
-	// mlx->head = &mlx->img_l;
 	mlx->res = l_get_R(list);
 	mlx->ambient_light = l_get_A(list);
 	mlx->mlx = mlx_init();
+	mlx->img_l = NULL;
 	if (!mlx->mlx)
 		error(MLX);
-	mlx->win = mlx_new_window(mlx->mlx, mlx->res.x, mlx->res.y, "hello worlddd");
+	mlx->win = mlx_new_window(mlx->mlx, mlx->res.x, mlx->res.y, "Headache_generator_9000");
 	if (!mlx->win)
 		error(MLX);
 	return ;
@@ -190,27 +190,29 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	// }
 
 
-void	render_(t_data **mlx_, t_obj_list **head, t_cam cam_)
+void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 {
 	t_data 	*mlx;
-	t_ray	ray;
-	double 	aspect_ratio;
+	t_ray	*ray;
 	int		y;
 	int		x;
-	double angle;
 
-	angle = tan(M_PI * 0.5 * FOV / 180.);
 	y = 0;
-	x = 0;
+	ray = NULL;
 	mlx = *mlx_;
-	aspect_ratio = mlx->res.x / mlx->res.y;
+	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
+	ray->angle = tan(M_PI * 0.5 * (mlx->res.y / 2) / 180.);
 	while (y < mlx->res.y)
 	{
-		while (x < mlx->res.x);
+		x = 0;
+		while (x < mlx->res.x)
 		{
-			ray.dir = vec3((2 * ((x + 0.5) * 1 / mlx->res.x) - 1) * angle * aspect_ratio,  
-			(1 - 2 * ((y + 0.5) * 1 / mlx->res.y)) * angle, -1);
-			trace(mlx, head, cam_);
+			ray->dir = vec3((2 * ((x + 0.5) * (1 / mlx->res.x) - 1)) * ray->angle * mlx->aspect_ratio,  
+			(1 - 2 * ((y + 0.5) * (1 / mlx->res.y))) * ray->angle, - 1);
+			ray->norm_dir = vec_normalize(ray->dir, 2);
+			// trace(ray, mlx, head, dest); // GOTTA CODE TRACING
+			(void)dest;
+			(void)head;
 			x++;
 		}
 		y++;
@@ -227,21 +229,21 @@ void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 	current = mlx->img_l;
 	while (current)
 	{
-		render_(mlx_data, head, current->cam_vals);
-		ray_magic(&current);
+		// render_(mlx_data, head, current);
+		(void)head;
 		current = current->next;
 	}
 	return ;
 }
 
-void	raytracing(t_obj_list *list)
+void	raytracer_(t_obj_list *list)
 {
 	t_data	*mlx;
 
 	mlx_start(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
 	mlx_load_cams(&mlx, &list);
-	mlx_hooks(&mlx);
+	mlx_hooks_(&mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
 	return ;
 }
@@ -263,3 +265,4 @@ void            my_mlx_pixel_put(t_img_list *img_l, t_data *mlx, int x, int y, i
 	// if (!mlx->img_l->img)
 	// 	error(MLX);
 	// mlx->img_l->addr = mlx_get_data_addr(mlx->img_l->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
+

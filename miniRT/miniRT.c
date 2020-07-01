@@ -188,7 +188,55 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	// 		my_mlx_pixel_put(mlx->img_l, mlx, i, j, rgba(0, 55, 55, 255));
 	// 	}
 	// }
+// const Vec3f &rayorig, const Vec3f &raydir, float &t0, float &t1
 
+t_ray	intersect_sph(const t_vec3 r_orig, const t_vec3 r_dir, t_obj_list *sphere, float t0, float t1)
+{
+	t_ray ray;
+
+	float tca = vectorDot(&r_dir, &r_dir); 
+	t_vec3 dist = vectorMin(&sphere->object.sphere.center, &r_orig);
+	tca = vectorDot(&dist, &r_dir);
+	if (tca < 0) 
+	{
+		ray.colors = 0;
+		return (ray);
+	}
+	float d2 = vectordot() - tca * tca; 
+	if (d2 > (sphere->object.sphere.diam / 2)) 
+	{
+		ray.colors = 0;
+		return (ray);
+	} 
+	float thc = sqrt((sphere->object.sphere.diam / 2) - d2); 
+	t0 = tca - thc; 
+	t1 = tca + thc; 
+	ray.colors = sphere->object.sphere.colors;
+	return (ray);
+}
+
+int	trace(const t_vec3 r_orig, const t_vec3 r_dir, t_obj_list **head)
+{
+	t_obj_list	*current;
+	t_ray		ray;
+	t_ray		temp;
+	// float		t0;
+	// float		t1;
+
+	// t0 = 0;
+	// t1 = 0;
+	current = *head;
+	ray.norm_dir = 0;
+	temp.norm_dir = 0;
+	while (current)
+	{
+		temp = intersect_sph(r_orig, r_dir, current, t0, t1);
+		ray.norm_dir = ray.norm_dir < temp.norm_dir ? ray.norm_dir : temp.norm_dir;
+		ray.colors = ray.norm_dir < temp.norm_dir ? temp.colors : temp.colors;
+		current = current->next;
+	}
+	return (ray.colors);
+}
 
 void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 {
@@ -201,7 +249,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	ray = NULL;
 	mlx = *mlx_;
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
-	ray->angle = tan(M_PI * 0.5 * (mlx->res.y / 2) / 180.);
+	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
 	while (y < mlx->res.y)
 	{
 		x = 0;
@@ -211,8 +259,8 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			(1 - 2 * ((y + 0.5) * (1 / mlx->res.y))) * ray->angle, - 1);
 			ray->norm_dir = vec_normalize(ray->dir, 2);
 			// trace(ray, mlx, head, dest); // GOTTA CODE TRACING
-			(void)dest;
-			(void)head;
+			// trace(vec3(0, 0, 0) ,ray->dir, head);
+			my_mlx_pixel_put(dest, mlx, x, y, trace(vec3(dest->cam_vals.view_p.x + x, dest->cam_vals.view_p.y + y, dest->cam_vals.view_p.z) ,ray->dir, head));
 			x++;
 		}
 		y++;

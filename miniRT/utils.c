@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/30 18:26:31 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/01 17:56:35 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,4 +283,19 @@ t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
 float vectorDot(t_vec3 *v1, t_vec3 *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
+}
+
+t_vec3 vectorMin(t_vec3 *v1, t_vec3 *v2)
+{
+	return (vec3(v1->x - v2->x,  v1->y - v2->y, v1->z - v2->z));
+}
+
+t_vec3 vectorPlus(t_vec3 *v1, t_vec3 *v2)
+{
+	t_vec3	res;
+
+	res.x = v1->x + v2->x; 
+	res.y = v1->y + v2->y;
+	res.z =	v1->z + v2->z;
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/30 16:42:54 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/01 13:37:01 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct  s_ray {
 	float		norm_dir;
 	double		angle;
 	t_vec3		orig;
+	int			colors;
 }               t_ray;
 
 typedef	union	u_object
@@ -235,4 +236,6 @@ float				vec_normalize(t_vec3 vec3, float N);
 void				raytracer_(t_obj_list *list);
 float 				vectorDot(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
+t_vec3 				vectorMin(t_vec3 *v1, t_vec3 *v2);
+t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 #endif

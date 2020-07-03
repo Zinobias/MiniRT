@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/01 17:56:35 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/03 15:22:33 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,16 @@ void	error(int code)
 int	close_window_esc(int keycode, t_data *mlx)
 {
 	t_img_list	*temp;
+	t_img_list	*current;
 
+	current = mlx->img_l;
 	if (keycode == 53)
 	{
-		while (mlx->img_l)
+		while (current)
 		{
-			if (mlx->img_l->next)
-				temp = mlx->img_l->next;
-			mlx_destroy_image(mlx->mlx, mlx->img_l->img);
-			mlx->img_l = temp;
+			temp = current->img;
+			mlx_destroy_image(mlx->mlx, temp);
+			current = current->next;
 		}
 		mlx_destroy_window(mlx->mlx, mlx->win);
 		exit(0);
@@ -101,13 +102,14 @@ int	close_window_esc(int keycode, t_data *mlx)
 int		close_win_x(t_data *mlx)
 {
 	t_img_list	*temp;
+	t_img_list	*current;
 
-	while (mlx->img_l)
+	current = mlx->img_l;
+	while (current)
 	{
-		if (mlx->img_l->next)
-			temp = mlx->img_l->next;
-		mlx_destroy_image(mlx->mlx, mlx->img_l->img);
-		mlx->img_l = temp;
+		temp = current->img;
+		mlx_destroy_image(mlx->mlx, temp);
+		current = current->next;
 	}
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	exit(0);
@@ -206,8 +208,8 @@ void cam_head(t_data **mlx_data, t_cam vals)
 void create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals)
 {
 	int			temp;
-	t_img_list *current;
-	t_data *mlx;
+	t_img_list	*current;
+	t_data		*mlx;
 
 	mlx = *mlx_data;
 	current = *img_l;
@@ -235,27 +237,27 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 {
 	t_data 		*mlx;
 	t_obj_list 	*current;
+	t_obj_list	*temp;
 	
 	mlx = *mlx_data;
 	current = *obj_l;
 	while (current)
 	{
-	
+		temp = current;
 		if (current->obj_type->f_code == CAM)
 		{
 			if (!mlx->img_l)
 				cam_head(&mlx, current->object.cam);
-			else while (mlx->img_l->next)
+			else 
 			{
+				while (mlx->img_l->next)
+					mlx->img_l = mlx->img_l->next;
 				create_cam_node(&mlx->img_l, mlx_data, current->object.cam);
-				mlx->img_l = mlx->img_l->next;
 			}
-			rm_element(obj_l, CAM);
+			rm_element(&temp, CAM);
 		}
 		current = current->next;
 	}
-	// potentially rm node right away, and store temp, rather than using rm_element.
-	// for optimizing.
 	return ;
 }
 
@@ -270,9 +272,9 @@ void	mlx_hooks_(t_data **mlx_)
 	return ;
 }
 
-float	vec_normalize(t_vec3 vec3, float N)
+t_vec3	vec_normalize(t_vec3 vec3_, float N)
 {
-	return((vec3.x / N) + (vec3.y / N) + (vec3.z / N));
+	return(vec3(vec3_.x / N, vec3_.y / N, vec3_.z / N));
 }
 
 t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
@@ -283,11 +285,6 @@ t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
 float vectorDot(t_vec3 *v1, t_vec3 *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
-}
-
-t_vec3 vectorMin(t_vec3 *v1, t_vec3 *v2)
-{
-	return (vec3(v1->x - v2->x,  v1->y - v2->y, v1->z - v2->z));
 }
 
 t_vec3 vectorPlus(t_vec3 *v1, t_vec3 *v2)

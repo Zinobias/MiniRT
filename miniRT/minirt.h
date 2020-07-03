@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/01 13:37:01 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/03 12:44:11 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct	s_sph {
 
 typedef struct  s_ray {
 	t_vec3		dir;
-	float		norm_dir;
+	t_vec3		norm_dir;
 	double		angle;
 	t_vec3		orig;
 	int			colors;
@@ -232,10 +232,9 @@ void 				cam_head(t_data **mlx_data, t_cam vals);
 void 				mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
 void				mlx_hooks_(t_data **mlx_);
 void				render_(t_data **mlx_, t_obj_list **head, t_img_list *dest);
-float				vec_normalize(t_vec3 vec3, float N);
+t_vec3				vec_normalize(t_vec3 vec3, float N);
 void				raytracer_(t_obj_list *list);
 float 				vectorDot(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
-t_vec3 				vectorMin(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 #endif

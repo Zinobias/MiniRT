@@ -257,8 +257,9 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 		x = 0;
 		while (x < mlx->res.x)
 		{
-			ray->dir = vec3((2 * ((x + 0.5) * (1 / mlx->res.x) - 1)) * ray->angle * mlx->aspect_ratio,  
-			(1 - 2 * ((y + 0.5) * (1 / mlx->res.y))) * ray->angle, - 1);
+			ray->dir = vec3((2 * ((x + dest->cam_vals.view_p.y + 0.5) * (1 / mlx->res.x) - 1)) * ray->angle * mlx->aspect_ratio,  
+			(1 - 2 * ((y + dest->cam_vals.view_p.y + 0.5) * (1 / mlx->res.y))) * ray->angle,
+			 dest->cam_vals.view_p.z - 1);
 		
 			ray->norm_dir = vec_normalize(ray->dir, sqrt(vectorDot(&ray->dir, &ray->dir)));
 			// trace(ray, mlx, head, dest); // GOTTA CODE TRACING

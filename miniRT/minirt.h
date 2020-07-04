@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/03 12:44:11 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/04 16:24:36 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ typedef struct  s_data {
 int					get_next_line(int fd, char **line);
 void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);
 void				error(int);
-t_vec3				vec3(int x, int y, int z);
+t_vec3				vec3(double x, double y, double z);
 t_vec2				vec2(int x, int y);
 int					rgba(int r, int g, int b, int t);
 int					get_t(int trgb);
@@ -232,9 +232,9 @@ void 				cam_head(t_data **mlx_data, t_cam vals);
 void 				mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
 void				mlx_hooks_(t_data **mlx_);
 void				render_(t_data **mlx_, t_obj_list **head, t_img_list *dest);
-t_vec3				vec_normalize(t_vec3 vec3, float N);
+t_vec3				vec_normalize(t_vec3 *vec3, float N);
 void				raytracer_(t_obj_list *list);
-float 				vectorDot(t_vec3 *v1, t_vec3 *v2);
+double 				vectorDot(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 #endif

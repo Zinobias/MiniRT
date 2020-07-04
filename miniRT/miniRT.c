@@ -244,34 +244,49 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 {
 	t_data 	*mlx;
 	t_ray	*ray;
+	
 	int		y;
 	int		x;
 
+	ray = (t_ray*)malloc(1 * sizeof(t_ray));
+	if (!ray)
+		error(MALLOC);
 	y = 0;
-	ray = NULL;
 	mlx = *mlx_;
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
-	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180);
+	// ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
+	ray->angle = tan(dest->cam_vals.fov / 2 * M_PI / 180);
+	float xx;
+	float yy;
+
+	xx = 0;
+	yy = 0;	
 	while (y < mlx->res.y)
 	{
 		x = 0;
 		while (x < mlx->res.x)
 		{
-			ray->dir = vec3((2 * ((x + dest->cam_vals.view_p.y + 0.5) * (1 / mlx->res.x) - 1)) * ray->angle * mlx->aspect_ratio,  
-			(1 - 2 * ((y + dest->cam_vals.view_p.y + 0.5) * (1 / mlx->res.y))) * ray->angle,
-			 dest->cam_vals.view_p.z - 1);
-		
-			ray->norm_dir = vec_normalize(ray->dir, sqrt(vectorDot(&ray->dir, &ray->dir)));
-			// trace(ray, mlx, head, dest); // GOTTA CODE TRACING
-			// trace(vec3(0, 0, 0) ,ray->dir, head);
-			printf("[%f]\n [%f]\n [%f]\n", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
-			printf("test\n");
-			// my_mlx_pixel_put(dest, mlx, x, y, trace(vec3(dest->cam_vals.view_p.x + x, dest->cam_vals.view_p.y + y, dest->cam_vals.view_p.z) ,ray->dir, head));
+			// xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio) - dest->cam_vals.view_p.x;
+            // yy = ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle) - dest->cam_vals.view_p.y;
+			// ray->dir = vec3((2 * ((x + dest->cam_vals.view_p.x + 0.5) / ( mlx->res.x) - 1)) + 5 * ray->angle * mlx->aspect_ratio, (1 - 2 * ((y + dest->cam_vals.view_p.y + 0.5) / (mlx->res.y))) * ray->angle,dest->cam_vals.view_p.z - 1); 
+			// ray->dir = vec3(xx, yy , -1 - dest->cam_vals.view_p.z);
+
+			ray->dir = vec3(((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio) - dest->cam_vals.view_p.x,
+			 ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle) - dest->cam_vals.view_p.y , -1 - dest->cam_vals.view_p.z);
+
+			// printf("x : [%lf] -- y : [%lf] -- z : [%lf]\n)", ray->dir.x, ray->dir.y, ray->dir.z);
+			ray->norm_dir = vec_normalize(&ray->dir, sqrt(vectorDot(&ray->dir, &ray->dir)));
+			printf("x : [%f] -- y : [%f] -- z : [%f]\n)", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
 			x++;
 			(void)head;
 		}
 		y++;
 	}
+	printf("aspect ratio : [%lf] -- angle : [%lf]\n", mlx->aspect_ratio, ray->angle);
+	printf("%i\n", x);
+	printf("%i\n", y);
+	if (ray)
+		free(ray);
 	return ;
 }
 
@@ -284,8 +299,9 @@ void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 	current = mlx->img_l;
 	while (current)
 	{
+		printf("Fov : %f\n", current->cam_vals.fov);
 		printf("Cam : [%i]\n", current->cam);
-		// render_(mlx_data, head, current);
+		render_(mlx_data, head, current);
 		(void)head;
 		current = current->next;
 	}
@@ -299,8 +315,8 @@ void	raytracer_(t_obj_list *list)
 	mlx_start(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
 	printf("Cam : [%i]\n", mlx->img_l->cam);
-	printf("Cam : [%i]\n", mlx->img_l->next->cam);
-	// mlx_load_cams(&mlx, &list);
+	// printf("Cam : [%i]\n", mlx->img_l->next->cam);
+	mlx_load_cams(&mlx, &list);
 	mlx_hooks_(&mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
 	return ;

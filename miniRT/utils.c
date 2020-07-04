@@ -6,13 +6,13 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/03 15:22:33 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/04 16:24:07 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vec3	vec3(int x, int y, int z)
+t_vec3	vec3(double x, double y, double z)
 {
 	t_vec3	ret;
 
@@ -272,9 +272,14 @@ void	mlx_hooks_(t_data **mlx_)
 	return ;
 }
 
-t_vec3	vec_normalize(t_vec3 vec3_, float N)
+t_vec3	vec_normalize(t_vec3 *vec3_, float N)
 {
-	return(vec3(vec3_.x / N, vec3_.y / N, vec3_.z / N));
+	t_vec3	temp;
+
+	temp.x = vec3_->x / N;
+	temp.y = vec3_->y / N;
+	temp.z = vec3_->z / N;
+	return(temp);
 }
 
 t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
@@ -282,7 +287,7 @@ t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
 	return (vec3(v1->x - v2->x, v1->y - v2->y, v1->z - v2->z));
 }
 
-float vectorDot(t_vec3 *v1, t_vec3 *v2)
+double vectorDot(t_vec3 *v1, t_vec3 *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }

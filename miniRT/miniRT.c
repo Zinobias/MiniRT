@@ -255,7 +255,8 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	mlx = *mlx_;
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
 	// ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
-	ray->angle = tan(dest->cam_vals.fov / 2 * M_PI / 180);
+	// ray->angle = tan(dest->cam_vals.fov / 2 * M_PI / 180);
+	ray->angle = dest->cam_vals.fov * (M_PI / 180) / 2;
 	float xx;
 	float yy;
 

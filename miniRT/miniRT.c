@@ -260,7 +260,8 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	// float yy;
 
 	// xx = 0;
-	// yy = 0;	
+	// yy = 0;
+	ray->orig = dest->cam_vals.view_p;
 	while (y < mlx->res.y)
 	{
 		x = 0;

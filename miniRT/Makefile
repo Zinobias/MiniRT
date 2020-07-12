@@ -2,7 +2,8 @@
 NAME := miniRT
 
 SRC := atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c \
-utils.c GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c
+utils.c GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c \
+intersect.c
 
 MLX_PATH := ./mlx/
 

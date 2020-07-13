@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/04 16:24:07 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/13 17:41:28 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,34 +270,4 @@ void	mlx_hooks_(t_data **mlx_)
 	mlx_hook(mlx->win, 17, 0, close_win_x, mlx);
 	mlx_loop(mlx->mlx);
 	return ;
-}
-
-t_vec3	vec_normalize(t_vec3 *vec3_, float N)
-{
-	t_vec3	temp;
-
-	temp.x = vec3_->x / N;
-	temp.y = vec3_->y / N;
-	temp.z = vec3_->z / N;
-	return(temp);
-}
-
-t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
-{
-	return (vec3(v1->x - v2->x, v1->y - v2->y, v1->z - v2->z));
-}
-
-double vectorDot(t_vec3 *v1, t_vec3 *v2)
-{
-	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
-}
-
-t_vec3 vectorPlus(t_vec3 *v1, t_vec3 *v2)
-{
-	t_vec3	res;
-
-	res.x = v1->x + v2->x; 
-	res.y = v1->y + v2->y;
-	res.z =	v1->z + v2->z;
-	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/04 16:24:36 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/13 18:54:57 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,4 +237,6 @@ void				raytracer_(t_obj_list *list);
 double 				vectorDot(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
+t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
+int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
 #endif

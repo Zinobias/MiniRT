@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/13 18:54:57 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/14 00:15:45 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void 				cam_head(t_data **mlx_data, t_cam vals);
 void 				mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
 void				mlx_hooks_(t_data **mlx_);
 void				render_(t_data **mlx_, t_obj_list **head, t_img_list *dest);
-t_vec3				vec_normalize(t_vec3 *vec3, float N);
+t_vec3				vec_normalize(t_vec3 *vec3);
 void				raytracer_(t_obj_list *list);
 double 				vectorDot(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);

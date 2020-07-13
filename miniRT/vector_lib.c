@@ -6,19 +6,21 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/13 17:41:11 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/13 17:41:37 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/13 22:50:31 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_vec3	vec_normalize(t_vec3 *vec3_, float N)
+t_vec3	vec_normalize(t_vec3 *vec3_)
 {
 	t_vec3	temp;
+	double length;
 
-	temp.x = vec3_->x / N;
-	temp.y = vec3_->y / N;
-	temp.z = vec3_->z / N;
+	length = sqrt(vec3_->x * vec3_->x + vec3_->y * vec3_->y + vec3_->z * vec3_->z);
+	temp.x = vec3_->x / length;
+	temp.y = vec3_->y / length;
+	temp.z = vec3_->z / length;
 	return(temp);
 }
 

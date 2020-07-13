@@ -274,8 +274,8 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			// potentially make latest -1 in ray->dir the camera orientation.
 
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
-            yy = ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle);
-			ray->dir = vec3(xx, yy, 1);
+            yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
+			ray->dir = vec3(xx , yy, 1.);
 			// ray->dir = vec3(((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio) - dest->cam_vals.view_p.x,
 			//  ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle) - dest->cam_vals.view_p.y , -1 - dest->cam_vals.view_p.z);
 
@@ -284,24 +284,26 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			//   -1 - dest->cam_vals.view_p.z);
 
 			// printf("x : [%lf] -- y : [%lf] -- z : [%lf]\n)", ray->dir.x, ray->dir.y, ray->dir.z);
-			ray->norm_dir = vec_normalize(&ray->dir, sqrt(vectorDot(&ray->dir, &ray->dir)));
+			ray->norm_dir = vec_normalize(&ray->dir);
 			// printf("norm dir : [%f] -- y : [%f] -- z : [%f]\n)", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
 			// printf("ray dir : [%f] -- y : [%f] -- z : [%f]\n)", ray->dir.x, ray->dir.y, ray->dir.z);
-			x++;
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
 			{
-				my_mlx_pixel_put(dest, mlx->mlx, x, y, 255);
+				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
 				z++;
 			}
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 0)
+			{
+				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 255, 0));
 				h++;
-	
+			}
+			x++;
 		}
 		y++;
 	}
 	// )x : [-0.920259] -- y : [-0.006884] -- z : [-0.391250]
-	// printf(" Z : %i\n", z);
-	// printf(" H : %i\n", h);
+	printf(" Z : %i\n", z);
+	printf(" H : %i\n", h);
 	// printf("aspect ratio : [%lf] -- angle : [%lf]\n", mlx->aspect_ratio, ray->angle);
 	// printf("%i\n", x);
 	// printf("%i\n", y);
@@ -322,7 +324,6 @@ void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 		printf("Fov : %f\n", current->cam_vals.fov);
 		printf("Cam : [%i]\n", current->cam);
 		render_(mlx_data, head, current);
-		// (void)head;
 		current = current->next;
 	}
 	return ;
@@ -330,25 +331,13 @@ void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 
 void	raytracer_(t_obj_list *list)
 {
-	// t_data	*mlx;
+	t_data	*mlx;
 
-	while (list)
-	{
-		if (list->obj_type->f_code == SPH)
-		{
-			printf("IT'S HERE");
-			printf("sphere x %lf, y %lf, z %lf\n", list->object.sphere.center.x, list->object.sphere.center.y, list->object.sphere.center.z);
-			break;
-		}
-		list = list->next;
-	}
-	// mlx_start(&mlx, &list);
-	// mlx_get_cams(&mlx, &list);
-	// printf("Cam : [%i]\n", mlx->img_l->cam);
-	// // printf("Cam : [%i]\n", mlx->img_l->next->cam);
-	// mlx_load_cams(&mlx, &list);
-	// mlx_hooks_(&mlx);
-	// mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
+	mlx_start(&mlx, &list);
+	mlx_get_cams(&mlx, &list);
+	mlx_load_cams(&mlx, &list);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
+	mlx_hooks_(&mlx);
 	return ;
 }
 
@@ -359,14 +348,4 @@ void            my_mlx_pixel_put(t_img_list *img_l, t_data *mlx, int x, int y, i
     dst = img_l->addr + (y * mlx->line_l + x * (mlx->bits_p_p / 8));
     *(unsigned int*)dst = color;
 }
-
-// mlx->img_l = (t_img_list*)malloc(sizeof(t_img_list));
-	// if (!mlx->img_l)
-	// 	error(MALLOC);
-	// mlx->head = &mlx->img_l;
-
-	// mlx->img_l->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
-	// if (!mlx->img_l->img)
-	// 	error(MLX);
-	// mlx->img_l->addr = mlx_get_data_addr(mlx->img_l->img, &mlx->bits_p_p, &mlx->line_l, &mlx->endian);
 

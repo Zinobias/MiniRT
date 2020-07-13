@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/13 19:16:29 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/14 00:30:56 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
 	float	t2;
 	float	tnear = INFINITY;
 
-	// sph.center.x = 0;
-	// sph.center.y = 5;
-	// sph.center.z = 10;
-	// sph.diam = 2;
+	sph.center.x = 0;
+	sph.center.y = 5;
+	sph.center.z = 20;
+	sph.diam = 2;
 	t1 = INFINITY;
 	t2 = INFINITY;
 	// printf("x %lf, y %lf, z %lf\n", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
-	printf("sphere x %lf, y %lf, z %lf\n", sph.center.x, sph.center.y, sph.center.z);
+	// printf("sphere x %lf, y %lf, z %lf\n", sph.center.x, sph.center.y, sph.center.z);
 	(void)dest;
 	// potentially change ray->norm back to ray->dir
 	l = vectorSub(&sph.center, &ray->orig);

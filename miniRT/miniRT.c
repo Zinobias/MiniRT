@@ -163,28 +163,6 @@ int		main(void)
 	return (0);
 }
 
-// void	mlx_start(t_data **mlx_data, t_obj_list **list)
-// {
-// 	t_data *mlx;
-
-// 	if (!((*list)->rac & 4))
-// 		error(INVAL);
-// 	mlx = (t_data*)malloc(sizeof(t_data));
-// 	if (!mlx)
-// 		error(MALLOC);
-// 	*mlx_data = mlx;
-// 	mlx->res = l_get_R(list);
-// 	mlx->ambient_light = l_get_A(list);
-// 	mlx->mlx = mlx_init();
-// 	mlx->img_l = NULL;
-// 	if (!mlx->mlx)
-// 		error(MLX);
-// 	mlx->win = mlx_new_window(mlx->mlx, mlx->res.x, mlx->res.y, "Headache_generator_9000");
-// 	if (!mlx->win)
-// 		error(MLX);
-// 	return ;
-// }
-
 void	mlx_start(t_data **mlx_data, t_obj_list **list)
 {
 	t_data *mlx;

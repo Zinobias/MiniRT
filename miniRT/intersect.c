@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/15 17:47:07 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/15 18:03:11 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
 	float	t2;
 	float	tnear = INFINITY;
 
-	sph.center.x = 0;
-	sph.center.y = 0;
-	sph.center.z = -20;
-	sph.diam = 20;
+	// sph.center.x = 0;
+	// sph.center.y = 0;
+	// sph.center.z = -20;
+	// sph.diam = 20;
 	t1 = INFINITY;
 	t2 = INFINITY;
 	// printf("x %lf, y %lf, z %lf\n", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);

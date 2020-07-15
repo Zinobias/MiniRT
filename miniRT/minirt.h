@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/14 00:15:45 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/15 17:55:30 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,8 +224,8 @@ int					rgba(int t, int r, int g, int b);
 t_obj_list			*parser(void);
 int					close_window_esc(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);
-t_amb				l_get_A(t_obj_list **list);
-t_res				l_get_R(t_obj_list **list);
+void				l_get_A(t_data **mlx_data, t_obj_list **list);
+void				l_get_R(t_data **mlx_data, t_obj_list **list);
 void				rm_element(t_obj_list **list, int obj_code);
 void 				create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals);
 void 				cam_head(t_data **mlx_data, t_cam vals);

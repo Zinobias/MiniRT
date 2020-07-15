@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/14 00:05:22 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/15 18:04:31 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,16 @@ int		close_win_x(t_data *mlx)
 	return (0);
 }
 
-t_amb	l_get_A(t_obj_list **list)
+void	l_get_A(t_data **mlx_data, t_obj_list **list)
 {
 	t_obj_list	*current;
 
 	current = *list;
 	if (current->obj_type->f_code == AMB)
 	{
+		(*mlx_data)->ambient_light = current->object.amb;
 		rm_element(list, AMB);
-		return(current->object.amb);
+		return ;
 	}
 	else while (current->next)
 	{
@@ -132,19 +133,21 @@ t_amb	l_get_A(t_obj_list **list)
 			break;
 		current = current->next;
 	}
+	(*mlx_data)->ambient_light = current->object.amb;
 	rm_element(list, AMB);
-	return (current->object.amb);
+	return ;
 }
 
-t_res	l_get_R(t_obj_list **list)
+void	l_get_R(t_data **mlx_data, t_obj_list **list)
 {
 	t_obj_list	*current;
 
 	current = *list;
 	if (current->obj_type->f_code == RES)
 	{
+		(*mlx_data)->res = current->object.res;
 		rm_element(list, RES);
-		return(current->object.res);
+		return ;
 	}
 	else while (current->next)
 	{
@@ -152,8 +155,9 @@ t_res	l_get_R(t_obj_list **list)
 			break;
 		current = current->next;
 	}
+	(*mlx_data)->res = current->object.res;
 	rm_element(list, RES);
-	return (current->object.res);
+	return ;
 }
 
 void	rm_element(t_obj_list **list, int obj_code)
@@ -237,13 +241,11 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 {
 	t_data 		*mlx;
 	t_obj_list 	*current;
-	t_obj_list	*temp;
 	
 	mlx = *mlx_data;
 	current = *obj_l;
 	while (current)
 	{
-		temp = current;
 		if (current->obj_type->f_code == CAM)
 		{
 			if (!mlx->img_l)
@@ -254,7 +256,7 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 					mlx->img_l = mlx->img_l->next;
 				create_cam_node(&mlx->img_l, mlx_data, current->object.cam);
 			}
-			rm_element(&temp, CAM);
+			rm_element(obj_l, CAM);
 		}
 		current = current->next;
 	}

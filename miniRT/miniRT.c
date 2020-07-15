@@ -134,29 +134,9 @@
 int		main(void)
 {
 	t_obj_list *list;
-	// t_object	res;
-	// t_object	amb;
-	// t_object	cam;
 
-	
-
-	// if (list->rac & 1)
-	// 	printf("test 1\n");
-	// if (list->rac & 2)
-	// 	printf("test 2\n");
-	// if (list->rac & 4)
-	// 	printf("test 4\n");
-	// if (!(list->rac & 1) || !(list->rac & 2) || !(list->rac & 4))
-	// 	error(INVAL);
-	// res = list->object;
-	// list = list->next;
-	// amb = list->object;
-	// list = list->next;
-	// cam = list->object;
-	// printf("%f, %f, %f, %f, %f, %f, %f\n", cam.cam.view_p.x, cam.cam.view_p.y, cam.cam.view_p.z, cam.cam.norm_vec.x, cam.cam.norm_vec.y, cam.cam.norm_vec.z, cam.cam.fov);
-	// printf("%i / %i\n", res.res.x, res.res.y);
-	// printf("%i / %f\n", amb.amb.colors, amb.amb.ratio);
-
+	// add ARGC ARGV compatability, open FD here and parse it to parser, rather than open scene.rt 
+	// by default in parser();
 	list = parser();
 	raytracer_(list);
 	exit(0);
@@ -253,49 +233,38 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 		error(MALLOC);
 	y = 0;
 	mlx = *mlx_;
+	// calculating aspecct ratio, width / height.
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
+	// calculating right angle fov
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
-	// ray->angle = tan(dest->cam_vals.fov / 2 * M_PI / 180);
 	float xx;
 	float yy;
-	printf("%i\n", (*head)->obj_type->f_code);
 
 	int		z;
-
 	z = 0;
 	int h = 0;
-
 	ray->orig = dest->cam_vals.view_p;
 	while (y < mlx->res.y)
 	{
 		x = 0;
+		// calculating height imagine plane
+		yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
 		while (x < mlx->res.x)
 		{
-			// potentially make latest -1 in ray->dir the camera orientation.
-
+			// calculating width image pplane
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
-            yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
-			ray->dir = vec3(xx , yy, -1.);
-			// ray->dir = vec3(((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio) - dest->cam_vals.view_p.x,
-			//  ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle) - dest->cam_vals.view_p.y , -1 - dest->cam_vals.view_p.z);
-
-			// ray->dir = vec3(((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio) - dest->cam_vals.view_p.x,
-			//  ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle) - dest->cam_vals.view_p.y ,
-			//   -1 - dest->cam_vals.view_p.z);
-
-			// printf("x : [%lf] -- y : [%lf] -- z : [%lf]\n)", ray->dir.x, ray->dir.y, ray->dir.z);
+			// ray dir
+			ray->dir = vec3(xx, yy, -1.);
+			// normalizing ray_dir
 			ray->norm_dir = vec_normalize(&ray->dir);
-			// printf("norm dir : [%f] -- y : [%f] -- z : [%f]\n)", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
-			// printf("ray dir : [%f] -- y : [%f] -- z : [%f]\n)", ray->dir.x, ray->dir.y, ray->dir.z);
-
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
 			{
 				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
 				z++;
 			}
-			if (inter_sph(ray, (*head)->object.sphere, dest) == 0)
+			else
 			{
-				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 255, 0));
+				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 255, 255));
 				h++;
 			}
 			x++;

@@ -251,12 +251,16 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 		yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
 		while (x < mlx->res.x)
 		{
-			// calculating width image pplane
+			// calculating width image plane
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
 			// ray dir
 			ray->dir = vec3(xx, yy, -1.);
 			// normalizing ray_dir
 			ray->norm_dir = vec_normalize(&ray->dir);
+			// Set camera W.i.p
+
+			// Find object
+			// Check light intersection
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
 			{
 				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
@@ -271,16 +275,20 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 		}
 		y++;
 	}
-	// )x : [-0.920259] -- y : [-0.006884] -- z : [-0.391250]
 	printf(" Z : %i\n", z);
 	printf(" H : %i\n", h);
-	// printf("aspect ratio : [%lf] -- angle : [%lf]\n", mlx->aspect_ratio, ray->angle);
-	// printf("%i\n", x);
-	// printf("%i\n", y);
 	if (ray)
 		free(ray);
 	return ;
 }
+
+// This example of the video seems bad https://www.youtube.com/watch?v=LRN_ewuN_k4
+// Forward = target - origin
+// Right = Forward x Upguide
+// Up = Right x Forward
+
+
+
 
 void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 {
@@ -318,4 +326,3 @@ void            my_mlx_pixel_put(t_img_list *img_l, t_data *mlx, int x, int y, i
     dst = img_l->addr + (y * mlx->line_l + x * (mlx->bits_p_p / 8));
     *(unsigned int*)dst = color;
 }
-

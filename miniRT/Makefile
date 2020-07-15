@@ -19,13 +19,14 @@ OBJ := $(SRC:.c=.o)
 
 test:
 	@printf "\e[1;34mMaking test\n\e[0m"
-	@gcc -g $(CFLAGS) atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c utils.c ./GNL/*.c
-	@./a.out
+	@gcc -Wall -Werror -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ -Lmlx -framework OpenGL -framework AppKit -g -o MiniRT atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c intersect.c vector_lib.c \
+	 utils.c GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c libmlx.dylib
+	@./minirt
 	
 testc:
 	@printf "\e[1;34mMaking clean\n\e[0m"
-	@$(RM) -f ./a.out
-	@$(RM) -r ./a.out.dSYM
+	@$(RM) -f ./minirt
+	@$(RM) -r ./minirt.dSYM
 
 make testr: testc test
 

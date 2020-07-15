@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/14 00:30:56 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/15 17:47:07 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
 	float	tnear = INFINITY;
 
 	sph.center.x = 0;
-	sph.center.y = 5;
-	sph.center.z = 20;
-	sph.diam = 2;
+	sph.center.y = 0;
+	sph.center.z = -20;
+	sph.diam = 20;
 	t1 = INFINITY;
 	t2 = INFINITY;
 	// printf("x %lf, y %lf, z %lf\n", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
@@ -35,7 +35,7 @@ int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
 	l = vectorSub(&sph.center, &ray->orig);
 	// printf("l = x : %lf, y : %lf z %lf\n", l.x, l.y, l.z);
 	// printf("norm_dir = x : %lf, y : %lf z %lf\n", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
-	t = vectorDot(&l, &ray->dir);
+	t = vectorDot(&l, &ray->norm_dir);
 	// printf("t = %lf\n", t);
 	if (t < 0)
 		return (0);

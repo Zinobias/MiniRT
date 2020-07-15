@@ -275,7 +275,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
             yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
-			ray->dir = vec3(xx , yy, 1.);
+			ray->dir = vec3(xx , yy, -1.);
 			// ray->dir = vec3(((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio) - dest->cam_vals.view_p.x,
 			//  ((1 - 2 * ((y + 0.5) / (mlx->res.x))) * ray->angle) - dest->cam_vals.view_p.y , -1 - dest->cam_vals.view_p.z);
 
@@ -287,6 +287,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			ray->norm_dir = vec_normalize(&ray->dir);
 			// printf("norm dir : [%f] -- y : [%f] -- z : [%f]\n)", ray->norm_dir.x, ray->norm_dir.y, ray->norm_dir.z);
 			// printf("ray dir : [%f] -- y : [%f] -- z : [%f]\n)", ray->dir.x, ray->dir.y, ray->dir.z);
+
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
 			{
 				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));

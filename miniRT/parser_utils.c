@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/06/24 17:34:05 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/17 21:08:09 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ t_f3_ret		get_fields(char *line)
 	data.i = 0;
 	while (line[data.i] == ' ' && line[data.i])
 		data.i++;
-	// while (line[data.i])
-	// {
 		while ((line[data.i] >= '0' && line[data.i] <= '9') || line[data.i] == '-')
 		{
 			atod_ret = ft_atod(line + data.i);
@@ -101,9 +99,6 @@ t_f3_ret		get_fields(char *line)
 			data.fields++;
 			data.i += line[data.i] == ',' && data.fields != 3 ? 1 : 0;
 		}
-	// 	else
-	// 		break;
-	// }
 	if (data.fields != 3 && (line[data.i] == ' ' || line[data.i] == '\0'))
 		error(INVAL);
 	return (data);

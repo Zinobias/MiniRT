@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/15 18:04:31 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/18 20:41:17 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,3 +273,15 @@ void	mlx_hooks_(t_data **mlx_)
 	mlx_loop(mlx->mlx);
 	return ;
 }
+
+// void	set_cam(t_ray **ray, t_data **mlx)
+// {
+// 	t_vec3	new;
+// 	t_vec3	n_dir;
+
+// 	new = (*ray)->norm_dir;
+// 	n_dir = (*ray)->norm_dir;
+	
+// 	(*ray)->norm_dir = new;
+// 	return ;
+// }

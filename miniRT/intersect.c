@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/15 18:12:19 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/18 21:57:24 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,4 @@ int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
 	// t1 / t2 are distance from OG, t1 * RD --- t2 * RD are the 2 intersection points.
 	return (1);
 }
+

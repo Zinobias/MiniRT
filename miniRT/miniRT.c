@@ -254,11 +254,13 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			// calculating width image plane
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
 			// ray dir
-			ray->dir = vec3(xx, yy, -1.);
+			ray->dir = vec3(dest->cam_vals.norm_vec.x - xx, dest->cam_vals.norm_vec.y - yy, - 1.);
 			// normalizing ray_dir
+			
 			ray->norm_dir = vec_normalize(&ray->dir);
+			// ray->norm_dir = dest->cam_vals.norm_vec;
 			// Set camera W.i.p
-
+			// set_cam(&ray, mlx_);
 			// Find object
 			// Check light intersection
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
@@ -268,7 +270,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			}
 			else
 			{
-				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 255, 255));
+				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 0, 0));
 				h++;
 			}
 			x++;
@@ -277,6 +279,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	}
 	printf(" Z : %i\n", z);
 	printf(" H : %i\n", h);
+	printf(" A : %lf\n", ray->angle);
 	if (ray)
 		free(ray);
 	return ;

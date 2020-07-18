@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/15 20:55:13 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/17 20:28:29 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,11 @@ typedef struct  s_ray {
 	int			colors;
 }               t_ray;
 
+typedef	struct	s_light_l {
+	t_light				t_light;
+	struct	s_light_l	*next;
+}				t_light_l;
+
 typedef	union	u_object
 {
 	t_res		res;
@@ -183,10 +188,7 @@ typedef struct  s_data {
     int         bits_p_p;
     int         line_l;
     int         endian;
-	// void		*img;
-	// char		*addr;
-	// t_img_list **head;
-	t_img_list *img_l;
+	t_img_list 	*img_l;
 }               t_data;
 
 
@@ -239,4 +241,5 @@ t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
 int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
+void				set_cam(t_ray **ray, t_data **mlx);
 #endif

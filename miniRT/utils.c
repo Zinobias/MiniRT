@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 03:40:48 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/20 04:02:35 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,8 +278,8 @@ t_vec3	setcam(t_vec3 from, t_img_list *dest)
 {
 	t_vec3 new;
 	t_mat4 c2w;
-
-	c2w = look_at(dest->cam_vals.view_p, vectorPlus(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
+	
+	c2w = look_at(dest->cam_vals.view_p, vectorSub(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
 	new.x = from.x * c2w.x.x + from.y * c2w.y.x + from.z * c2w.z.x;
 	new.y = from.x * c2w.x.y + from.y * c2w.y.y + from.z * c2w.z.y;
 	new.z = from.x * c2w.x.z + from.y * c2w.y.z + from.z * c2w.z.z;

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 04:40:36 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/20 04:55:28 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,24 +296,16 @@ t_mat4	look_at(t_vec3 from, t_vec3 to)
 	t_vec3 right;
 	t_vec3 up;
 	t_vec3 temp;
+
 	t_vec3 norm;
 
 	norm = vectorSub(&to, &from);
 	norm = vec_normalize(&norm);
 	if (norm.x == 0.0 && norm.z == 0.0 && fabs(norm.y) == 1.0)
 	{
-		if (norm.y == 1.0)
-		{
-			new.x = vec3(1.0,0.0,0.0);
-			new.y = vec3(0.0,0.0,1.0);
-			new.z = vec3(0.0,1.0,0.0);
-		}
-		else
-		{
-			new.x = vec3(0.0,0.0,1.0);
-			new.y = vec3(1.0,0.0,0.0);
-			new.z = vec3(0.0,-1.0,0.0);
-		}
+		new.x = norm.y == 1.0 ? vec3(1.0,0.0,0.0) : vec3(0.0,0.0,1.0);
+		new.y = norm.y == 1.0 ? vec3(0.0,0.0,1.0) : vec3(1.0,0.0,0.0);
+		new.z = norm.y == 1.0 ? vec3(0.0,1.0,0.0) : vec3(0.0,-1.0,0.0);
 		return(new);
 	}
 	temp = vec3(0.0,1.0,0.0);

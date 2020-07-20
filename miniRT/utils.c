@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 18:23:50 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/20 19:57:44 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,27 +245,27 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 	
 	mlx = *mlx_data;
 	current = *obj_l;
-	current_i = mlx->img_l;
 	while (current)
 	{
 		if (current->obj_type->f_code == CAM)
 		{
-			if (!current_i)
+			if (!mlx->img_l)
+			{
 				cam_head(&mlx, current->object.cam);
+				current_i = mlx->img_l;
+			}
 			else 
 			{
 				while (current_i->next)
 					current_i = current_i->next;
-				create_cam_node(&mlx->img_l, mlx_data, current->object.cam);
+				create_cam_node(&current_i, mlx_data, current->object.cam);
 			}
 			rm_element(obj_l, CAM);
 		}
 		current = current->next;
 	}
-	return ;
 }
 
-// FIX CAM LIST
 void	mlx_hooks_(t_data **mlx_)
 {
 	t_data *mlx;

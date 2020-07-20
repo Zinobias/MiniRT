@@ -303,13 +303,6 @@ void	raytracer_(t_obj_list *list)
 
 	mlx_start(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
-	int	i = 0;
-	// while (mlx->img_l)
-	// {
-	// 	mlx->img_l = mlx->img_l->next;
-	// 	i++;
-	// }
-	printf("%i\n", i);
 	mlx_load_cams(&mlx, &list);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
 	mlx_hooks_(&mlx);

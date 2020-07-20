@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 04:55:28 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/20 18:23:50 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals)
 	mlx = *mlx_data;
 	current = *img_l;
 	temp = current->cam;
-	current->next = (t_img_list*)malloc(sizeof(t_img_list));
+	current->next = (t_img_list*)malloc(1 * sizeof(t_img_list));
 	if (!current->next)
 		error(MALLOC);
 	current->next->cam = temp + 1;
@@ -241,19 +241,21 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 {
 	t_data 		*mlx;
 	t_obj_list 	*current;
+	t_img_list	*current_i;
 	
 	mlx = *mlx_data;
 	current = *obj_l;
+	current_i = mlx->img_l;
 	while (current)
 	{
 		if (current->obj_type->f_code == CAM)
 		{
-			if (!mlx->img_l)
+			if (!current_i)
 				cam_head(&mlx, current->object.cam);
 			else 
 			{
-				while (mlx->img_l->next)
-					mlx->img_l = mlx->img_l->next;
+				while (current_i->next)
+					current_i = current_i->next;
 				create_cam_node(&mlx->img_l, mlx_data, current->object.cam);
 			}
 			rm_element(obj_l, CAM);
@@ -263,6 +265,7 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 	return ;
 }
 
+// FIX CAM LIST
 void	mlx_hooks_(t_data **mlx_)
 {
 	t_data *mlx;
@@ -281,7 +284,6 @@ t_vec3	setcam(t_vec3 from, t_img_list *dest)
 
 	if (dest->cam_vals.norm_vec.x == 0 && dest->cam_vals.norm_vec.y == 0 && dest->cam_vals.norm_vec.z == 0 )
 		return(from);
-	// if (dest->cam_vals.norm_vec.x == 0 && (dest->cam_vals.norm_vec.y == 1 || dest->cam_vals.norm_vec.y == -1) && dest->cam_vals.norm_vec.z == 0)
 	c2w = look_at(dest->cam_vals.view_p, vectorPlus(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
 	new.x = from.x * c2w.x.x + from.y * c2w.y.x + from.z * c2w.z.x;
 	new.y = from.x * c2w.x.y + from.y * c2w.y.y + from.z * c2w.z.y;
@@ -289,15 +291,39 @@ t_vec3	setcam(t_vec3 from, t_img_list *dest)
 	return (new);
 }
 
+// t_mat4	look_at(t_vec3 from, t_vec3 to)
+// {
+// 	t_mat4	new;
+// 	t_vec3	forward;
+// 	t_vec3	right;
+// 	t_vec3	up;
+// 	t_vec3	temp;
+// 	t_vec3	norm;
+
+// 	norm = vectorSub(&to, &from);
+// 	norm = vec_normalize(&norm);
+// 	if (norm.x == 0.0 && norm.z == 0.0 && fabs(norm.y) == 1.0)
+// 	{
+// 		new.x = norm.y == 1.0 ? vec3(1.0,0.0,0.0) : vec3(0.0,0.0,1.0);
+// 		new.y = norm.y == 1.0 ? vec3(0.0,0.0,1.0) : vec3(1.0,0.0,0.0);
+// 		new.z = norm.y == 1.0 ? vec3(0.0,1.0,0.0) : vec3(0.0,-1.0,0.0);
+// 		return(new);
+// 	}
+// 	temp = vec3(0.0,1.0,0.0);
+// 	temp = vec_normalize(&temp);
+// 	forward = vectorSub(&from, &to);
+// 	forward = vec_normalize(&forward);
+// 	right = crossproduct(&temp, &forward);
+// 	up = crossproduct(&forward, &right);
+// 	new = mat4(right, up, forward, vec3(0,0,0));
+// 	return (new);
+// }
+
 t_mat4	look_at(t_vec3 from, t_vec3 to)
 {
 	t_mat4	new;
-	t_vec3 forward;
-	t_vec3 right;
-	t_vec3 up;
-	t_vec3 temp;
-
-	t_vec3 norm;
+	t_vec3	temp;
+	t_vec3	norm;
 
 	norm = vectorSub(&to, &from);
 	norm = vec_normalize(&norm);
@@ -310,10 +336,22 @@ t_mat4	look_at(t_vec3 from, t_vec3 to)
 	}
 	temp = vec3(0.0,1.0,0.0);
 	temp = vec_normalize(&temp);
-	forward = vectorSub(&from, &to);
-	forward = vec_normalize(&forward);
-	right = crossproduct(&temp, &forward);
-	up = crossproduct(&forward, &right);
-	new = mat4(right, up, forward, vec3(0,0,0));
+	new.z = vectorSub(&from, &to);
+	new.z = vec_normalize(&new.z);
+	new.x = crossproduct(&temp, &new.z);
+	new.y = crossproduct(&new.z, &new.x);
+	new.l = vec3(0,0,0);
 	return (new);
 }
+
+/*
+** new.z = forward vector
+** new.x = right
+** new.y = uppguide
+** new.l = translation vector
+** if norm.x / z && y are at these specific cords, it is a
+** achilles heel of the look-up function, thus it has to be hardcoded
+** Because When the camera is vertical looking straight down or straight up, 
+** the forward axis gets very close to the arbitrary axis used to compute the right axis.
+** thus the crossproduct won't have a valid result.
+*/

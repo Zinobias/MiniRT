@@ -239,10 +239,6 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
 	float xx;
 	float yy;
-
-	int		z;
-	z = 0;
-	int h = 0;
 	ray->orig = dest->cam_vals.view_p;
 	while (y < mlx->res.y)
 	{
@@ -260,26 +256,16 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	
 			ray->norm_dir = setcam(ray->norm_dir, dest);
 			ray->norm_dir = vec_normalize(&ray->norm_dir);
-			// Set camera W.i.p
-			// set_cam(&ray, mlx_);
 			// Find object
 			// Check light intersection
 			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
-			{
 				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
-				z++;
-			}
 			else
-			{
 				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 0, 0));
-				h++;
-			}
 			x++;
 		}
 		y++;
 	}
-	printf(" Z : %i\n", z);
-	printf(" H : %i\n", h);
 	printf(" A : %lf\n", ray->angle);
 	if (ray)
 		free(ray);
@@ -317,6 +303,13 @@ void	raytracer_(t_obj_list *list)
 
 	mlx_start(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
+	int	i = 0;
+	// while (mlx->img_l)
+	// {
+	// 	mlx->img_l = mlx->img_l->next;
+	// 	i++;
+	// }
+	printf("%i\n", i);
 	mlx_load_cams(&mlx, &list);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
 	mlx_hooks_(&mlx);

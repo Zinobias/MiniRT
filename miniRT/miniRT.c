@@ -157,6 +157,7 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	l_get_A(mlx_data, list);
 	mlx->mlx = mlx_init();
 	mlx->img_l = NULL;
+	mlx->l_head = NULL;
 	if (!mlx->mlx)
 		error(MLX);
 	mlx->win = mlx_new_window(mlx->mlx, mlx->res.x, mlx->res.y, "Headache_generator_9000");
@@ -302,6 +303,14 @@ void	raytracer_(t_obj_list *list)
 	t_data	*mlx;
 
 	mlx_start(&mlx, &list);
+	mlx_get_lights(&mlx, &list);
+	t_light_l	*curr;
+	curr = mlx->l_head;
+	while (curr)
+	{
+		printf("test\n");
+		curr = curr->next;
+	}
 	mlx_get_cams(&mlx, &list);
 	mlx_load_cams(&mlx, &list);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);

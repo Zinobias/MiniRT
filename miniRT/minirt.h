@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 19:57:47 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/20 22:16:30 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,12 +154,12 @@ typedef	union	u_object
 	t_tr		triangle;
 }				t_object;
 
-typedef   t_object (*DataFunction)(char *str);
+typedef   t_object (*t_DataFunction)(char *str);
 
 typedef struct  s_f_data {
 	int			f_code;
 	char		*str;
-	DataFunction function;
+	t_DataFunction function;
 }               t_f_data;
 
 typedef struct  s_obj_list {
@@ -189,6 +189,7 @@ typedef struct  s_data {
     int         line_l;
     int         endian;
 	t_img_list 	*img_l;
+	t_light_l	*l_head;
 }               t_data;
 
 typedef		struct s_mat4
@@ -251,4 +252,7 @@ int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
 t_vec3				setcam(t_vec3 from, t_img_list *dest);
 t_mat4				mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l);
 t_mat4				look_at(t_vec3 from, t_vec3 to);
+void				mlx_get_lights(t_data **mlx, t_obj_list **list);
+void				create_light_node(t_light_l	**target, t_light object);
+void				create_light_head(t_data **target, t_light object);
 #endif

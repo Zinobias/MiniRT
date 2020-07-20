@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 19:57:44 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/20 22:36:50 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,8 @@ void	rm_element(t_obj_list **list, int obj_code)
 	{
 		if (current->next)
 			*list = current->next;
-		free(current);
+		if (current)
+			free(current);
 	}
 	else while (current->next)
 	{
@@ -178,7 +179,8 @@ void	rm_element(t_obj_list **list, int obj_code)
 		{
 			temp = current->next;
 			current = current->next->next;
-			free(temp);
+			// if (temp)
+				// free(temp);
 			break;
 		}
 		current = current->next;
@@ -355,3 +357,62 @@ t_mat4	look_at(t_vec3 from, t_vec3 to)
 ** the forward axis gets very close to the arbitrary axis used to compute the right axis.
 ** thus the crossproduct won't have a valid result.
 */
+
+void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
+{
+	t_obj_list	*current;
+	t_data		*mlx;
+	t_light_l	*current_l;
+
+	current = *list;
+	mlx = *mlx_;
+	while(current)
+	{
+		if (current->obj_type->f_code == LIGHT)
+		{
+			if (!mlx->l_head)
+			{
+				printf("test\n");
+				create_light_head(&mlx, current->object.light);
+				current_l = mlx->l_head;
+			}
+			else 
+			{
+				printf("test\n");
+				while (current_l->next)
+					current_l = current_l->next;
+				create_light_node(&current_l, current->object.light);
+			}
+			rm_element(list, LIGHT);
+		}
+		current = current->next;
+	}
+}
+
+
+void	create_light_head(t_data **target, t_light object)
+{
+	t_light_l	*current;
+
+	current = (*target)->l_head;
+	
+	current = (t_light_l*)malloc(sizeof(t_light_l));
+	if (!current)
+		error(MALLOC);
+	current->t_light = object;
+	current->next = NULL;
+	return ;
+}
+
+void	create_light_node(t_light_l	**target, t_light object)
+{
+	t_light_l	*current;
+	
+	current = *target;
+	current->next = (t_light_l*)malloc(sizeof(t_light_l));
+	if (!current->next)
+		error(MALLOC);
+	current->next->t_light = object;
+	current->next->next = NULL;
+	return ;
+}

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 04:07:27 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/20 04:40:36 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,10 +279,10 @@ t_vec3	setcam(t_vec3 from, t_img_list *dest)
 	t_vec3 new;
 	t_mat4 c2w;
 
-	if (dest->cam_vals.norm_vec.x == 0 && dest->cam_vals.norm_vec.y == 0 && dest->cam_vals.norm_vec.z == 0)
+	if (dest->cam_vals.norm_vec.x == 0 && dest->cam_vals.norm_vec.y == 0 && dest->cam_vals.norm_vec.z == 0 )
 		return(from);
-	else
-		c2w = look_at(dest->cam_vals.view_p, vectorSub(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
+	// if (dest->cam_vals.norm_vec.x == 0 && (dest->cam_vals.norm_vec.y == 1 || dest->cam_vals.norm_vec.y == -1) && dest->cam_vals.norm_vec.z == 0)
+	c2w = look_at(dest->cam_vals.view_p, vectorPlus(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
 	new.x = from.x * c2w.x.x + from.y * c2w.y.x + from.z * c2w.z.x;
 	new.y = from.x * c2w.x.y + from.y * c2w.y.y + from.z * c2w.z.y;
 	new.z = from.x * c2w.x.z + from.y * c2w.y.z + from.z * c2w.z.z;
@@ -296,8 +296,27 @@ t_mat4	look_at(t_vec3 from, t_vec3 to)
 	t_vec3 right;
 	t_vec3 up;
 	t_vec3 temp;
+	t_vec3 norm;
 
-	temp = vec3(0,1,0);
+	norm = vectorSub(&to, &from);
+	norm = vec_normalize(&norm);
+	if (norm.x == 0.0 && norm.z == 0.0 && fabs(norm.y) == 1.0)
+	{
+		if (norm.y == 1.0)
+		{
+			new.x = vec3(1.0,0.0,0.0);
+			new.y = vec3(0.0,0.0,1.0);
+			new.z = vec3(0.0,1.0,0.0);
+		}
+		else
+		{
+			new.x = vec3(0.0,0.0,1.0);
+			new.y = vec3(1.0,0.0,0.0);
+			new.z = vec3(0.0,-1.0,0.0);
+		}
+		return(new);
+	}
+	temp = vec3(0.0,1.0,0.0);
 	temp = vec_normalize(&temp);
 	forward = vectorSub(&from, &to);
 	forward = vec_normalize(&forward);

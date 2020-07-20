@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/17 20:28:29 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/20 03:34:24 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,13 @@ typedef struct  s_data {
 	t_img_list 	*img_l;
 }               t_data;
 
-
+typedef		struct s_mat4
+{
+	t_vec3			x;
+	t_vec3			y;
+	t_vec3			z;
+	t_vec3			l;
+}					t_mat4;
 
 int					get_next_line(int fd, char **line);
 void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);
@@ -240,6 +246,9 @@ double 				vectorDot(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
+t_vec3				crossproduct(t_vec3 *v1, t_vec3 *v2);
 int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
-void				set_cam(t_ray **ray, t_data **mlx);
+t_vec3				setcam(t_vec3 from, t_img_list *dest);
+t_mat4				mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l);
+t_mat4				look_at(t_vec3 from, t_vec3 to);
 #endif

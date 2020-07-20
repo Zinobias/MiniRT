@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/18 20:41:17 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/20 03:34:54 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,14 +274,33 @@ void	mlx_hooks_(t_data **mlx_)
 	return ;
 }
 
-// void	set_cam(t_ray **ray, t_data **mlx)
-// {
-// 	t_vec3	new;
-// 	t_vec3	n_dir;
+t_vec3	setcam(t_vec3 from, t_img_list *dest)
+{
+	t_vec3 new;
+	t_mat4 c2w;
 
-// 	new = (*ray)->norm_dir;
-// 	n_dir = (*ray)->norm_dir;
-	
-// 	(*ray)->norm_dir = new;
-// 	return ;
-// }
+	c2w = look_at(dest->cam_vals.view_p, vectorPlus(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
+	new.x = from.x * c2w.x.x + from.y * c2w.y.x + from.z * c2w.z.x;
+	new.y = from.x * c2w.x.y + from.y * c2w.y.y + from.z * c2w.z.y;
+	new.z = from.x * c2w.x.z + from.y * c2w.y.z + from.z * c2w.z.z;
+	return (new);
+}
+
+t_mat4	look_at(t_vec3 from, t_vec3 to)
+{
+	t_mat4	new;
+	t_vec3 forward;
+	t_vec3 right;
+	t_vec3 up;
+	t_vec3 temp;
+
+	temp = vec3(0,1,0);
+	temp = vec_normalize(&temp);
+	forward = vectorSub(&from, &to);
+	forward = vec_normalize(&forward);
+	right = crossproduct(&temp, &forward);
+	up = crossproduct(&forward, &right);
+
+	new = mat4(right, up, forward, vec3(0,0,0));
+	return (new);
+}

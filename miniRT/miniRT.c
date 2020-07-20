@@ -234,7 +234,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	y = 0;
 	mlx = *mlx_;
 	// calculating aspecct ratio, width / height.
-	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
+	mlx->aspect_ratio = mlx->res.x > mlx->res.y ? mlx->res.x / mlx->res.y : mlx->res.y / mlx->res.x;
 	// calculating right angle fov
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
 	float xx;
@@ -254,11 +254,12 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			// calculating width image plane
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
 			// ray dir
-			ray->dir = vec3(dest->cam_vals.norm_vec.x - xx, dest->cam_vals.norm_vec.y - yy, - 1.);
+			ray->dir = vec3(xx, yy, -1.);
 			// normalizing ray_dir
-			
 			ray->norm_dir = vec_normalize(&ray->dir);
-			// ray->norm_dir = dest->cam_vals.norm_vec;
+	
+			ray->norm_dir = setcam(ray->norm_dir, dest);
+			ray->norm_dir = vec_normalize(&ray->norm_dir);
 			// Set camera W.i.p
 			// set_cam(&ray, mlx_);
 			// Find object

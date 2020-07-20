@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 03:40:16 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/20 03:40:48 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ t_mat4	look_at(t_vec3 from, t_vec3 to)
 	t_vec3 up;
 	t_vec3 temp;
 
-	temp = vec3(0,0,0);
+	temp = vec3(0,1,0);
 	temp = vec_normalize(&temp);
 	forward = vectorSub(&from, &to);
 	forward = vec_normalize(&forward);

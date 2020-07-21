@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 22:36:50 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/21 17:53:11 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,13 +372,11 @@ void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
 		{
 			if (!mlx->l_head)
 			{
-				printf("test\n");
 				create_light_head(&mlx, current->object.light);
 				current_l = mlx->l_head;
 			}
 			else 
 			{
-				printf("test\n");
 				while (current_l->next)
 					current_l = current_l->next;
 				create_light_node(&current_l, current->object.light);
@@ -392,15 +390,14 @@ void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
 
 void	create_light_head(t_data **target, t_light object)
 {
-	t_light_l	*current;
-
-	current = (*target)->l_head;
+	t_data		*current;
 	
-	current = (t_light_l*)malloc(sizeof(t_light_l));
-	if (!current)
+	current = *target;
+	current->l_head = (t_light_l*)malloc(sizeof(t_light_l));
+	if (!current->l_head)
 		error(MALLOC);
-	current->t_light = object;
-	current->next = NULL;
+	current->l_head->t_light = object;
+	current->l_head->next = NULL;
 	return ;
 }
 

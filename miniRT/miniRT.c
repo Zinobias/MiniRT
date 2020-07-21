@@ -238,8 +238,8 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	mlx->aspect_ratio = mlx->res.x > mlx->res.y ? mlx->res.x / mlx->res.y : mlx->res.y / mlx->res.x;
 	// calculating right angle fov
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
-	float xx;
-	float yy;
+	double xx;
+	double yy;
 	ray->orig = dest->cam_vals.view_p;
 	while (y < mlx->res.y)
 	{
@@ -254,7 +254,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			ray->dir = vec3(xx, yy, -1.);
 			// normalizing ray_dir
 			ray->norm_dir = vec_normalize(&ray->dir);
-	
+			// https://www.scratchapixel.com/code.php?id=10&origin=/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes
 			ray->norm_dir = setcam(ray->norm_dir, dest);
 			ray->norm_dir = vec_normalize(&ray->norm_dir);
 			// Find object
@@ -304,13 +304,6 @@ void	raytracer_(t_obj_list *list)
 
 	mlx_start(&mlx, &list);
 	mlx_get_lights(&mlx, &list);
-	t_light_l	*curr;
-	curr = mlx->l_head;
-	while (curr)
-	{
-		printf("test\n");
-		curr = curr->next;
-	}
 	mlx_get_cams(&mlx, &list);
 	mlx_load_cams(&mlx, &list);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);

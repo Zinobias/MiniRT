@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 22:16:30 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/21 19:39:47 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ typedef struct  s_i_ret {
 }               t_i_ret;
 
 typedef struct	s_res {
-	int			x;
-	int			y;
+	double			x;
+	double			y;
 }				t_res;
 
 typedef struct	s_amb {

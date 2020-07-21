@@ -235,7 +235,8 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	y = 0;
 	mlx = *mlx_;
 	// calculating aspecct ratio, width / height.
-	mlx->aspect_ratio = mlx->res.x > mlx->res.y ? mlx->res.x / mlx->res.y : mlx->res.y / mlx->res.x;
+	// mlx->aspect_ratio = mlx->res.x > mlx->res.y ? mlx->res.x / mlx->res.y : mlx->res.y / mlx->res.x;
+	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
 	// calculating right angle fov
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
 	double xx;
@@ -257,12 +258,14 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			// https://www.scratchapixel.com/code.php?id=10&origin=/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes
 			ray->norm_dir = setcam(ray->norm_dir, dest);
 			ray->norm_dir = vec_normalize(&ray->norm_dir);
+			check_hit(&ray, head);
+			my_mlx_pixel_put(dest, mlx, x, y, ray->hit.color);
 			// Find object
 			// Check light intersection
-			if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
-				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
-			else
-				my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 0, 0));
+			// if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
+			// 	my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
+			// else
+			// 	my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 0, 0));
 			x++;
 		}
 		y++;

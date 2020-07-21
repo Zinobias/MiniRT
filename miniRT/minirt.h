@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/21 19:39:47 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/21 22:26:25 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,12 +128,21 @@ typedef struct	s_sph {
 	int			colors;
 }				t_sph;
 
+typedef struct	s_hit {
+	t_vec3		hit_p;
+	int			color;
+	double		distance;
+	double		t1;
+	double		t2;
+	short		check;
+}				t_hit;
+
 typedef struct  s_ray {
 	t_vec3		dir;
 	t_vec3		norm_dir;
 	double		angle;
 	t_vec3		orig;
-	int			colors;
+	t_hit		hit;
 }               t_ray;
 
 typedef	struct	s_light_l {
@@ -177,6 +186,13 @@ typedef struct s_img_list {
 	struct s_img_list	*next;
 	struct s_img_list	*back;
 }				t_img_list;
+
+typedef   t_hit (*t_Inter_Function)(t_ray *ray, t_object object);
+
+typedef struct  s_inter_data {
+	int					f_code;
+	t_Inter_Function	function;
+}               t_inter_data;
 
 // rename data to something more specific
 typedef struct  s_data {
@@ -248,11 +264,16 @@ t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
 t_vec3				crossproduct(t_vec3 *v1, t_vec3 *v2);
-int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
+// int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
+
+t_hit				inter_sph(t_ray *ray, t_object sphe);
+void				check_hit(t_ray **ray, t_obj_list **head);
+
 t_vec3				setcam(t_vec3 from, t_img_list *dest);
 t_mat4				mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l);
 t_mat4				look_at(t_vec3 from, t_vec3 to);
 void				mlx_get_lights(t_data **mlx, t_obj_list **list);
 void				create_light_node(t_light_l	**target, t_light object);
 void				create_light_head(t_data **target, t_light object);
+
 #endif

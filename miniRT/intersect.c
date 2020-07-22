@@ -6,19 +6,19 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/22 22:33:32 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/23 01:52:42 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_inter_data	g_f_array_int[2] =
+static t_inter_data	g_f_array_int[3] =
 {
 	{SPH, &inter_sph},
-	{PL, &inter_plane}
-	// {SQ, &inter_square},
+	{PL, &inter_plane},
+	{TR, &inter_triangle}
 	// {CY, &inter_cylinder},
-	// {TR, &inter_triangle}
+	// {TR, &inter_square}
 };
 
 // plane, sphere, cylinder, square
@@ -36,7 +36,7 @@ void	check_hit(t_ray **ray, t_obj_list **head)
 	while (current)
 	{
 		i = 0;
-		while (i < 2)
+		while (i < 3)
 		{
 			current_f = &g_f_array_int[i];
 			if (current_f->f_code == current->obj_type->f_code)
@@ -110,22 +110,86 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 		}
 	}
 	return (hit);
-
 }
 
 // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
+t_vec3	t_plane_normal(t_tr *tr)
+{
+	t_vec3	new[2];
+	t_vec3	p[3];
+	t_vec3	ret;
+
+	p[0] = tr->point1;
+	p[1] = tr->point2;
+	p[2] = tr->point3;
+
+	new[0].x = p[1].x - p[0].x; 
+	new[0].y = p[1].y - p[0].y; 
+	new[0].z = p[1].z - p[0].z; 
+
+	new[1].x = p[2].x - p[0].x;
+	new[1].y = p[2].y - p[0].y; 
+	new[1].z = p[2].z - p[0].z;
+	ret = crossproduct(&new[0], &new[1]);
+	return (ret);
+}
+
+int		check_tr_in(t_vec3 p0, t_vec3 p1, t_vec3 *p_, t_vec3 *n)
+{
+	t_vec3	edge;
+	t_vec3	p[2];
+	t_vec3	vp;
+	t_vec3	c;
+
+	p[0] = p0;
+	p[1] = p1;
+
+	edge.x = p[1].x - p[0].x;
+	edge.y = p[1].y - p[0].y;
+	edge.z = p[1].z - p[0].z;
+	
+	vp.x = p_->x - p[0].x;
+	vp.y = p_->y - p[0].y; 
+ 	vp.z = p_->z - p[0].z; 
+
+	c = crossproduct(&edge, &vp);
+	if (vectorDot(n, &c) < 0)
+		return (1);
+	return (0);
+}
+
 t_hit	inter_triangle(t_ray *ray, t_object triangle)
 {
 	t_hit	hit;
 	t_tr	tr;
-	t_vec3	edges[3];
+	t_vec3	n_plane;
+	t_vec3	p;
+	double	n_dot_rd;
 	double	d;
-
+	double	t;
+	
+	hit.t1 = INFINITY;
+	hit.check = 0;
 	tr = triangle.triangle;
-	d = vectorDot(,&tr.point1);
-
+	n_plane = t_plane_normal(&tr);
+	n_dot_rd = vectorDot(&n_plane, &ray->norm_dir);
+	if (fabs(n_dot_rd) < 0.000001)
+		return (hit);
+	d = vectorDot(&n_plane, &tr.point1);
+	t = -((vectorDot(&n_plane, &ray->orig) - d) / n_dot_rd);
+	// t = (vectorDot(&n_plane, &ray->orig) + d) / n_dot_rd;
+	if (t < 0)
+		return (hit);
+	p = vec3(ray->orig.x + t * ray->norm_dir.x, ray->orig.y + t * ray->norm_dir.y, ray->orig.z + t * ray->norm_dir.z);
+	if (check_tr_in(tr.point1, tr.point2, &p, &n_plane) == 1 || check_tr_in(tr.point2, tr.point3, &p, &n_plane) == 1 	|| check_tr_in(tr.point3, tr.point1, &p, &n_plane) == 1)
+		return (hit);
+	hit.color = tr.colors;
+	hit.t1 = t;
+	hit.check = 1;
+	// printf("reeee\n");
 	return (hit);
 }
+
 // t_hit				inter_square(t_ray *ray, t_object square)
 // {
 // 	t_sq	sq;

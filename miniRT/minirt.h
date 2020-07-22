@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/21 22:26:25 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/22 14:44:56 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ t_object			get_cylinder(char *line);
 t_object			get_triangle(char *line);
 void				check_line_valid(char *line);
 void				check_vec3_range(t_vec3 data, double min, double max);
-int					rgba(int t, int r, int g, int b);
+int					rgba(int r, int g, int b, int t);
 t_obj_list			*parser(void);
 int					close_window_esc(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);

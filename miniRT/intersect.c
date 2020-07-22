@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/22 18:47:34 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/22 22:33:32 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ t_hit	inter_sph(t_ray *ray, t_object sphe)
 	l = vectorSub(&sph.center, &ray->orig);
 	t = vectorDot(&l, &ray->norm_dir);
 	hit.check = 0;
-	hit.t1 = 0;
-	hit.t2 = 0;
+	hit.t1 = INFINITY;
+	hit.t2 = INFINITY;
 	hit.color = 0;
 	if (t < 0)
 		return (hit);
@@ -93,7 +93,7 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 	double	t;
 	t_vec3	l;
 
-	hit.t1 = 0;
+	hit.t1 = INFINITY;
 	hit.check = 0;
 	pl = plane.plane;
 	l = vectorSub(&pl.cords, &ray->orig);
@@ -113,15 +113,41 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 
 }
 
+// https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
+t_hit	inter_triangle(t_ray *ray, t_object triangle)
+{
+	t_hit	hit;
+	t_tr	tr;
+	t_vec3	edges[3];
+	double	d;
+
+	tr = triangle.triangle;
+	d = vectorDot(,&tr.point1);
+
+	return (hit);
+}
 // t_hit				inter_square(t_ray *ray, t_object square)
 // {
 // 	t_sq	sq;
 // 	t_hit	hit;
 // 	t_vec3	l;
+// 	t_vec3	l2;
+// 	t_vec3	p[4];
+
 // 	double	t;
 // 	double	denom;
 // 	sq = square.square;
-// 	l = vectorSub(&sq.cords, &ray->orig);
+// 	double	sq_r;
+// 	sq_r	= sq.side_size / 2;
+
+// 	p[0] = vec3(sq.cords.x + sq_r, sq.cords.y + sq_r, sq.cords.z + sq_r);
+// 	p[1] = vec3(-(sq.cords.x + sq_r), -(sq.cords.y + sq_r), -(sq.cords.z + sq_r));
+// 	p[2] = vec3(-(sq.cords.x + sq_r), sq.cords.y + sq_r, sq.cords.z + sq_r);
+// 	p[3] = vec3(sq.cords.x + sq_r, -(sq.cords.y + sq_r), -(sq.cords.z + sq_r));
+
+// 	l = vectorSub(&p[0], &p[1]);
+// 	l2 = vectorSub(&p[1], &p[3]);
+// 	crossproduct();
 // 	denom = vectorDot(&sq.norm_vec, &ray->norm_dir);
 // 	if (denom > (sq.side_size / 2));
 	
@@ -129,35 +155,3 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 	
 // 	return (hit);
 // }
-// int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
-// {
-// 	t_vec3 	l;
-// 	float	t;
-// 	float	x;
-// 	float	y;
-// 	float 	t1;
-// 	float	t2;
-// 	// float	tnear = INFINITY;
-
-// 	// t1 = INFINITY;
-// 	// t2 = INFINITY;
-// 	(void)dest;
-// 	l = vectorSub(&sph.center, &ray->orig);
-// 	t = vectorDot(&l, &ray->norm_dir);
-// 	if (t < 0)
-// 		return (0);
-// 	y = vectorDot(&l, &l) - (t * t);
-// 	if (y > (sph.diam * (sph.diam * 0.25)))
-// 		return (0);
-// 	x = sqrt((sph.diam * (sph.diam * 0.25)) - y);
-// 	t1 = t - x;
-// 	t2 = t + x;
-// 	// if (t1 < 0) 
-// 	// 	t1 = t2;
-// 	// if (t1 < tnear)
-// 	// 	tnear = t2; 
-// 	// new point = RO + t1, or t2, depending on side of sphere.
-// 	// t1 / t2 are distance from OG, t1 * RD --- t2 * RD are the 2 intersection points.
-// 	return (1);
-// }
-

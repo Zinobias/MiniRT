@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/22 18:29:02 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/22 18:47:34 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,34 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
     if (denom > 1e-6) 
 	{ 
         t = vectorDot(&l, &pl.norm_vec) / denom;
-		if (t > 0)
+		if (t >= 0)
 		{
-		hit.check = 1;
-		hit.t1 = t;
-		hit.color = pl.colors;
-	    return (hit);
+			hit.check = 1;
+			hit.t1 = t;
+			hit.color = pl.colors;
+			return (hit);
 		}
 	}
 	return (hit);
 
 }
 
+// t_hit				inter_square(t_ray *ray, t_object square)
+// {
+// 	t_sq	sq;
+// 	t_hit	hit;
+// 	t_vec3	l;
+// 	double	t;
+// 	double	denom;
+// 	sq = square.square;
+// 	l = vectorSub(&sq.cords, &ray->orig);
+// 	denom = vectorDot(&sq.norm_vec, &ray->norm_dir);
+// 	if (denom > (sq.side_size / 2));
+	
+// 	// https://www.youtube.com/watch?v=Ff0jJyyiVyw
+	
+// 	return (hit);
+// }
 // int		inter_sph(t_ray *ray, t_sph sph, t_img_list *dest)
 // {
 // 	t_vec3 	l;

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 01:29:08 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 01:31:56 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,48 +199,3 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	hit[0] = hit[1].check == 1 ? hit[1] : hit[0];
 	return (hit[0]);
 }
-// t_hit	inter_square(t_ray *ray, t_object sq_)
-// {
-// 	t_hit		hit;
-// 	t_sq		sq;
-// 	t_object	tr[2];
-// 	// t_vec3		p[4];
-// 	double		sq_r;
-// 	t_mat4		rot;
-// 	sq = sq_.square;
-// 	sq_r = sq.side_size / 2;
-// 	hit.check = 0;
-// 	hit.t1 = INFINITY;
-
-// 	rot = look_at(sq.cords, vectorPlus(&sq.cords, &sq.norm_vec));
-// 	rot.x = vector_x_d(&rot.x, sq_r);
-// 	rot.y = vector_x_d(&rot.y, sq_r); 
-
-
-// 	// p[0] = ;
-// 	// p[1] = ;
-// 	// p[2] =;
-// 	// p[3] = ;
-
-// 	t_vec3	temp;
-// 	temp = vectorSub(&sq.cords, &rot.y);
-// 	tr[0].triangle.point1 = vectorSub(&temp, &rot.x);
-// 	temp = vectorPlus(&sq.cords, &rot.y);
-// 	tr[0].triangle.point2 = vectorPlus(&temp, &rot.x);
-// 	temp = vectorPlus(&sq.cords, &rot.y);
-// 	tr[0].triangle.point3 = vectorSub(&temp, &rot.x);
-// 	tr[0].triangle.colors = sq.colors;
-// 	hit = inter_triangle(ray, tr[0]);
-// 	if (hit.check == 1)
-// 		return(hit);
-// 	tr[1].triangle.point1 = tr[0].triangle.point1;
-// 	temp = vectorSub(&sq.cords, &rot.y);
-// 	tr[1].triangle.point2 = vectorPlus(&temp, &rot.x);
-// 	tr[1].triangle.point3 =  tr[0].triangle.point2;
-
-// 	tr[1].triangle.colors = sq.colors;
-// 	hit = inter_triangle(ray, tr[1]);
-// 	if (hit.check == 1)
-// 		return (hit);
-// 	return (hit);
-// }

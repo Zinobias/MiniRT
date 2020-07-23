@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 00:58:42 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/23 19:22:31 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,4 +278,6 @@ void				create_light_head(t_data **target, t_light object);
 t_hit				inter_plane(t_ray *ray, t_object plane);
 t_hit				inter_square(t_ray *ray, t_object square);
 t_hit				inter_triangle(t_ray *ray, t_object triangle);
+t_hit				inter_square(t_ray *ray, t_object sq_);
+t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
 #endif

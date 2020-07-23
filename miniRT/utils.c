@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/21 17:53:11 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/23 19:29:35 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,6 +279,16 @@ void	mlx_hooks_(t_data **mlx_)
 	return ;
 }
 
+t_vec3	vec3_x_matrix(t_vec3 *from, t_mat4 *c2w)
+{
+	t_vec3	new;
+
+	new.x = from->x * c2w->x.x + from->y * c2w->y.x + from->z * c2w->z.x;
+	new.y = from->x * c2w->x.y + from->y * c2w->y.y + from->z * c2w->z.y;
+	new.z = from->x * c2w->x.z + from->y * c2w->y.z + from->z * c2w->z.z;
+	return (new);
+}
+
 t_vec3	setcam(t_vec3 from, t_img_list *dest)
 {
 	t_vec3 new;
@@ -287,9 +297,7 @@ t_vec3	setcam(t_vec3 from, t_img_list *dest)
 	if (dest->cam_vals.norm_vec.x == 0 && dest->cam_vals.norm_vec.y == 0 && dest->cam_vals.norm_vec.z == 0 )
 		return(from);
 	c2w = look_at(dest->cam_vals.view_p, vectorPlus(&dest->cam_vals.view_p, &dest->cam_vals.norm_vec));
-	new.x = from.x * c2w.x.x + from.y * c2w.y.x + from.z * c2w.z.x;
-	new.y = from.x * c2w.x.y + from.y * c2w.y.y + from.z * c2w.z.y;
-	new.z = from.x * c2w.x.z + from.y * c2w.y.z + from.z * c2w.z.z;
+	new = vec3_x_matrix(&from, &c2w);
 	return (new);
 }
 

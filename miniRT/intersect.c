@@ -6,19 +6,19 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 01:52:42 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/23 19:51:26 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_inter_data	g_f_array_int[3] =
+static t_inter_data	g_f_array_int[4] =
 {
 	{SPH, &inter_sph},
 	{PL, &inter_plane},
-	{TR, &inter_triangle}
+	{TR, &inter_triangle},
 	// {CY, &inter_cylinder},
-	// {TR, &inter_square}
+	{TR, &inter_square}
 };
 
 // plane, sphere, cylinder, square
@@ -36,7 +36,7 @@ void	check_hit(t_ray **ray, t_obj_list **head)
 	while (current)
 	{
 		i = 0;
-		while (i < 3)
+		while (i < 4)
 		{
 			current_f = &g_f_array_int[i];
 			if (current_f->f_code == current->obj_type->f_code)
@@ -190,32 +190,43 @@ t_hit	inter_triangle(t_ray *ray, t_object triangle)
 	return (hit);
 }
 
-// t_hit				inter_square(t_ray *ray, t_object square)
-// {
-// 	t_sq	sq;
-// 	t_hit	hit;
-// 	t_vec3	l;
-// 	t_vec3	l2;
-// 	t_vec3	p[4];
-
-// 	double	t;
-// 	double	denom;
-// 	sq = square.square;
-// 	double	sq_r;
-// 	sq_r	= sq.side_size / 2;
-
-// 	p[0] = vec3(sq.cords.x + sq_r, sq.cords.y + sq_r, sq.cords.z + sq_r);
-// 	p[1] = vec3(-(sq.cords.x + sq_r), -(sq.cords.y + sq_r), -(sq.cords.z + sq_r));
-// 	p[2] = vec3(-(sq.cords.x + sq_r), sq.cords.y + sq_r, sq.cords.z + sq_r);
-// 	p[3] = vec3(sq.cords.x + sq_r, -(sq.cords.y + sq_r), -(sq.cords.z + sq_r));
-
-// 	l = vectorSub(&p[0], &p[1]);
-// 	l2 = vectorSub(&p[1], &p[3]);
-// 	crossproduct();
-// 	denom = vectorDot(&sq.norm_vec, &ray->norm_dir);
-// 	if (denom > (sq.side_size / 2));
+t_hit	inter_square(t_ray *ray, t_object sq_)
+{
+	t_hit		hit;
+	t_sq		sq;
+	t_object	tr[2];
+	t_vec3		p[4];
+	double		sq_r;
+	t_mat4		rot;
+	sq = sq_.square;
+	sq_r = sq.side_size / 2;
+	hit.check = 0;
+	hit.t1 = INFINITY;
+	p[0] = vec3(sq.cords.x + sq_r, sq.cords.y + sq_r, sq.cords.z + sq_r);
+	p[1] = vec3((sq.cords.x + sq_r), -(sq.cords.y + sq_r), (sq.cords.z + sq_r));
+	p[2] = vec3(-(sq.cords.x + sq_r), sq.cords.y + sq_r, sq.cords.z + sq_r);
+	p[3] = vec3(sq.cords.x + sq_r, -(sq.cords.y + sq_r), (sq.cords.z + sq_r));
 	
-// 	// https://www.youtube.com/watch?v=Ff0jJyyiVyw
-	
-// 	return (hit);
-// }
+	rot = look_at(sq.cords, vectorPlus(&sq.cords, &sq.norm_vec));
+	p[0] = vec3_x_matrix(&p[0], &rot);
+	p[1] = vec3_x_matrix(&p[1], &rot);
+	p[2] = vec3_x_matrix(&p[2], &rot);
+	p[3] = vec3_x_matrix(&p[3], &rot);
+
+
+	tr[0].triangle.point1 = p[0];
+	tr[0].triangle.point2 = p[1];
+	tr[0].triangle.point3 = p[3];
+	tr[0].triangle.colors = sq.colors;
+	hit = inter_triangle(ray, tr[0]);
+	if (hit.check == 1)
+		return(hit);
+	tr[1].triangle.point1 = p[0];
+	tr[1].triangle.point2 = p[1];
+	tr[1].triangle.point3 = p[2];
+	tr[1].triangle.colors = sq.colors;
+	hit = inter_triangle(ray, tr[1]);
+	if (hit.check == 1)
+		return (hit);
+	return (hit);
+}

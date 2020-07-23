@@ -252,7 +252,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			// calculating width image plane
 			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
 			// ray dir
-			ray->dir = vec3(xx, yy, -1.);
+			ray->dir = (t_vec3){xx, yy, -1};
 			// normalizing ray_dir
 			ray->norm_dir = vec_normalize(&ray->dir);
 			// https://www.scratchapixel.com/code.php?id=10&origin=/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes

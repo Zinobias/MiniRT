@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 01:17:03 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 01:17:59 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,8 @@ t_hit	inter_triangle(t_ray *ray, t_object triangle)
 	if (fabs(n_dot_rd) < 0.000001)
 		return (hit);
 	d = vectorDot(&n_plane, &tr.point1);
-	t = -((vectorDot(&n_plane, &ray->orig) - d) / n_dot_rd);
-	// t = (vectorDot(&n_plane, &ray->orig) + d) / n_dot_rd;
+	// t = -((vectorDot(&n_plane, &ray->orig) - d) / n_dot_rd);
+	t = (vectorDot(&n_plane, &ray->orig) + d) / n_dot_rd;
 	if (t < 0)
 		return (hit);
 	p = vec3(ray->orig.x + t * ray->norm_dir.x, ray->orig.y + t * ray->norm_dir.y, ray->orig.z + t * ray->norm_dir.z);
@@ -185,7 +185,6 @@ t_hit	inter_triangle(t_ray *ray, t_object triangle)
 	hit.color = tr.colors;
 	hit.t1 = t;
 	hit.check = 1;
-	// printf("reeee\n");
 	return (hit);
 }
 

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 22:40:05 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/23 22:43:59 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static t_inter_data	g_f_array_int[4] =
 	{SPH, &inter_sph},
 	{PL, &inter_plane},
 	{TR, &inter_triangle},
-	// {CY, &inter_cylinder},
-	{TR, &inter_square}
+	{SQ, &inter_square}
 };
 
 // plane, sphere, cylinder, square
@@ -230,6 +229,7 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	tr[0].triangle.point2 = vectorPlus(&temp, &rot.x);
 	temp = vectorSub(&sq.cords, &rot.y);
 	tr[0].triangle.point3 = vectorSub(&temp, &rot.x);
+	
 	// tr[0].triangle.point1 = p[0];
 	// tr[0].triangle.point2 = p[1];
 	// tr[0].triangle.point3 = p[3];

@@ -33,7 +33,7 @@ make testr: testc test
 git:
 	@printf "\e[1;34mAdding\n\e[0m"
 	@git add *
-	@git commit -m "Automated git"
+	@git commit -m "Made changes to have functions norm correct, hope it did not break anything, this is a BACKUP point, just before cylinder inter."
 	@printf "\e[1;34mCommit\n\e[0m"
 	@git push
 	@printf "\e[1;34mPushed\n\e[0m"

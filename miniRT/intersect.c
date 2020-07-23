@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 01:17:59 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 01:29:08 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ void	check_hit(t_ray **ray, t_obj_list **head)
 			}
 			i++;
 		}
-		// hit = (*g_f_array_int[i].function)(*ray, current->object);
-		// if (hit.t1 > (*ray)->hit.t1 && hit.check == 1)
-		// 	(*ray)->hit = hit;
-		// if return of temp < old distance, replace.
 		current = current->next;
 	}
 }
@@ -59,26 +55,24 @@ t_hit	inter_sph(t_ray *ray, t_object sphe)
 {
 	t_sph	sph;
 	t_vec3 	l;
-	float	t;
-	float	x;
-	float	y;
+	double txy[3];
 	t_hit	hit;
 
 	sph = sphe.sphere;
 	l = vectorSub(&sph.center, &ray->orig);
-	t = vectorDot(&l, &ray->norm_dir);
+	txy[0] = vectorDot(&l, &ray->norm_dir);
 	hit.check = 0;
 	hit.t1 = INFINITY;
 	hit.t2 = INFINITY;
 	hit.color = 0;
-	if (t < 0)
+	if (txy[0] < 0)
 		return (hit);
-	y = vectorDot(&l, &l) - (t * t);
-	if (y > (sph.diam * (sph.diam * 0.25)))
+	txy[2] = vectorDot(&l, &l) - (txy[0] * txy[0]);
+	if (txy[2] > (sph.diam * (sph.diam * 0.25)))
 		return (hit);
-	x = sqrt((sph.diam * (sph.diam * 0.25)) - y);
-	hit.t1 = t - x;
-	hit.t2 = t + x;
+	txy[1] = sqrt((sph.diam * (sph.diam * 0.25)) - txy[2]);
+	hit.t1 = txy[0] - txy[1];
+	hit.t2 = txy[0] + txy[1];
 	hit.color = sph.colors;
 	hit.check = 1;
 	return (hit);
@@ -121,11 +115,9 @@ t_vec3	t_plane_normal(t_tr *tr)
 	p[0] = tr->point1;
 	p[1] = tr->point2;
 	p[2] = tr->point3;
-
 	new[0].x = p[1].x - p[0].x; 
 	new[0].y = p[1].y - p[0].y; 
 	new[0].z = p[1].z - p[0].z; 
-
 	new[1].x = p[2].x - p[0].x;
 	new[1].y = p[2].y - p[0].y; 
 	new[1].z = p[2].z - p[0].z;
@@ -139,18 +131,14 @@ int		check_tr_in(t_vec3 p0, t_vec3 p1, t_vec3 *p_, t_vec3 *n)
 	t_vec3	p[2];
 	t_vec3	vp;
 	t_vec3	c;
-
 	p[0] = p0;
 	p[1] = p1;
-
 	edge.x = p[1].x - p[0].x;
 	edge.y = p[1].y - p[0].y;
 	edge.z = p[1].z - p[0].z;
-	
 	vp.x = p_->x - p[0].x;
 	vp.y = p_->y - p[0].y; 
  	vp.z = p_->z - p[0].z; 
-
 	c = crossproduct(&edge, &vp);
 	if (vectorDot(n, &c) < 0)
 		return (1);
@@ -159,33 +147,29 @@ int		check_tr_in(t_vec3 p0, t_vec3 p1, t_vec3 *p_, t_vec3 *n)
 
 t_hit	inter_triangle(t_ray *ray, t_object triangle)
 {
-	t_hit	hit;
-	t_tr	tr;
-	t_vec3	n_plane;
-	t_vec3	p;
-	double	n_dot_rd;
-	double	d;
-	double	t;
+	t_inter_tria_vals v;
 	
-	hit.t1 = INFINITY;
-	hit.check = 0;
-	tr = triangle.triangle;
-	n_plane = t_plane_normal(&tr);
-	n_dot_rd = vectorDot(&n_plane, &ray->norm_dir);
-	if (fabs(n_dot_rd) < 0.000001)
-		return (hit);
-	d = vectorDot(&n_plane, &tr.point1);
-	// t = -((vectorDot(&n_plane, &ray->orig) - d) / n_dot_rd);
-	t = (vectorDot(&n_plane, &ray->orig) + d) / n_dot_rd;
-	if (t < 0)
-		return (hit);
-	p = vec3(ray->orig.x + t * ray->norm_dir.x, ray->orig.y + t * ray->norm_dir.y, ray->orig.z + t * ray->norm_dir.z);
-	if (check_tr_in(tr.point1, tr.point2, &p, &n_plane) == 1 || check_tr_in(tr.point2, tr.point3, &p, &n_plane) == 1 	|| check_tr_in(tr.point3, tr.point1, &p, &n_plane) == 1)
-		return (hit);
-	hit.color = tr.colors;
-	hit.t1 = t;
-	hit.check = 1;
-	return (hit);
+	v.hit.t1 = INFINITY;
+	v.hit.check = 0;
+	v.tr = triangle.triangle;
+	v.n_plane = t_plane_normal(&v.tr);
+	v.n_dot_rd = vectorDot(&v.n_plane, &ray->norm_dir);
+	if (fabs(v.n_dot_rd) < 0.000001)
+		return (v.hit);
+	v.d = vectorDot(&v.n_plane, &v.tr.point1);
+	v.t = -((vectorDot(&v.n_plane, &ray->orig) - v.d) / v.n_dot_rd);
+	if (v.t < 0)
+		return (v.hit);
+	v.p = (t_vec3){ray->orig.x + v.t * ray->norm_dir.x, 
+	ray->orig.y + v.t * ray->norm_dir.y, ray->orig.z + v.t * ray->norm_dir.z};
+	if (check_tr_in(v.tr.point1, v.tr.point2, &v.p, &v.n_plane) == 1 ||
+	 check_tr_in(v.tr.point2, v.tr.point3, &v.p, &v.n_plane) == 1 	|| 
+	 check_tr_in(v.tr.point3, v.tr.point1, &v.p, &v.n_plane) == 1)
+		return (v.hit);
+	v.hit.color = v.tr.colors;
+	v.hit.t1 = v.t;
+	v.hit.check = 1;
+	return (v.hit);
 }
 
 

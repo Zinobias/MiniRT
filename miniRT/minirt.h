@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 00:10:42 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 01:29:24 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,16 @@ typedef		struct s_mat4
 	t_vec3			z;
 	t_vec3			l;
 }					t_mat4;
+
+typedef	struct	s_inter_tria_vals {
+	t_hit	hit;
+	t_tr	tr;
+	t_vec3	n_plane;
+	t_vec3	p;
+	double	n_dot_rd;
+	double	d;
+	double	t;
+}				t_inter_tria_vals;
 
 int					get_next_line(int fd, char **line);
 void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);

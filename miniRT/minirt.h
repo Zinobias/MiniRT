@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 19:22:31 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/23 22:38:09 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,9 @@ typedef	union	u_object
 typedef   t_object (*t_DataFunction)(char *str);
 
 typedef struct  s_f_data {
-	int			f_code;
-	char		*str;
-	t_DataFunction function;
+	int				f_code;
+	char			*str;
+	t_DataFunction 	function;
 }               t_f_data;
 
 typedef struct  s_obj_list {
@@ -266,7 +266,7 @@ t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
 t_vec3				crossproduct(t_vec3 *v1, t_vec3 *v2);
 // int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
 
-t_hit				inter_sph(t_ray *ray, t_object sphe);
+t_hit				inter_sph(t_ray *ray, t_object sphe); 
 void				check_hit(t_ray **ray, t_obj_list **head);
 
 t_vec3				setcam(t_vec3 from, t_img_list *dest);
@@ -280,4 +280,5 @@ t_hit				inter_square(t_ray *ray, t_object square);
 t_hit				inter_triangle(t_ray *ray, t_object triangle);
 t_hit				inter_square(t_ray *ray, t_object sq_);
 t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
+t_vec3				vector_x_d(t_vec3 *v1, double d);
 #endif

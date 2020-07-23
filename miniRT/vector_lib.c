@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/13 17:41:11 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/20 03:19:03 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/23 22:38:03 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ t_vec3	vector_multiply(t_vec3 *v1, t_vec3 *v2)
 	new.x = v1->x * v2->x;
 	new.y = v1->y * v2->y;
 	new.z = v1->z * v2->z;
+	return (new);
+}
+
+t_vec3	vector_x_d(t_vec3 *v1, double d)
+{
+	t_vec3	new;
+
+	new.x = v1->x * d;
+	new.y = v1->y * d;
+	new.z = v1->z * d;
 	return (new);
 }
 

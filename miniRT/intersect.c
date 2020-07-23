@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 19:51:26 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/23 22:40:05 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,35 +195,58 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	t_hit		hit;
 	t_sq		sq;
 	t_object	tr[2];
-	t_vec3		p[4];
+	// t_vec3		p[4];
 	double		sq_r;
 	t_mat4		rot;
 	sq = sq_.square;
 	sq_r = sq.side_size / 2;
 	hit.check = 0;
 	hit.t1 = INFINITY;
-	p[0] = vec3(sq.cords.x + sq_r, sq.cords.y + sq_r, sq.cords.z + sq_r);
-	p[1] = vec3((sq.cords.x + sq_r), -(sq.cords.y + sq_r), (sq.cords.z + sq_r));
-	p[2] = vec3(-(sq.cords.x + sq_r), sq.cords.y + sq_r, sq.cords.z + sq_r);
-	p[3] = vec3(sq.cords.x + sq_r, -(sq.cords.y + sq_r), (sq.cords.z + sq_r));
+	// p[0] = vec3(sq.cords.x + sq_r, sq.cords.y + sq_r, sq.cords.z + sq_r);
+	// p[1] = vec3((sq.cords.x + sq_r), -(sq.cords.y + sq_r), (sq.cords.z + sq_r));
+	// p[2] = vec3(-(sq.cords.x + sq_r), sq.cords.y + sq_r, sq.cords.z + sq_r);
+	// p[3] = vec3(sq.cords.x + sq_r, -(sq.cords.y + sq_r), (sq.cords.z + sq_r));
 	
 	rot = look_at(sq.cords, vectorPlus(&sq.cords, &sq.norm_vec));
-	p[0] = vec3_x_matrix(&p[0], &rot);
-	p[1] = vec3_x_matrix(&p[1], &rot);
-	p[2] = vec3_x_matrix(&p[2], &rot);
-	p[3] = vec3_x_matrix(&p[3], &rot);
+	rot.x = vector_x_d(&rot.x, sq_r);
+	rot.y = vector_x_d(&rot.y, sq_r); 
 
 
-	tr[0].triangle.point1 = p[0];
-	tr[0].triangle.point2 = p[1];
-	tr[0].triangle.point3 = p[3];
+	// p[0] = ;
+	// p[1] = ;
+	// p[2] =;
+	// p[3] = ;
+
+	// p[0] = vec3_x_matrix(&p[0], &rot);
+	// p[1] = vec3_x_matrix(&p[1], &rot);
+	// p[2] = vec3_x_matrix(&p[2], &rot);
+	// p[3] = vec3_x_matrix(&p[3], &rot);
+
+	t_vec3	temp;
+
+	temp = vectorSub(&sq.cords, &rot.y);
+	tr[0].triangle.point1 = vectorSub(&temp, &rot.x);
+	temp = vectorPlus(&sq.cords, &rot.y);
+	tr[0].triangle.point2 = vectorPlus(&temp, &rot.x);
+	temp = vectorSub(&sq.cords, &rot.y);
+	tr[0].triangle.point3 = vectorSub(&temp, &rot.x);
+	// tr[0].triangle.point1 = p[0];
+	// tr[0].triangle.point2 = p[1];
+	// tr[0].triangle.point3 = p[3];
+
 	tr[0].triangle.colors = sq.colors;
 	hit = inter_triangle(ray, tr[0]);
 	if (hit.check == 1)
 		return(hit);
-	tr[1].triangle.point1 = p[0];
-	tr[1].triangle.point2 = p[1];
-	tr[1].triangle.point3 = p[2];
+
+	// tr[1].triangle.point1 = p[0];
+	// tr[1].triangle.point2 = p[1];
+	// tr[1].triangle.point3 = p[2];
+	tr[1].triangle.point1 = tr[0].triangle.point1;
+	temp = vectorSub(&sq.cords, &rot.y);
+	tr[1].triangle.point2 = vectorPlus(&temp, &rot.x);
+	tr[1].triangle.point3 =  tr[0].triangle.point2;
+
 	tr[1].triangle.colors = sq.colors;
 	hit = inter_triangle(ray, tr[1]);
 	if (hit.check == 1)

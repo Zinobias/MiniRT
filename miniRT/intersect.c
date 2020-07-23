@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 22:51:50 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/24 00:02:50 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	tr[0].triangle.point1 = vectorSub(&temp, &rot.x);
 	temp = vectorPlus(&sq.cords, &rot.y);
 	tr[0].triangle.point2 = vectorPlus(&temp, &rot.x);
-	temp = vectorSub(&sq.cords, &rot.y);
+	temp = vectorPlus(&sq.cords, &rot.y);
 	tr[0].triangle.point3 = vectorSub(&temp, &rot.x);
 	// tr[0].triangle = (t_tr){temp, 245, 25};
 	// tr[0].triangle.point1 = p[0];

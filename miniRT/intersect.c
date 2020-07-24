@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 23:07:56 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/24 23:10:06 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,8 @@ t_hit		inter_cylinder(t_ray *ray, t_object obj)
 		if (bool[0] || bool[1])
 		{
 			hit.check = 1;
-			hit.color = cy.colors;
+			// hit.color = cy.colors;
+			hit.color = rgba(255,0,0,0);
 			hit.t1 = t;
 		}
 			// printf("HIT %lf\n", dist);
@@ -313,8 +314,6 @@ int		intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy)
 
 	dist = -(A * p0.x + B * p0.y + C * p0.z + D) /
 	(A * ray->norm_dir.x + B * ray->norm_dir.y + C * ray->norm_dir.z);
-	if (dist > epsilon)
-		printf("HIT %lf\n", dist);
 	if (dist < epsilon)
 		return (0);
 

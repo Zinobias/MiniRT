@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 23:10:06 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/24 23:17:30 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ t_hit		inter_cylinder(t_ray *ray, t_object obj)
 		bool[0] = intersect_cyl_base(ray, cy.cords, cy.cords, &dist, cy);
 		if (bool[0] == 1)
 			t = dist;
-		cent2 = vectorPlus(&cent2, &(t_vec3){0,0,cy.height});
+		cent2 = vector_multiply(&cent2, &(t_vec3){1,1,cy.height});
 		bool[1] = intersect_cyl_base(ray, cent2, cy.cords, &dist, cy);
 		if (bool[1] == 1 && dist > epsilon && t >= dist)
 			t = dist;

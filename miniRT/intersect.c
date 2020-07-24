@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 22:24:15 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/24 23:07:56 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,10 +234,10 @@ t_hit		inter_cylinder(t_ray *ray, t_object obj)
 	t_cy 	cy;
 	t_hit	hit;
 
+
 	cy = obj.cylinder;
 	hit = (t_hit){(t_vec3){0,0,0},0,INFINITY,INFINITY, 0};
 	p0 = vectorSub(&ray->orig, &cy.cords);
-
 	// coefficients for the inter equation
 	// mathematically intersecting the line equation with the cylinder equation
 	a = ray->norm_dir.x * ray->norm_dir.x + ray->norm_dir.z * ray->norm_dir.z;
@@ -264,17 +264,18 @@ t_hit		inter_cylinder(t_ray *ray, t_object obj)
 		bool[0] = intersect_cyl_base(ray, cy.cords, cy.cords, &dist, cy);
 		if (bool[0] == 1)
 			t = dist;
-		cent2 = vectorPlus(&cent2, &(t_vec3){1,1,cy.height});
+		cent2 = vectorPlus(&cent2, &(t_vec3){0,0,cy.height});
 		bool[1] = intersect_cyl_base(ray, cent2, cy.cords, &dist, cy);
 		if (bool[1] == 1 && dist > epsilon && t >= dist)
 			t = dist;
-		if ((bool[1] == 1 && dist > epsilon && t >= dist) || bool[0] == 1)
+		if (bool[0] || bool[1])
 		{
-			hit.check = 0;
+			hit.check = 1;
 			hit.color = cy.colors;
 			hit.t1 = t;
-			// printf("HIT %lf\n", t);
 		}
+			// printf("HIT %lf\n", dist);
+		
 		return (hit);
 	}
 	hit.color = cy.colors;
@@ -295,25 +296,33 @@ int		intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy)
 	double	D;
 	double	dist;
 	double	epsilon;
+	double	r;
+	r = cy.dia * 0.5;
 
+	dist = 0;
+	normal = normalize_cylinder(c, c2, cy);
 	epsilon = 0.00000001;
+	p0 = (t_vec3){ray->orig.x -c2.x, ray->orig.y - c2.y, ray->orig.z - c2.z};
 	A = normal.x;
 	B = normal.y;
 	C = normal.z;
 	D = (A*(c.x-c2.x) + B *(c.y - c2.y)+C * (c.z - c2.z));
-	p0 = (t_vec3){ray->orig.x-c.x, ray->orig.y-c.y, ray->orig.z-c.z};
-	normal = normalize_cylinder(c, c2, cy);
+
 	if (A * ray->norm_dir.x + B * ray->norm_dir.y + C * ray->dir.z == 0)
 		return (0);
+
 	dist = -(A * p0.x + B * p0.y + C * p0.z + D) /
-	(A * ray->norm_dir.x + B*ray->norm_dir.y + C * ray->norm_dir.z);
+	(A * ray->norm_dir.x + B * ray->norm_dir.y + C * ray->norm_dir.z);
+	if (dist > epsilon)
+		printf("HIT %lf\n", dist);
 	if (dist < epsilon)
 		return (0);
+
 	t_vec3 p;
 	p = (t_vec3){p0.x + dist * ray->norm_dir.x, 
 	p0.y + dist * ray->norm_dir.y,
 	p0.z + dist * ray->norm_dir.z};
-	if (p.x * p.x + p.z * p.z - (cy.dia * (cy.dia * 0.25)) > epsilon)
+	if (p.x * p.x + p.z * p.z - r * r > epsilon)
 		return (0);
 	*t = dist;
 	return (1);
@@ -332,16 +341,15 @@ t_vec3	normalize_cylinder(t_vec3 c, t_vec3 c2, t_cy cy)
 	r = cy.dia * 0.5;
 	h = cy.height;
 	epsilon =  0.00000001;
-	if (c.y < c2.x + r && c.x > c2.x - r && c.z < c2.z + r && c.z > c2.z - r)
+	if (c.x < c2.x + r && c.x > c2.x - r && c.z < c2.z + r && c.z > c2.z - r)
 	{
 		if (c.y < c2.y + h + epsilon && c.y > c2.y + h - epsilon)
 			return ((t_vec3){0,1,0});
-		if (c.y < c2.y - epsilon && c.y > c2.y - epsilon)
+		if (c.y < c2.y + epsilon && c.y > c2.y - epsilon)
 			return ((t_vec3){0,-1,0});
 	}
 	c0 = (t_vec3){c2.x, c.y, c2.z};
 	new = vectorSub(&c, &c0);
 	new = vec_normalize(&new);
-
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 01:31:56 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 14:04:33 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,14 +187,14 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	rot = (t_mat4){vector_x_d(&rot.x, sq.side_size * 0.5), 
 	vector_x_d(&rot.y, sq.side_size * 0.5),
 	rot.z, rot.l};
-	temp[0] = vectorSub(&sq.cords, &rot.y);
-	temp[1] = vectorPlus(&sq.cords, &rot.y);
+	temp[0] = vectorPlus(&sq.cords, &rot.y);
+	temp[1] = vectorSub(&sq.cords, &rot.y);
 	tr[0].triangle = (t_tr){vectorSub(&temp[0], &rot.x), 
 	vectorPlus(&temp[1], &rot.x), vectorSub(&temp[1], &rot.x), 
 	sq.colors};
 	hit[0] = inter_triangle(ray, tr[0]);
-	tr[1].triangle = (t_tr){tr[0].triangle.point1, vectorPlus(&temp[0],
-	 &rot.x), tr[0].triangle.point2, sq.colors};
+	tr[1].triangle = (t_tr){vectorPlus(&temp[0],
+	 &rot.x), tr[0].triangle.point1, tr[0].triangle.point2, sq.colors};
 	hit[1] = inter_triangle(ray, tr[1]);
 	hit[0] = hit[1].check == 1 ? hit[1] : hit[0];
 	return (hit[0]);

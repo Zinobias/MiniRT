@@ -6,18 +6,19 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 14:04:33 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 22:24:15 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_inter_data	g_f_array_int[4] =
+static t_inter_data	g_f_array_int[5] =
 {
 	{SPH, &inter_sph},
 	{PL, &inter_plane},
 	{TR, &inter_triangle},
-	{SQ, &inter_square}
+	{SQ, &inter_square},
+	{CY, &inter_cylinder}
 };
 
 // plane, sphere, cylinder, square
@@ -35,7 +36,7 @@ void	check_hit(t_ray **ray, t_obj_list **head)
 	while (current)
 	{
 		i = 0;
-		while (i < 4)
+		while (i < 5)
 		{
 			current_f = &g_f_array_int[i];
 			if (current_f->f_code == current->obj_type->f_code)
@@ -198,4 +199,149 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	hit[1] = inter_triangle(ray, tr[1]);
 	hit[0] = hit[1].check == 1 ? hit[1] : hit[0];
 	return (hit[0]);
+}
+
+
+//   Ogre::Vector3 AB = B - A;
+//   Ogre::Vector3 AO = start - A;
+//   Ogre::Vector3 AOxAB = AO.crossProduct(AB);
+//   Ogre::Vector3 VxAB  = dir.crossProduct(AB);
+//   double ab2 = AB.dotProduct(AB);
+//   double a = VxAB.dotProduct(VxAB);
+//   double b = 2 * VxAB.dotProduct(AOxAB);
+//   double c = AOxAB.dotProduct(AOxAB) - (r*r * ab2);
+//   double d = b * b - 4 * a * c;
+//   if (d < 0) return;
+//   double time = (-b - sqrt(d)) / (2 * a);
+//   if (time < 0) return;
+
+// https://github.com/spinatelli/raytracer/blob/master/Cylinder.cpp
+
+
+t_hit		inter_cylinder(t_ray *ray, t_object obj)
+{
+	t_vec3	p0;
+	double	a;
+	double	b;
+	double	c;
+	double	delta;
+	double	epsilon;
+	double	t;
+	double	y;
+	double	dist;
+	int		bool[2];
+	t_vec3 	cent2;
+	t_cy 	cy;
+	t_hit	hit;
+
+	cy = obj.cylinder;
+	hit = (t_hit){(t_vec3){0,0,0},0,INFINITY,INFINITY, 0};
+	p0 = vectorSub(&ray->orig, &cy.cords);
+
+	// coefficients for the inter equation
+	// mathematically intersecting the line equation with the cylinder equation
+	a = ray->norm_dir.x * ray->norm_dir.x + ray->norm_dir.z * ray->norm_dir.z;
+	b = ray->norm_dir.x * p0.x + ray->norm_dir.z * p0.z;
+	c = p0.x * p0.x + p0.z * p0.z - (cy.dia * (cy.dia * 0.25));
+	delta = b * b - a * c;
+	// epsilon because of computation errors between doubles
+	epsilon = 0.00000001;
+
+	// means no intersections, delta < 0
+	if (delta < epsilon)
+		return (hit);
+	// nearest intersection :
+	t = (-b - sqrt(delta)) / a;
+
+	// t <= 0 means target is behind the ray.orig
+	if (t <= epsilon)
+		return (hit);
+	y = p0.y + t * ray->norm_dir.y;
+
+	// check cylinder bases
+	if (y > cy.height + epsilon || y < -epsilon)
+	{
+		bool[0] = intersect_cyl_base(ray, cy.cords, cy.cords, &dist, cy);
+		if (bool[0] == 1)
+			t = dist;
+		cent2 = vectorPlus(&cent2, &(t_vec3){1,1,cy.height});
+		bool[1] = intersect_cyl_base(ray, cent2, cy.cords, &dist, cy);
+		if (bool[1] == 1 && dist > epsilon && t >= dist)
+			t = dist;
+		if ((bool[1] == 1 && dist > epsilon && t >= dist) || bool[0] == 1)
+		{
+			hit.check = 0;
+			hit.color = cy.colors;
+			hit.t1 = t;
+			// printf("HIT %lf\n", t);
+		}
+		return (hit);
+	}
+	hit.color = cy.colors;
+	hit.check = 1;
+	hit.t1 = t;
+	// printf("HIT %lf\n", t);
+	// printf("HIT\n");
+	return (hit);
+}
+
+int		intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy)
+{
+	t_vec3	normal;
+	t_vec3	p0;
+	double	A;
+	double	B;
+	double	C;
+	double	D;
+	double	dist;
+	double	epsilon;
+
+	epsilon = 0.00000001;
+	A = normal.x;
+	B = normal.y;
+	C = normal.z;
+	D = (A*(c.x-c2.x) + B *(c.y - c2.y)+C * (c.z - c2.z));
+	p0 = (t_vec3){ray->orig.x-c.x, ray->orig.y-c.y, ray->orig.z-c.z};
+	normal = normalize_cylinder(c, c2, cy);
+	if (A * ray->norm_dir.x + B * ray->norm_dir.y + C * ray->dir.z == 0)
+		return (0);
+	dist = -(A * p0.x + B * p0.y + C * p0.z + D) /
+	(A * ray->norm_dir.x + B*ray->norm_dir.y + C * ray->norm_dir.z);
+	if (dist < epsilon)
+		return (0);
+	t_vec3 p;
+	p = (t_vec3){p0.x + dist * ray->norm_dir.x, 
+	p0.y + dist * ray->norm_dir.y,
+	p0.z + dist * ray->norm_dir.z};
+	if (p.x * p.x + p.z * p.z - (cy.dia * (cy.dia * 0.25)) > epsilon)
+		return (0);
+	*t = dist;
+	return (1);
+}
+// calculate normal point on a surface
+// vertical vector int he base / vecotr
+// direction from axis to point
+// point is a base;
+t_vec3	normalize_cylinder(t_vec3 c, t_vec3 c2, t_cy cy)
+{
+	t_vec3	new;
+	double	epsilon;
+	double	r;
+	double	h;
+	t_vec3	c0;
+	r = cy.dia * 0.5;
+	h = cy.height;
+	epsilon =  0.00000001;
+	if (c.y < c2.x + r && c.x > c2.x - r && c.z < c2.z + r && c.z > c2.z - r)
+	{
+		if (c.y < c2.y + h + epsilon && c.y > c2.y + h - epsilon)
+			return ((t_vec3){0,1,0});
+		if (c.y < c2.y - epsilon && c.y > c2.y - epsilon)
+			return ((t_vec3){0,-1,0});
+	}
+	c0 = (t_vec3){c2.x, c.y, c2.z};
+	new = vectorSub(&c, &c0);
+	new = vec_normalize(&new);
+
+	return (new);
 }

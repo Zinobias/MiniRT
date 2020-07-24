@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/23 19:29:35 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 18:18:10 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,6 @@ void	rm_element(t_obj_list **list, int obj_code)
 		{
 			temp = current->next;
 			current = current->next->next;
-			// if (temp)
-				// free(temp);
 			break;
 		}
 		current = current->next;

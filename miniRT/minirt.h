@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 01:29:24 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 22:04:25 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ typedef struct	s_sph {
 typedef struct	s_hit {
 	t_vec3		hit_p;
 	int			color;
-	double		distance;
 	double		t1;
 	double		t2;
 	short		check;
@@ -274,11 +273,8 @@ t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
 t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
 t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
 t_vec3				crossproduct(t_vec3 *v1, t_vec3 *v2);
-// int					inter_sph(t_ray *ray, t_sph sph, t_img_list *dest);
-
 t_hit				inter_sph(t_ray *ray, t_object sphe); 
 void				check_hit(t_ray **ray, t_obj_list **head);
-
 t_vec3				setcam(t_vec3 from, t_img_list *dest);
 t_mat4				mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l);
 t_mat4				look_at(t_vec3 from, t_vec3 to);
@@ -291,4 +287,8 @@ t_hit				inter_triangle(t_ray *ray, t_object triangle);
 t_hit				inter_square(t_ray *ray, t_object sq_);
 t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
 t_vec3				vector_x_d(t_vec3 *v1, double d);
+t_hit		inter_cylinder(t_ray *ray, t_object obj);
+t_vec3	normalize_cylinder(t_vec3 c, t_vec3 c2, t_cy cy);
+
+int		intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy);
 #endif

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/24 22:04:25 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/25 03:58:45 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,10 @@ t_hit				inter_triangle(t_ray *ray, t_object triangle);
 t_hit				inter_square(t_ray *ray, t_object sq_);
 t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
 t_vec3				vector_x_d(t_vec3 *v1, double d);
-t_hit		inter_cylinder(t_ray *ray, t_object obj);
+t_hit				inter_cylinder(t_ray *ray, t_object obj);
+double				vec3_pow(t_vec3 *a);
+double				v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
+double				v_dot_p(t_vec3 *x, t_vec3 *y, t_vec3 *z);
 t_vec3	normalize_cylinder(t_vec3 c, t_vec3 c2, t_cy cy);
 
 int		intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy);

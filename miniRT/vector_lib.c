@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/13 17:41:11 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/25 03:58:39 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/25 15:39:15 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ double	v_dot_p(t_vec3 *x, t_vec3 *y, t_vec3 *z)
 {
 	double	res;
 	t_vec3	temp;
-
 	temp = vectorPlus(y, z);
 	res = vectorDot(x, &temp);
 	return (res);

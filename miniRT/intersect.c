@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/25 04:58:47 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/25 17:21:15 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,29 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	return (hit[0]);
 }
 
+
+void	quad_solve(double *res, t_hit *hit)
+{
+	double	disc;
+	
+	disc = (res[1] * res[1]) - 4.0 * res[0] * res[2];
+	if (disc < 0.0)
+		return ;
+	if (disc < 1e-6)
+	{
+		hit->t1 = -0.5 * res[1] / res[0];
+		hit->t2 = hit->t1;
+		
+	}
+	else
+	{
+		hit->t1 = (-res[1] + sqrt(disc)) / (2.0 * res[0]);
+		hit->t2 = (-res[1] - sqrt(disc)) / (2.0 * res[0]);
+	}
+	hit->check = 2;
+	return ;
+}
+
 t_hit	inter_cylinder(t_ray *ray, t_object obj)
 {
 	t_cy	cy;
@@ -210,7 +233,7 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 	double	res[3];
 	t_vec3	dist;
 	t_vec3	temp[2];
-	double	disc;
+	// double	disc;
 
 
 	cy = obj.cylinder;
@@ -222,40 +245,21 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 
 	temp[0] = vector_x_d(&cy.norm_vec, vectorDot(&ray->norm_dir, &cy.norm_vec));
 	base[0] = vectorSub(&ray->norm_dir, &temp[0]);
-
-
 	temp[1] = vector_x_d(&cy.norm_vec, vectorDot(&dist, &cy.norm_vec));
 	base[1] = vectorSub(&dist, &temp[1]);
-	// *res = (double){vec3_pow(&base[0]),
-	//  2 * vectorDot(&base[0], &base[1]),
-	//  vec3_pow(&base[1]) - ((cy.dia * 0.5) * (cy.dia * 0.5))};
-
 	res[0] = vec3_pow(&base[0]);
 	res[1] = 2 * vectorDot(&base[0], &base[1]);
 	res[2] = vec3_pow(&base[1]) - ((cy.dia * 0.5) * (cy.dia * 0.5));
-	temp[0] = vector_x_d(&cy.norm_vec, cy.height * 0.5);
+	// dia here was height
+	if (fabs(cy.norm_vec.z) == 1)
+		temp[0] = vector_x_d(&cy.norm_vec, cy.dia * 0.5);
+	else
+		temp[0] = vector_x_d(&cy.norm_vec, cy.height * 0.5);
+	
 	base[0] = vectorSub(&cy.cords, &temp[0]);
 	base[1] = vectorPlus(&cy.cords, &temp[0]);
-
-	// party begins
-	disc = (res[1] * res[1]) - 4 * res[0] * res[2];
-	if (disc < 0.)
-		return (hit);
-	if (disc > 1e-6)
-	{
-		hit.t1 = (-res[1] + sqrt(disc)) / (2.0 * res[0]);
-		hit.t2 = (-res[1] - sqrt(disc)) / (2.0 * res[0]);
-		hit.check = 1;
-		hit.color = cy.colors;
-	}
-	else
-	{
-		hit.t1 = -0.5 * res[1] / res[0];
-		hit.t2 = hit.t1;
-		hit.check = 1;
-		hit.color = cy.colors;
-	}
-	// it hits if it passes the above.
+	quad_solve(res, &hit);
+	
 	temp[0] = vector_x_d(&ray->norm_dir, hit.t1);
 	temp[1] = vectorPlus(&ray->orig, &temp[0]);
 	dotproduct[0] = v_dot_s(&cy.norm_vec, &temp[1], &base[0]),
@@ -265,31 +269,125 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 	dotproduct[2] = v_dot_s(&cy.norm_vec, &temp[1], &base[0]),
 	dotproduct[3] = v_dot_s(&cy.norm_vec, &temp[1], &base[1]);
 	double ret;
-
-	ret = 0;
-	
-	if (hit.t1 > 1e-6 && dotproduct[0] > 0. && dotproduct[1] < 0.)
+	// up to here same as peer
+	ret = -1;
+	if (hit.check == 2)
 	{
-		ret = hit.t1;
-		hit.check = 1;
-		hit.color = cy.colors;
+		if (hit.t1 > 1e-6 && dotproduct[0] > 0.0 && dotproduct[1] < 0.0)
+			ret = hit.t1;
+		if (hit.t2 > 1e-6 && dotproduct[2] > 0.0 && dotproduct[3] < 0.0)
+		{
+			if (ret != -1)
+				ret = fmin(hit.t1, hit.t2);
+			else
+				ret = hit.t2;
+		}
+		if (ret > 1e-6)
+		{
+			hit.color = cy.colors;
+			hit.t1 = ret;
+			hit.check = 1;
+		}
+		return (hit);
 	}
-	if (hit.t1 > 1e-6 && dotproduct[2] > 0. && dotproduct[3] < 0.)
-	{
-		if (ret != -1)
-			ret = fmin(hit.t1, hit.t2);
-		else
-			ret = hit.t2;
-		hit.check = 1;
-		hit.color = cy.colors;
-	}
-	if (ret > 1e-6)
-		hit.check = 1;
-	else
-		hit.check = 0;
+	hit.check = 0;
 	return (hit);
 }
 
+
+
+// t_hit	inter_cylinder(t_ray *ray, t_object obj)
+// {
+// 	t_cy	cy;
+// 	t_hit	hit;
+// 	t_vec3	base[2];
+// 	double	dotproduct[4];
+// 	double	res[3];
+// 	t_vec3	dist;
+// 	t_vec3	temp[3];
+// 	// double	disc;
+
+
+// 	cy = obj.cylinder;
+// 	if (cy.norm_vec.x == 0 && cy.norm_vec.y == 0 && cy.norm_vec.z == 0)
+// 		cy.norm_vec = (t_vec3){0,1,0};
+// 	hit = (t_hit){(t_vec3){0,0,0},rgba(0,0,0,0),INFINITY,INFINITY, 0};
+	
+// 	dist = vectorSub(&ray->orig, &cy.cords);
+
+// 	temp[0] = vector_x_d(&cy.norm_vec, vectorDot(&ray->norm_dir, &cy.norm_vec));
+// 	base[0] = vectorSub(&ray->norm_dir, &temp[0]);
+
+
+// 	temp[1] = vector_x_d(&cy.norm_vec, vectorDot(&dist, &cy.norm_vec));
+// 	base[1] = vectorSub(&dist, &temp[1]);
+// 	// *res = (double){vec3_pow(&base[0]),
+// 	//  2 * vectorDot(&base[0], &base[1]),
+// 	//  vec3_pow(&base[1]) - ((cy.dia * 0.5) * (cy.dia * 0.5))};
+
+// 	res[0] = vec3_pow(&base[0]);
+// 	res[1] = 2 * vectorDot(&base[0], &base[1]);
+// 	res[2] = vec3_pow(&base[1]) - ((cy.dia * 0.5) * (cy.dia * 0.5));
+// 	temp[0] = vector_x_d(&cy.norm_vec, cy.height * 0.5);
+// 	base[0] = vectorSub(&cy.cords, &temp[0]);
+// 	base[1] = vectorPlus(&cy.cords, &temp[0]);
+// 	quad_solve(res, &hit);
+	// party begins
+	// disc = (res[1] * res[1]) - 4 * res[0] * res[2];
+	// if (disc < 0.)
+	// 	return (hit);
+	// if (disc > 1e-6)
+	// {
+	// 	hit.t1 = (-res[1] + sqrt(disc)) / (2.0 * res[0]);
+	// 	hit.t2 = (-res[1] - sqrt(disc)) / (2.0 * res[0]);
+	// 	// hit.check = 1;
+	// 	// hit.color = cy.colors;
+	// }
+	// else
+	// {
+	// 	hit.t1 = -0.5 * res[1] / res[0];
+	// 	hit.t2 = hit.t1;
+	// 	// hit.check = 1;
+	// 	// hit.color = cy.colors;
+	// }
+// 	// it hits if it passes the above.
+// 	temp[0] = vector_x_d(&ray->norm_dir, hit.t1);
+// 	temp[1] = vectorPlus(&ray->orig, &temp[0]);
+// 	dotproduct[0] = v_dot_s(&cy.norm_vec, &temp[1], &base[0]),
+// 	dotproduct[1] = v_dot_s(&cy.norm_vec, &temp[1], &base[1]),
+
+
+// 	temp[0] = vector_x_d(&ray->norm_dir, hit.t2);
+// 	temp[1] = vectorPlus(&ray->orig, &temp[0]);
+// 	dotproduct[2] = v_dot_s(&cy.norm_vec, &temp[1], &base[0]),
+// 	dotproduct[3] = v_dot_s(&cy.norm_vec, &temp[1], &base[1]);
+// 	double ret;
+
+// 	ret = 0;
+	
+// 	if (hit.t1 > 1e-6 && dotproduct[0] > 0. && dotproduct[1] < 0.)
+// 	{
+// 		ret = hit.t1;
+// 		// hit.check = 1;
+// 		// hit.color = cy.colors;
+// 	}
+// 	if (hit.t1 > 1e-6 && dotproduct[2] > 0. && dotproduct[3] < 0.)
+// 	{
+// 		if (ret != -1)
+// 			ret = fmin(hit.t1, hit.t2);
+// 		else
+// 			ret = hit.t2;
+// 		// hit.check = 1;
+// 		// hit.color = cy.colors;
+// 	}
+// 	hit.color = cy.colors;
+// 	if (ret > 1e-6)
+// 		hit.check = 1;
+// 	else
+// 		hit.check = 0;
+// 	hit.t1 = ret;
+// 	return (hit);
+// }
 //   Ogre::Vector3 AB = B - A;
 //   Ogre::Vector3 AO = start - A;
 //   Ogre::Vector3 AOxAB = AO.crossProduct(AB);

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/25 17:31:05 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/25 17:31:39 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_object	get_res(char *line)
 			error(INVAL);
 		i++;
 	}
-	if (ret.x < 0 || ret.y < 0)
+	if (ret.x <= 0 || ret.y <= 0)
 		error(INVAL);
 	return ((t_object)ret);
 }

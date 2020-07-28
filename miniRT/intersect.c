@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/25 17:21:15 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/27 22:33:20 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,10 +251,7 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 	res[1] = 2 * vectorDot(&base[0], &base[1]);
 	res[2] = vec3_pow(&base[1]) - ((cy.dia * 0.5) * (cy.dia * 0.5));
 	// dia here was height
-	if (fabs(cy.norm_vec.z) == 1)
-		temp[0] = vector_x_d(&cy.norm_vec, cy.dia * 0.5);
-	else
-		temp[0] = vector_x_d(&cy.norm_vec, cy.height * 0.5);
+	temp[0] = vector_x_d(&cy.norm_vec, cy.height * 0.5);
 	
 	base[0] = vectorSub(&cy.cords, &temp[0]);
 	base[1] = vectorPlus(&cy.cords, &temp[0]);
@@ -270,24 +267,24 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 	dotproduct[3] = v_dot_s(&cy.norm_vec, &temp[1], &base[1]);
 	double ret;
 	// up to here same as peer
-	ret = -1;
+	ret = INFINITY;
 	if (hit.check == 2)
 	{
 		if (hit.t1 > 1e-6 && dotproduct[0] > 0.0 && dotproduct[1] < 0.0)
 			ret = hit.t1;
 		if (hit.t2 > 1e-6 && dotproduct[2] > 0.0 && dotproduct[3] < 0.0)
 		{
-			if (ret != -1)
+			if (ret != INFINITY)
 				ret = fmin(hit.t1, hit.t2);
 			else
 				ret = hit.t2;
 		}
 		if (ret > 1e-6)
-		{
-			hit.color = cy.colors;
 			hit.t1 = ret;
-			hit.check = 1;
-		}
+		// hit.t1 = hit.t1 > hit.t2 ? hit.t2 : hit.t1;
+		hit.t1 = ret;
+		hit.color = cy.colors;
+		hit.check = 1;
 		return (hit);
 	}
 	hit.check = 0;
@@ -332,24 +329,24 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 // 	base[0] = vectorSub(&cy.cords, &temp[0]);
 // 	base[1] = vectorPlus(&cy.cords, &temp[0]);
 // 	quad_solve(res, &hit);
-	// party begins
-	// disc = (res[1] * res[1]) - 4 * res[0] * res[2];
-	// if (disc < 0.)
-	// 	return (hit);
-	// if (disc > 1e-6)
-	// {
-	// 	hit.t1 = (-res[1] + sqrt(disc)) / (2.0 * res[0]);
-	// 	hit.t2 = (-res[1] - sqrt(disc)) / (2.0 * res[0]);
-	// 	// hit.check = 1;
-	// 	// hit.color = cy.colors;
-	// }
-	// else
-	// {
-	// 	hit.t1 = -0.5 * res[1] / res[0];
-	// 	hit.t2 = hit.t1;
-	// 	// hit.check = 1;
-	// 	// hit.color = cy.colors;
-	// }
+// 	party begins
+// 	disc = (res[1] * res[1]) - 4 * res[0] * res[2];
+// 	if (disc < 0.)
+// 		return (hit);
+// 	if (disc > 1e-6)
+// 	{
+// 		hit.t1 = (-res[1] + sqrt(disc)) / (2.0 * res[0]);
+// 		hit.t2 = (-res[1] - sqrt(disc)) / (2.0 * res[0]);
+// 		// hit.check = 1;
+// 		// hit.color = cy.colors;
+// 	}
+// 	else
+// 	{
+// 		hit.t1 = -0.5 * res[1] / res[0];
+// 		hit.t2 = hit.t1;
+// 		// hit.check = 1;
+// 		// hit.color = cy.colors;
+// 	}
 // 	// it hits if it passes the above.
 // 	temp[0] = vector_x_d(&ray->norm_dir, hit.t1);
 // 	temp[1] = vectorPlus(&ray->orig, &temp[0]);

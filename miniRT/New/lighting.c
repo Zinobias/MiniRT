@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 18:09:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 22:28:15 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/29 22:39:20 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 	// check if there are any obstacles
 	check_hit_l(ray, list, l);
 	if ((*ray)->hit.check == 0)
-		color = color_add(color, apply_light(*ray, mlx->l_head->t_light, temp, l));
+		color = color_add(color, apply_light(*ray, mlx->l_head->t_light, temp, dist));
 	color = (t_colors){fmin(color.r, 255), fmin(color.g, 255), fmin(color.b, 255)};
 	(*ray)->hit.color = rgba(color.r, color.g, color.b, 0);
 	// hitColor += vis * isect.hitObject->albedo * lightIntensity * std::max(0.f, hitNormal.dotProduct(-lightDir)); 

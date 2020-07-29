@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/05 19:17:32 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 05:27:38 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 22:05:32 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int			get_t(int trgb)
 
 int			get_r(int trgb)
 {
-	// return (trgb & 0xFF0000);
 	return ((trgb >> 16) & 255);
 }
 

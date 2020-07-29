@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 18:09:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 06:37:31 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 22:28:15 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 	hit_p = vector_x_d(&(*ray)->norm_dir, (*ray)->hit.t1);
 	hit_p = vectorPlus(&(*ray)->orig, &hit_p);
 	// add bias to hitpoint based on hit normal
-	bias = vector_x_d(&(*ray)->hit.hit_normal,  10 * 1e-6);
+	bias = vector_x_d(&(*ray)->hit.hit_normal, 10 * 1e-6);
 	hit_p = vectorPlus(&hit_p, &bias);
 
 	// calculate the distance between the light and the hit point

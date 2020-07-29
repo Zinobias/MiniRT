@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 06:35:52 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 22:29:39 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
     if (denom > 1e-6) 
 	{ 
         t = vectorDot(&l, &pl.norm_vec) / denom;
-		if (t >= 0)
+		if (t > 0)
 		{
 			hit.check = 1;
 			hit.t1 = t;
@@ -169,6 +169,7 @@ t_vec3	t_plane_normal(t_tr *tr)
 	new[1].y = p[2].y - p[0].y; 
 	new[1].z = p[2].z - p[0].z;
 	ret = crossproduct(&new[0], &new[1]);
+	ret = vec_normalize(&ret);
 	return (ret);
 }
 
@@ -220,7 +221,6 @@ t_hit	inter_triangle(t_ray *ray, t_object triangle)
 	return (v.hit);
 }
 
-
 t_hit	inter_square(t_ray *ray, t_object sq_)
 {
 	t_hit		hit[2];
@@ -244,6 +244,7 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	tr[1].triangle = (t_tr){vectorPlus(&temp[0],
 	 &rot.x), tr[0].triangle.point1, tr[0].triangle.point2, sq.colors};
 	hit[1] = inter_triangle(ray, tr[1]);
+	hit[1].hit_normal = hit[0].hit_normal;
 	return (hit[1].check == 1 ? hit[1] : hit[0]);
 }
 

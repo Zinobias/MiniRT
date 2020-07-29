@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 04:21:50 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 05:03:24 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,9 +265,6 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 		error(MALLOC);
 	y = 0;
 	mlx = *mlx_;
-	// t_colors test;
-	// test = get_c_struct((*mlx_)->l_head->t_light.colors);
-	// printf("%f, %f, %f, %d\n", test.r, test.g, test.b, get_t((*mlx_)->l_head->t_light.colors));
 	// calculating aspecct ratio, width / height.
 	// mlx->aspect_ratio = mlx->res.x > mlx->res.y ? mlx->res.x / mlx->res.y : mlx->res.y / mlx->res.x;
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;

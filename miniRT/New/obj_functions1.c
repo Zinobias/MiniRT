@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 04:52:30 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 05:02:59 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,6 @@ t_object	get_light(char *line)
 	check_vec3_range(f_ret.f_info, 0, 255);
 	light.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
 	i += f_ret.i;
-	t_colors test;
-	test = get_c_struct(light.colors);
-	printf("%f, %f, %f, %d\n", test.r, test.g, test.b, get_t(light.colors));
 	check_line_valid(line + i);
 	return ((t_object)light);
 }

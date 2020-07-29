@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 03:08:24 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 05:53:33 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	check_hit_l(t_ray **ray, t_obj_list **head, double l)
 	current = *head;
 	(*ray)->hit.color = 0;
 	(*ray)->hit.t1 = INFINITY;
+	(*ray)->hit.check = 0;
 	while (current)
 	{
 		i = 0;
@@ -144,8 +145,7 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 			hit.t1 = t;
 			hit.color = pl.colors;
 			// check normal
-			// hit.hit_normal = vector_x_d(&pl.norm_vec, -1);
-			hit.hit_normal = pl.norm_vec;
+			hit.hit_normal = vector_x_d(&pl.norm_vec, -1);
 			return (hit);
 		}
 	}

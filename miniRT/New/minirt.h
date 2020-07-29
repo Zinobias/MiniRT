@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 05:02:15 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 06:03:28 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,8 +300,8 @@ void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list);
 void				check_hit_l(t_ray **ray, t_obj_list **head, double l);
 int					intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy);
 t_colors			get_c_struct(int color);
-void				color_multiply(t_colors *c1, t_colors c2, double s);
-void				color_add(t_colors *c1, t_colors c2);
-t_colors			apply_light(t_ray *ray, t_light light);
+t_colors			color_multiply(t_colors c1, t_colors c2, double s);
+t_colors			color_add(t_colors c1, t_colors c2);
+t_colors			apply_light(t_ray *ray, t_light light, int temp, double l);
 double				vec3_pow(t_vec3 *v);
 #endif

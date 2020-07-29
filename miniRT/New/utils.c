@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 03:26:07 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 06:03:16 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,7 +394,7 @@ void	create_light_node(t_light_l	**target, t_light object)
 	return ;
 }
 
-t_colors	apply_light(t_ray *ray, t_light light)
+t_colors	apply_light(t_ray *ray, t_light light, int temp, double l)
 {
 	t_colors	new;
 	double		dotnormal;
@@ -404,8 +404,8 @@ t_colors	apply_light(t_ray *ray, t_light light)
 	dotnormal = vectorDot(&ray->hit.hit_normal, &ray->norm_dir);
 	if (dotnormal <= 1e-6)
 		return ((t_colors){0,0,0});
-	l_intensity = (light.brightness * dotnormal * 1000) / 4.0 * M_PI * vec3_pow(&ray->norm_dir);
-	new = get_c_struct(ray->hit.color);
-	color_multiply(&new , get_c_struct(light.colors), fmin(1.f, fmax(0.0, l_intensity)));
+	l_intensity = (light.brightness * dotnormal * l) / ( 4.0 * M_PI * vec3_pow(&ray->norm_dir));
+	new = get_c_struct(temp);
+	new = color_multiply(new , get_c_struct(light.colors), fmin(1.0, fmax(0.0, l_intensity)));
 	return (new);
 }

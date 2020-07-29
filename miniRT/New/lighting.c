@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 18:09:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 03:28:24 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 06:03:24 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 
 	// apply ambient lighting
 	color = get_c_struct((*ray)->hit.color);
-	color_multiply(&color, get_c_struct(mlx->ambient_light.colors), mlx->ambient_light.ratio);
-	// calculate hit position of object.	
-	hit_p = vector_x_d(&(*ray)->norm_dir, (*ray)->hit.t1 - 10);
+	color = color_multiply(color, get_c_struct(mlx->ambient_light.colors), mlx->ambient_light.ratio);
+	// calculate hit position of object.
+	hit_p = vector_x_d(&(*ray)->norm_dir, (*ray)->hit.t1);
 	hit_p = vectorPlus(&(*ray)->orig, &hit_p);
 	// add bias to hitpoint based on hit normal
 	bias = vector_x_d(&(*ray)->hit.hit_normal, 10 * 1e-6);
@@ -43,12 +43,13 @@ void	check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 	// potentially shoot norm dir from lightsource rather than from hitpoint
 	//  ray->normdir is now the vector towards the light source
 	l = sqrt(vectorDot(&dist, &dist));
-	
+	int temp;
+
+	temp = (*ray)->hit.color;
 	// check if there are any obstacles
 	check_hit_l(ray, list, l);
-
 	if ((*ray)->hit.check == 0)
-		color_add(&color, apply_light(*ray, mlx->l_head->t_light));
+		color = color_add(color, apply_light(*ray, mlx->l_head->t_light, temp, l));
 	color = (t_colors){fmin(color.r, 255), fmin(color.g, 255), fmin(color.b, 255)};
 	(*ray)->hit.color = rgba(color.r, color.g, color.b, 0);
 	// hitColor += vis * isect.hitObject->albedo * lightIntensity * std::max(0.f, hitNormal.dotProduct(-lightDir)); 

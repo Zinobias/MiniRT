@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 05:53:33 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/29 06:29:22 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,8 +244,7 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	tr[1].triangle = (t_tr){vectorPlus(&temp[0],
 	 &rot.x), tr[0].triangle.point1, tr[0].triangle.point2, sq.colors};
 	hit[1] = inter_triangle(ray, tr[1]);
-	hit[0] = hit[1].check == 1 ? hit[1] : hit[0];
-	return (hit[0]);
+	return (hit[1].check == 1 ? hit[1] : hit[0]);
 }
 
 

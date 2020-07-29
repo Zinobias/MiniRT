@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 06:30:55 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/24 18:18:10 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void	error(int code)
 		write(1, "ERROR\nGET_NEXT_LINE", 20);
 	if (code == MLX)
 		write(1, "ERROR\nMLX", 10);
-	if (code == INVAL_I)
-		write(1, "ERROR\nBAD INPUT", 16);
 	exit(1);
 }
 
@@ -301,6 +299,34 @@ t_vec3	setcam(t_vec3 from, t_img_list *dest)
 	return (new);
 }
 
+// t_mat4	look_at(t_vec3 from, t_vec3 to)
+// {
+// 	t_mat4	new;
+// 	t_vec3	forward;
+// 	t_vec3	right;
+// 	t_vec3	up;
+// 	t_vec3	temp;
+// 	t_vec3	norm;
+
+// 	norm = vectorSub(&to, &from);
+// 	norm = vec_normalize(&norm);
+// 	if (norm.x == 0.0 && norm.z == 0.0 && fabs(norm.y) == 1.0)
+// 	{
+// 		new.x = norm.y == 1.0 ? vec3(1.0,0.0,0.0) : vec3(0.0,0.0,1.0);
+// 		new.y = norm.y == 1.0 ? vec3(0.0,0.0,1.0) : vec3(1.0,0.0,0.0);
+// 		new.z = norm.y == 1.0 ? vec3(0.0,1.0,0.0) : vec3(0.0,-1.0,0.0);
+// 		return(new);
+// 	}
+// 	temp = vec3(0.0,1.0,0.0);
+// 	temp = vec_normalize(&temp);
+// 	forward = vectorSub(&from, &to);
+// 	forward = vec_normalize(&forward);
+// 	right = crossproduct(&temp, &forward);
+// 	up = crossproduct(&forward, &right);
+// 	new = mat4(right, up, forward, vec3(0,0,0));
+// 	return (new);
+// }
+
 t_mat4	look_at(t_vec3 from, t_vec3 to)
 {
 	t_mat4	new;
@@ -392,21 +418,4 @@ void	create_light_node(t_light_l	**target, t_light object)
 	current->next->t_light = object;
 	current->next->next = NULL;
 	return ;
-}
-
-t_colors	apply_light(t_ray *ray, t_light light, int temp, double l)
-{
-	t_colors	new;
-	double		dotnormal;
-	double		l_intensity;
-
-	// ray->hit.hit_normal = vec_normalize(&ray->hit.hit_normal);
-	dotnormal = vectorDot(&ray->hit.hit_normal, &ray->norm_dir);
-	if (dotnormal <= 1e-6)
-		return ((t_colors){0,0,0});
-	// l was ALBEDO
-	l_intensity = (light.brightness * dotnormal * l) / ( 4.0 * M_PI * vec3_pow(&ray->norm_dir));
-	new = get_c_struct(temp);
-	new = color_multiply(new , get_c_struct(light.colors), fmin(1.0, fmax(0.0, l_intensity)));
-	return (new);
 }

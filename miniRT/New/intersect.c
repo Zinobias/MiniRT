@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 22:29:39 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/31 18:14:13 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	check_hit_l(t_ray **ray, t_obj_list **head, double l)
 	t_inter_data	*current_f;
 
 	current = *head;
-	(*ray)->hit.color = 0;
 	(*ray)->hit.t1 = INFINITY;
 	(*ray)->hit.check = 0;
 	while (current)

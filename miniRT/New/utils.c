@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 22:39:28 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/07/31 18:18:48 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,24 +393,3 @@ void	create_light_node(t_light_l	**target, t_light object)
 	current->next->next = NULL;
 	return ;
 }
-
-t_colors	apply_light(t_ray *ray, t_light light, int temp, t_vec3 dist)
-{
-	t_colors	new;
-	double		dotnormal;
-	double		l_intensity;
-	double		r2;
-
-	// ray->hit.hit_normal = vec_normalize(&ray->hit.hit_normal);
-	dotnormal = vectorDot(&ray->hit.hit_normal, &ray->norm_dir);
-	if (dotnormal <= 1e-6)
-		return ((t_colors){0,0,0});
-	// l was ALBEDO
-	r2 = vec3_pow(&dist);
-	l_intensity = (light.brightness * dotnormal * 1000) / ( 4.0 * M_PI * r2);
-	new = get_c_struct(temp);
-	new = color_multiply(new , get_c_struct(light.colors), fmin(1.0, fmax(0.0, l_intensity)));
-	return (new);
-}
-
-// https://www.scratchapixel.com/code.php?id=13&origin=/lessons/3d-basic-rendering/introduction-to-shading

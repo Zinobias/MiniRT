@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 18:18:26 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/31 18:58:05 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,4 +303,6 @@ t_colors			get_c_struct(int color);
 t_colors			color_multiply(t_colors c1, t_colors c2, double s);
 t_colors			color_add(t_colors c1, t_colors c2);
 double				vec3_pow(t_vec3 *v);
+
+double	v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
 #endif

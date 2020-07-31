@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/13 17:41:11 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 03:07:07 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/31 18:58:01 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,14 @@ t_mat4	mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l)
 double	vec3_pow(t_vec3 *v)
 {
 	return (pow(v->x, 2) + pow(v->y, 2) + pow(v->z, 2));
+}
+
+double	v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z)
+{
+	double	res;
+	t_vec3	temp;
+
+	temp = vectorSub(y, z);
+	res = vectorDot(x, &temp);
+	return (res);
 }

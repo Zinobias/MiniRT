@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 18:09:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 18:19:19 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/07/31 20:19:38 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 static t_vec3	get_hit_point(t_ray **ray)
 {
 	t_vec3	hit_p;
-	t_vec3	bias;
+	// t_vec3	bias;
 
-	hit_p = vector_x_d(&(*ray)->norm_dir, (*ray)->hit.t1);
+	hit_p = vector_x_d(&(*ray)->norm_dir, (*ray)->hit.t1 - 10 * 1e-6);
 	hit_p = vectorPlus(&(*ray)->orig, &hit_p);
 	// add bias to hitpoint based on hit normal
-	bias = vector_x_d(&(*ray)->hit.hit_normal, 10 * 1e-6);
-	hit_p = vectorPlus(&hit_p, &bias);
+	// bias = vector_x_d(&(*ray)->hit.hit_normal, - 10 * 1e-6);
+	// hit_p = vectorPlus(&hit_p, &bias);
 	return (hit_p);
 }
 

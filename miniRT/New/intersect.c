@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 20:25:19 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 01:26:54 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,158 +247,6 @@ t_hit	inter_square(t_ray *ray, t_object sq_)
 	return (hit[1].check == 1 ? hit[1] : hit[0]);
 }
 
-
-//   Ogre::Vector3 AB = B - A;
-//   Ogre::Vector3 AO = start - A;
-//   Ogre::Vector3 AOxAB = AO.crossProduct(AB);
-//   Ogre::Vector3 VxAB  = dir.crossProduct(AB);
-//   double ab2 = AB.dotProduct(AB);
-//   double a = VxAB.dotProduct(VxAB);
-//   double b = 2 * VxAB.dotProduct(AOxAB);
-//   double c = AOxAB.dotProduct(AOxAB) - (r*r * ab2);
-//   double d = b * b - 4 * a * c;
-//   if (d < 0) return;
-//   double time = (-b - sqrt(d)) / (2 * a);
-//   if (time < 0) return;
-
-// https://github.com/spinatelli/raytracer/blob/master/Cylinder.cpp
-
-
-// t_hit		inter_cylinder(t_ray *ray, t_object obj)
-// {
-// 	t_vec3	p0;
-// 	double	a;
-// 	double	b;
-// 	double	c;
-// 	double	delta;
-// 	double	epsilon;
-// 	double	t;
-// 	double	y;
-// 	double	dist;
-// 	int		bool[2];
-// 	t_vec3 	cent2;
-// 	t_cy 	cy;
-// 	t_hit	hit;
-
-
-// 	cy = obj.cylinder;
-// 	hit = (t_hit){(t_vec3){0,0,0},0,INFINITY,INFINITY, 0, (t_vec3){0,0,0}};
-// 	p0 = vectorSub(&ray->orig, &cy.cords);
-// 	// coefficients for the inter equation
-// 	// mathematically intersecting the line equation with the cylinder equation
-// 	a = ray->norm_dir.x * ray->norm_dir.x + ray->norm_dir.z * ray->norm_dir.z;
-// 	b = ray->norm_dir.x * p0.x + ray->norm_dir.z * p0.z;
-// 	c = p0.x * p0.x + p0.z * p0.z - (cy.dia * (cy.dia * 0.25));
-// 	delta = b * b - a * c;
-// 	// epsilon because of computation errors between doubles
-// 	epsilon = 0.00000001;
-
-// 	// means no intersections, delta < 0
-// 	if (delta < epsilon)
-// 		return (hit);
-// 	// nearest intersection :
-// 	t = (-b - sqrt(delta)) / a;
-
-// 	// t <= 0 means target is behind the ray.orig
-// 	if (t <= epsilon)
-// 		return (hit);
-// 	y = p0.y + t * ray->norm_dir.y;
-
-// 	// check cylinder bases
-// 	if (y > cy.height + epsilon || y < -epsilon)
-// 	{
-// 		bool[0] = intersect_cyl_base(ray, cy.cords, cy.cords, &dist, cy);
-// 		if (bool[0] == 1)
-// 			t = dist;
-// 		cent2 = vector_multiply(&cent2, &(t_vec3){1,1,cy.height});
-// 		bool[1] = intersect_cyl_base(ray, cent2, cy.cords, &dist, cy);
-// 		if (bool[1] == 1 && dist > epsilon && t >= dist)
-// 			t = dist;
-// 		if (bool[0] || bool[1])
-// 		{
-// 			hit.check = 1;
-// 			// hit.color = cy.colors;
-// 			hit.color = rgba(255,0,0,0);
-// 			hit.t1 = t;
-// 		}
-// 			// printf("HIT %lf\n", dist);
-		
-// 		return (hit);
-// 	}
-// 	hit.color = cy.colors;
-// 	hit.check = 1;
-// 	hit.t1 = t;
-// 	// printf("HIT %lf\n", t);
-// 	// printf("HIT\n");
-// 	return (hit);
-// }
-
-// int		intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy)
-// {
-// 	t_vec3	normal;
-// 	t_vec3	p0;
-// 	double	A;
-// 	double	B;
-// 	double	C;
-// 	double	D;
-// 	double	dist;
-// 	double	epsilon;
-// 	double	r;
-// 	r = cy.dia * 0.5;
-
-// 	dist = 0;
-// 	normal = normalize_cylinder(c, c2, cy);
-// 	epsilon = 0.00000001;
-// 	p0 = (t_vec3){ray->orig.x -c2.x, ray->orig.y - c2.y, ray->orig.z - c2.z};
-// 	A = normal.x;
-// 	B = normal.y;
-// 	C = normal.z;
-// 	D = (A*(c.x-c2.x) + B *(c.y - c2.y)+C * (c.z - c2.z));
-
-// 	if (A * ray->norm_dir.x + B * ray->norm_dir.y + C * ray->dir.z == 0)
-// 		return (0);
-
-// 	dist = -(A * p0.x + B * p0.y + C * p0.z + D) /
-// 	(A * ray->norm_dir.x + B * ray->norm_dir.y + C * ray->norm_dir.z);
-// 	if (dist < epsilon)
-// 		return (0);
-
-// 	t_vec3 p;
-// 	p = (t_vec3){p0.x + dist * ray->norm_dir.x, 
-// 	p0.y + dist * ray->norm_dir.y,
-// 	p0.z + dist * ray->norm_dir.z};
-// 	if (p.x * p.x + p.z * p.z - r * r > epsilon)
-// 		return (0);
-// 	*t = dist;
-// 	return (1);
-// }
-// // calculate normal point on a surface
-// // vertical vector int he base / vecotr
-// // direction from axis to point
-// // point is a base;
-// t_vec3	normalize_cylinder(t_vec3 c, t_vec3 c2, t_cy cy)
-// {
-// 	t_vec3	new;
-// 	double	epsilon;
-// 	double	r;
-// 	double	h;
-// 	t_vec3	c0;
-// 	r = cy.dia * 0.5;
-// 	h = cy.height;
-// 	epsilon =  0.00000001;
-// 	if (c.x < c2.x + r && c.x > c2.x - r && c.z < c2.z + r && c.z > c2.z - r)
-// 	{
-// 		if (c.y < c2.y + h + epsilon && c.y > c2.y + h - epsilon)
-// 			return ((t_vec3){0,1,0});
-// 		if (c.y < c2.y + epsilon && c.y > c2.y - epsilon)
-// 			return ((t_vec3){0,-1,0});
-// 	}
-// 	c0 = (t_vec3){c2.x, c.y, c2.z};
-// 	new = vectorSub(&c, &c0);
-// 	new = vec_normalize(&new);
-// 	return (new);
-// }
-
 void	quad_solve(double *res, t_hit *hit)
 {
 	double	disc;
@@ -430,17 +278,84 @@ void	quad_solve(double *res, t_hit *hit)
 	return ;
 }
 
+static t_vec3	get_cy_normal(t_ray *ray, t_cy cy)
+{
+	t_vec3	ret[3];
+
+	ret[0] = vector_x_d(&ray->norm_dir, -1.0);
+	ret[1] = vectorPlus(&ray->orig, &ret[0]);
+	ret[2] = vectorSub(&ret[1], &cy.cords);
+	ret[2] = vec_normalize(&ret[2]);
+	return (ret[0]);
+}
+
+
+static void	get_cy_vals(t_cy_vals *v, t_ray *ray, t_cy cy, t_vec3 dist)
+{
+	t_vec3	temp[3];
+
+	temp[0] = vector_x_d(&cy.norm_vec, vectorDot(&ray->norm_dir, &cy.norm_vec));
+	v->base[0] = vectorSub(&ray->norm_dir, &temp[0]);
+	temp[1] = vector_x_d(&cy.norm_vec, vectorDot(&dist, &cy.norm_vec));
+	v->base[1] = vectorSub(&dist, &temp[1]);
+	v->abc[0] = vec3_pow(&v->base[0]);
+	v->abc[1] = 2.0 * vectorDot(&v->base[0], &v->base[1]);
+	v->abc[2] = vec3_pow(&v->base[1]) - pow(cy.dia / 2, 2);
+	temp[0] = vector_x_d(&cy.norm_vec, cy.height / 2);
+	v->base[0] = vectorSub(&cy.cords, &temp[0]);
+	v->base[1] = vectorPlus(&cy.cords, &temp[0]);
+}
+
+static void	get_dotproducts_cy(t_ray *ray, t_cy_vals *v, t_cy cy, t_hit hit)
+{
+	t_vec3	temp[3];
+
+	temp[0] = vector_x_d(&ray->norm_dir, hit.t1);
+	temp[1] = vectorPlus(&ray->orig, &temp[0]);
+	temp[2] = vectorSub(&temp[1], &v->base[0]);
+	v->dotproduct[0] = vectorDot(&cy.norm_vec, &temp[2]);
+	temp[2] = vectorSub(&temp[1], &v->base[1]);
+	v->dotproduct[1] = vectorDot(&cy.norm_vec, &temp[2]);
+	temp[0] = vector_x_d(&ray->norm_dir, hit.t2);
+	temp[1] = vectorPlus(&ray->orig, &temp[0]);
+	temp[2] = vectorSub(&temp[1], &v->base[0]);
+	v->dotproduct[2] = vectorDot(&cy.norm_vec, &temp[2]);
+	temp[2] = vectorSub(&temp[1], &v->base[1]);
+	v->dotproduct[3] = vectorDot(&cy.norm_vec, &temp[2]);
+}
+
+static	void	cy_check_hit(t_cy_vals v, t_hit *hit, t_cy cy, t_ray *ray)
+{
+	v.ret = INFINITY;
+	if (hit->check == 2)
+	{
+		if (hit->t1 > 1e-6 && v.dotproduct[0] > 0.0 && v.dotproduct[1] < 0.0)
+			v.ret = hit->t1;
+		if (hit->t2 > 1e-6 && v.dotproduct[2] > 0.0 && v.dotproduct[3] < 0.0)
+		{
+			if (v.ret != INFINITY)
+				v.ret = fmin(hit->t1, hit->t2);
+			else
+				v.ret = hit->t2;
+		}
+		if (v.ret > 1e-6)
+		{
+			hit->t1 = v.ret;
+			hit->color = cy.colors;
+			hit->check = 1;
+			hit->hit_normal = get_cy_normal(ray, cy);;
+		}
+		else
+			hit->check = 0;
+	}
+}
+
 t_hit	inter_cylinder(t_ray *ray, t_object obj)
 {
-	t_cy	cy;
-	t_hit	hit;
-	t_vec3	base[2];
-	double	dotproduct[4];
-	double	res[3];
-	t_vec3	dist;
-	t_vec3	temp[4];
-	// double	disc;
-
+	t_cy		cy;
+	t_hit		hit;
+	t_vec3		dist;
+	t_cy_vals	vals;
 
 	cy = obj.cylinder;
 	if (vec3_pow(&cy.norm_vec) != 0)
@@ -448,77 +363,11 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 	if (cy.norm_vec.x == 0 && cy.norm_vec.y == 0 && cy.norm_vec.z == 0)
 		cy.norm_vec = (t_vec3){0,1,0};
 	hit = (t_hit){(t_vec3){0,0,0},rgba(0,0,0,0),INFINITY,INFINITY, 0, (t_vec3){0,0,0}};
-	
 	dist = vectorSub(&ray->orig, &cy.cords);
-
-	// temp[0] = vector_x_d(&cy.norm_vec, vectorDot(&ray->norm_dir, &cy.norm_vec));
-	// base[0] = vectorSub(&ray->norm_dir, &temp[0]);
-
-	// temp[1] = vector_x_d(&cy.norm_vec, vectorDot(&dist, &cy.norm_vec));
-	// base[1] = vectorSub(&dist, &temp[1]);
-	// res[0] = vec3_pow(&base[0]);
-	// res[1] = 2 * vectorDot(&base[0], &base[1]);
-	// res[2] = vec3_pow(&base[1]) - ((cy.dia * 0.5) * (cy.dia * 0.5));
-	// // dia here was height
-	// temp[0] = vector_x_d(&cy.norm_vec, cy.height * 0.5);
-	
-	// base[0] = vectorSub(&cy.cords, &temp[0]);
-	// base[1] = vectorPlus(&cy.cords, &temp[0]);
-
-	temp[0] = vector_x_d(&cy.norm_vec, vectorDot(&ray->norm_dir, &cy.norm_vec));
-	base[0] = vectorSub(&ray->norm_dir, &temp[0]);
-	temp[1] = vector_x_d(&cy.norm_vec, vectorDot(&dist, &cy.norm_vec));
-	base[1] = vectorSub(&dist, &temp[1]);
-	res[0] = vec3_pow(&base[0]);
-	res[1] = 2.0 * vectorDot(&base[0], &base[1]);
-	res[2] = vec3_pow(&base[1]) - pow(cy.dia / 2, 2);
-	temp[0] = vector_x_d(&cy.norm_vec, cy.height / 2);
-	base[0] = vectorSub(&cy.cords, &temp[0]);
-	base[1] = vectorPlus(&cy.cords, &temp[0]);
-	quad_solve(res, &hit);
-	
-	temp[0] = vector_x_d(&ray->norm_dir, hit.t1);
-	temp[1] = vectorPlus(&ray->orig, &temp[0]);
-	temp[2] = vectorSub(&temp[1], &base[0]);
-	dotproduct[0] = vectorDot(&cy.norm_vec, &temp[2]);
-	temp[2] = vectorSub(&temp[1], &base[1]);
-	dotproduct[1] = vectorDot(&cy.norm_vec, &temp[2]);
-	temp[0] = vector_x_d(&ray->norm_dir, hit.t2);
-	temp[1] = vectorPlus(&ray->orig, &temp[0]);
-	temp[2] = vectorSub(&temp[1], &base[0]);
-	dotproduct[2] = vectorDot(&cy.norm_vec, &temp[2]);
-	temp[2] = vectorSub(&temp[1], &base[1]);
-	dotproduct[3] = vectorDot(&cy.norm_vec, &temp[2]);
-
-	double ret;
-	// up to here same as peer
-	ret = INFINITY;
-	if (hit.check == 2)
-	{
-		if (hit.t1 > 1e-6 && dotproduct[0] > 0.0 && dotproduct[1] < 0.0)
-			ret = hit.t1;
-		if (hit.t2 > 1e-6 && dotproduct[2] > 0.0 && dotproduct[3] < 0.0)
-		{
-			if (ret != INFINITY)
-				ret = fmin(hit.t1, hit.t2);
-			else
-				ret = hit.t2;
-		}
-		if (ret > 1e-6)
-		{
-			hit.t1 = ret;
-			hit.color = cy.colors;
-			hit.check = 1;
-			t_vec3	a[3];
-			a[0] = vector_x_d(&ray->norm_dir, -1.0);
-			a[1] = vectorPlus(&ray->orig, &a[0]);
-			a[2] = vectorSub(&a[1], &cy.cords);
-			a[2] = vec_normalize(&a[2]);
-			hit.hit_normal = a[2];
-		}
-		return (hit);
-	}
-	hit.check = 0;
+	get_cy_vals(&vals, ray, cy, dist);
+	quad_solve(vals.abc, &hit);
+	get_dotproducts_cy(ray, &vals, cy, hit);
+	cy_check_hit(vals, &hit, cy, ray);
 	return (hit);
 }
 

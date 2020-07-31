@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 18:58:05 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 01:16:39 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,15 @@ typedef	struct	s_inter_tria_vals {
 	double	t;
 }				t_inter_tria_vals;
 
+typedef struct	s_cy_vals {
+	t_vec3		base[2];
+	t_vec3		dist;
+	double		dotproduct[4];
+	double		abc[3];
+	double		ret;
+
+}				t_cy_vals;
+
 int					get_next_line(int fd, char **line);
 void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);
 void				error(int);
@@ -303,6 +312,5 @@ t_colors			get_c_struct(int color);
 t_colors			color_multiply(t_colors c1, t_colors c2, double s);
 t_colors			color_add(t_colors c1, t_colors c2);
 double				vec3_pow(t_vec3 *v);
-
-double	v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
+double				v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
 #endif

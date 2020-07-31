@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 01:26:54 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 01:29:42 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,10 +290,12 @@ static t_vec3	get_cy_normal(t_ray *ray, t_cy cy)
 }
 
 
-static void	get_cy_vals(t_cy_vals *v, t_ray *ray, t_cy cy, t_vec3 dist)
+static void	get_cy_vals(t_cy_vals *v, t_ray *ray, t_cy cy)
 {
 	t_vec3	temp[3];
+	t_vec3	dist;
 
+	dist = vectorSub(&ray->orig, &cy.cords);
 	temp[0] = vector_x_d(&cy.norm_vec, vectorDot(&ray->norm_dir, &cy.norm_vec));
 	v->base[0] = vectorSub(&ray->norm_dir, &temp[0]);
 	temp[1] = vector_x_d(&cy.norm_vec, vectorDot(&dist, &cy.norm_vec));
@@ -354,7 +356,6 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 {
 	t_cy		cy;
 	t_hit		hit;
-	t_vec3		dist;
 	t_cy_vals	vals;
 
 	cy = obj.cylinder;
@@ -363,8 +364,7 @@ t_hit	inter_cylinder(t_ray *ray, t_object obj)
 	if (cy.norm_vec.x == 0 && cy.norm_vec.y == 0 && cy.norm_vec.z == 0)
 		cy.norm_vec = (t_vec3){0,1,0};
 	hit = (t_hit){(t_vec3){0,0,0},rgba(0,0,0,0),INFINITY,INFINITY, 0, (t_vec3){0,0,0}};
-	dist = vectorSub(&ray->orig, &cy.cords);
-	get_cy_vals(&vals, ray, cy, dist);
+	get_cy_vals(&vals, ray, cy);
 	quad_solve(vals.abc, &hit);
 	get_dotproducts_cy(ray, &vals, cy, hit);
 	cy_check_hit(vals, &hit, cy, ray);

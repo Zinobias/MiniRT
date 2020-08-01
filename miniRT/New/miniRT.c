@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 12:37:32 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 13:05:24 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,51 +199,64 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 		error(MLX);
 	return ;
 }
+static	void	get_ray_nd(t_ray **ray, t_img_list *dest, double xx, double yy)
+{
+		(*ray)->dir = (t_vec3){xx, yy, -1};
+			// normalizing ray_dir
+		(*ray)->norm_dir = vec_normalize(&(*ray)->dir);
+		(*ray)->norm_dir = setcam((*ray)->norm_dir, dest);
+		(*ray)->norm_dir = vec_normalize(&(*ray)->norm_dir);
+}
+
+static void		ray_cast(t_ray **ray_, t_data **mlx_data, t_img_list *dest, t_obj_list **head)
+{
+	t_data	*mlx;
+	t_ray	*ray;
+	int		xy[2];
+	double	i_xy[2];
+
+	mlx = *mlx_data;
+	ray = *ray_;
+	xy[1] = 0;
+	while (xy[1] < mlx->res.y)
+	{
+		i_xy[1] = ((1 - 2 * ((xy[1] + 0.5) / (mlx->res.y))) * ray->angle);
+		xy[0] = 0;
+		// calculating height image plane
+		while (xy[0] < mlx->res.x)
+		{
+			ray->orig = dest->cam_vals.view_p;
+			i_xy[0] = ((2 * ((xy[0] + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
+			// calculating width image plane
+			get_ray_nd(&ray, dest, i_xy[0], i_xy[1]);
+			// ray dir
+			// // normalizing ray_dir
+			check_hit(&ray, head);
+			if (ray->hit.check == 1)
+				check_light(&ray, mlx, head);
+			my_mlx_pixel_put(dest, mlx, xy[0], xy[1], ray->hit.color);
+			xy[0]++;
+		}
+		xy[1]++;
+	}
+}
 
 void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 {
 	t_data 	*mlx;
 	t_ray	*ray;
-	
-	int		y;
-	int		x;
+	int		xy[2];
 
 	ray = (t_ray*)malloc(1 * sizeof(t_ray));
 	if (!ray)
 		error(MALLOC);
-	y = 0;
+	xy[1] = 0;
 	mlx = *mlx_;
 	// calculating aspecct ratio, width / height.
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
 	// calculating right angle fov
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
-	double xx;
-	double yy;
-	while (y < mlx->res.y)
-	{
-		x = 0;
-		// calculating height image plane
-		yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
-		while (x < mlx->res.x)
-		{
-			ray->orig = dest->cam_vals.view_p;
-			// calculating width image plane
-			xx = ((2 * ((x + 0.5) / (mlx->res.x)) - 1) * ray->angle * mlx->aspect_ratio);
-			// ray dir
-			ray->dir = (t_vec3){xx, yy, -1};
-			// normalizing ray_dir
-			ray->norm_dir = vec_normalize(&ray->dir);
-			ray->norm_dir = setcam(ray->norm_dir, dest);
-			ray->norm_dir = vec_normalize(&ray->norm_dir);
-			check_hit(&ray, head);
-			if (ray->hit.check == 1)
-				check_light(&ray, mlx, head);
-			my_mlx_pixel_put(dest, mlx, x, y, ray->hit.color);
-			x++;
-		}
-		y++;
-	}
-	printf(" A : %lf\n", ray->angle);
+	ray_cast(&ray, mlx_, dest, head);
 	if (ray)
 		free(ray);
 	return ;

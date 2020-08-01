@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   colors.c                                           :+:    :+:            */
+/*   quad_solve.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/05 19:17:32 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 16:32:55 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/08/01 16:28:03 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/08/01 21:35:00 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int			rgba(int r, int g, int b, int t)
+void	quad_solve(double *res, t_hit *hit)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
-}
+	double	disc;
+	float	q;
 
-int			get_t(int trgb)
-{
-	return ((trgb >> 24) & 255);
-}
-
-int			get_r(int trgb)
-{
-	return ((trgb >> 16) & 255);
-}
-
-int			get_g(int trgb)
-{
-	return ((trgb >> 8) & 255);
-}
-
-int			get_b(int trgb)
-{
-	return (trgb & 255);
+	disc = (res[1] * res[1]) - 4.0 * res[0] * res[2];
+	if (disc < 0.0)
+	{
+		hit->check = INFINITY;
+		return ;
+	}
+	else if (disc == 0.)
+	{
+		hit->t1 = -0.5 * res[1] / res[0];
+		hit->t2 = hit->t1;
+	}
+	else
+	{
+		q = (res[1] > 0) ? -0.5 * (res[1] + sqrt(disc)) :
+		-0.5 * (res[1] - sqrt(disc));
+		hit->t1 = q / res[0];
+		hit->t2 = res[2] / q;
+	}
+	hit->check = 2;
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 13:53:40 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 22:23:32 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct  s_vec3 {
 }               t_vec3;
 
 typedef	struct	s_colors {
-	double			r;
+	double		r;
 	double		g;
 	double		b;
 }				t_colors;
@@ -245,78 +245,88 @@ typedef struct	s_cy_vals {
 
 }				t_cy_vals;
 
-int					get_next_line(int fd, char **line);
-void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);
-void				error(int);
-t_vec3				vec3(double x, double y, double z);
-t_vec2				vec2(int x, int y);
-int					rgba(int r, int g, int b, int t);
-int					get_t(int trgb);
-int					get_r(int trgb);
-int					get_g(int trgb);
-int					get_b(int trgb);
-t_d_ret				get_double(char *line);
-t_i_ret				get_int(char *line);
-t_f3_ret			get_fields(char *line);
-t_atod_ret			ft_atod(char *str);
-void				line_handler(char *line, t_obj_list **obj);
-void           		my_mlx_pixel_put(t_img_list *img_l, t_data *data, int x, int y, int color);
-t_f_data			*line_to_data(char *line);
-void				make_head(t_obj_list **head);
-t_object			get_res(char *line);
-t_object			get_amb(char *line);
-t_object			get_cam(char *line);
-t_object			get_light(char *line);
-t_object			get_plane(char *line);
-t_object			get_sphere(char *line);
-t_object			get_square(char *line);
-t_object			get_cylinder(char *line);
-t_object			get_triangle(char *line);
-void				check_line_valid(char *line);
-void				check_vec3_range(t_vec3 data, double min, double max);
-t_obj_list			*parser(int fd);
-int					key_input(int keycode, t_data *mlx);
-int					close_win_x(t_data *mlx);
-void				l_get_A(t_data **mlx_data, t_obj_list **list);
-void				l_get_R(t_data **mlx_data, t_obj_list **list);
-void				rm_element(t_obj_list **list, int obj_code);
-void 				create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals);
-void 				cam_head(t_data **mlx_data, t_cam vals);
-void 				mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
-void				mlx_hooks_(t_data **mlx_);
-void				render_(t_data **mlx_, t_obj_list **head, t_img_list *dest);
-t_vec3				vec_normalize(t_vec3 *vec3);
-void				raytracer_(t_obj_list *list, int argc);
-double 				vectorDot(t_vec3 *v1, t_vec3 *v2);
-t_vec3 				vectorSub(t_vec3 *v1, t_vec3 *v2);
-t_vec3 				vectorPlus(t_vec3 *v1, t_vec3 *v2);
-t_vec3				vector_multiply(t_vec3 *v1, t_vec3 *v2);
-t_vec3				crossproduct(t_vec3 *v1, t_vec3 *v2);
-t_hit				inter_sph(t_ray *ray, t_object sphe); 
-void				check_hit(t_ray **ray, t_obj_list **head);
-t_vec3				setcam(t_vec3 from, t_img_list *dest);
-t_mat4				mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l);
-t_mat4				look_at(t_vec3 from, t_vec3 to);
-void				mlx_get_lights(t_data **mlx, t_obj_list **list);
-void				create_light_node(t_light_l	**target, t_light object);
-void				create_light_head(t_data **target, t_light object);
-t_hit				inter_plane(t_ray *ray, t_object plane);
-t_hit				inter_square(t_ray *ray, t_object square);
-t_hit				inter_triangle(t_ray *ray, t_object triangle);
-t_hit				inter_square(t_ray *ray, t_object sq_);
-t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
-t_vec3				vector_x_d(t_vec3 *v1, double d);
-t_hit				inter_cylinder(t_ray *ray, t_object obj);
-t_vec3				normalize_cylinder(t_vec3 c, t_vec3 c2, t_cy cy);
-void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list);
-void				check_hit_l(t_ray **ray, t_obj_list **head, double l);
-int					intersect_cyl_base(t_ray *ray, t_vec3 c, t_vec3 c2, double *t, t_cy cy);
-t_colors			get_c_struct(int color);
-t_colors			color_multiply(t_colors c1, t_colors c2, double s);
-t_colors			color_add(t_colors c1, t_colors c2);
-double				vec3_pow(t_vec3 *v);
-double				v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
-void				save_img(t_data *mlx);
-void				cam_next(t_data *mlx);
-void				cam_back(t_data *mlx);
+typedef	struct s_light_hit_info
+{
+	t_obj_list		*current;
+	int				i;
+	t_hit			hit;
+	t_inter_data	*current_f;
+}				t_light_hit_info;
+
+int			get_next_line(int fd, char **line);
+t_atod_ret	ft_atod(char *str);
+t_colors	get_c_struct(int color);
+t_colors	color_multiply(t_colors c1, t_colors c2, double s);
+t_colors	color_add(t_colors c1, t_colors c2);
+int			get_b(int trgb);
+int			get_g(int trgb);
+int			get_r(int trgb);
+int			get_t(int trgb);
+int			rgba(int r, int g, int b, int t);
+t_colors	get_pixel(t_data *mlx, int x, int y);
+int			key_input(int keycode, t_data *mlx);
+int			close_win_x(t_data *mlx);
+void		cam_next(t_data *mlx);
+void		cam_back(t_data *mlx);
+void		mlx_hooks_(t_data **mlx_);
+void		cam_head(t_data **mlx_data, t_cam vals);
+void		create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals);
+void		mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l);
+void		link_cam_list(t_data **mlx_);
+t_hit		inter_cylinder(t_ray *ray, t_object obj);
+t_hit		inter_plane(t_ray *ray, t_object plane);
+t_hit		inter_sph(t_ray *ray, t_object sphe);
+t_hit		inter_square(t_ray *ray, t_object sq_);
+t_hit		inter_triangle(t_ray *ray, t_object triangle);
+void		check_hit(t_ray **ray, t_obj_list **head);
+void		check_hit_l(t_ray **ray, t_obj_list **head, double l);
+void		check_light(t_ray **ray, t_data *mlx, t_obj_list **list);
+void		mlx_get_lights(t_data **mlx_, t_obj_list **list);
+void		create_light_head(t_data **target, t_light object);
+void		create_light_node(t_light_l	**target, t_light object);
+void		make_head(t_obj_list **head);
+void		rm_element(t_obj_list **list, int obj_code);
+t_mat4		look_at(t_vec3 from, t_vec3 to);
+void		save_img(t_data *mlx);
+void		mlx_start(t_data **mlx_data, t_obj_list **list);
+void		mlx_load_cams(t_data **mlx_data, t_obj_list **head);
+t_object	get_res(char *line);
+t_object	get_amb(char *line);
+t_object	get_cam(char *line);
+t_object	get_light(char *line);
+t_object	get_plane(char *line);
+t_object	get_sphere(char *line);
+t_object	get_square(char *line);
+t_object	get_cylinder(char *line);
+t_object	get_triangle(char *line);
+t_f_data	*line_to_data(char *line);
+void		obj_add(t_f_data *obj_data, t_obj_list **head, char *line);
+void		line_handler(char *line, t_obj_list **head);
+t_f3_ret	get_fields(char *line);
+t_d_ret		get_double(char *line);
+t_i_ret		get_int(char *line);
+t_obj_list	*parser(int fd);
+void		quad_solve(double *res, t_hit *hit);
+void		render_(t_data **mlx_, t_obj_list **head, t_img_list *dest);
+void		raytracer_(t_obj_list *list, int argc);
+void		my_mlx_pixel_put(t_img_list *img_l, t_data *mlx,
+				int *xy, int color);
+void		check_line_valid(char *line);
+void		error(int code);
+void		l_get_a(t_data **mlx_data, t_obj_list **list);
+void		l_get_r(t_data **mlx_data, t_obj_list **list);
+t_vec3		setcam(t_vec3 from, t_img_list *dest);
+t_vec3		vec_normalize(t_vec3 *vec3_);
+t_vec3		vector_sub(t_vec3 *v1, t_vec3 *v2);
+double		vector_dot(t_vec3 *v1, t_vec3 *v2);
+t_vec3		vector_plus(t_vec3 *v1, t_vec3 *v2);
+t_vec3		vector_multiply(t_vec3 *v1, t_vec3 *v2);
+t_vec3		vector_x_d(t_vec3 *v1, double d);
+t_vec3		crossproduct(t_vec3 *v1, t_vec3 *v2);
+t_mat4		mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l);
+double		vec3_pow(t_vec3 *v);
+double		v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
+t_vec3		vec3(double x, double y, double z);
+void		check_vec3_range(t_vec3 data, double min, double max);
+t_vec3		vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
 #endif

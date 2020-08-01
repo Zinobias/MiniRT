@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/13 17:41:11 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 18:58:01 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 21:50:36 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,33 @@
 t_vec3	vec_normalize(t_vec3 *vec3_)
 {
 	t_vec3	temp;
-	double length;
+	double	length;
 
-	length = sqrt(vec3_->x * vec3_->x + vec3_->y * vec3_->y + vec3_->z * vec3_->z);
+	length = sqrt(vec3_->x * vec3_->x + vec3_->y
+		* vec3_->y + vec3_->z * vec3_->z);
 	temp.x = vec3_->x / length;
 	temp.y = vec3_->y / length;
 	temp.z = vec3_->z / length;
-	return(temp);
+	return (temp);
 }
 
-t_vec3 vectorSub(t_vec3 *v1, t_vec3 *v2)
+t_vec3	vector_sub(t_vec3 *v1, t_vec3 *v2)
 {
 	return (vec3(v1->x - v2->x, v1->y - v2->y, v1->z - v2->z));
 }
 
-double vectorDot(t_vec3 *v1, t_vec3 *v2)
+double	vector_dot(t_vec3 *v1, t_vec3 *v2)
 {
 	return (v1->x * v2->x + v1->y * v2->y + v1->z * v2->z);
 }
 
-t_vec3 vectorPlus(t_vec3 *v1, t_vec3 *v2)
+t_vec3	vector_plus(t_vec3 *v1, t_vec3 *v2)
 {
 	t_vec3	res;
 
-	res.x = v1->x + v2->x; 
+	res.x = v1->x + v2->x;
 	res.y = v1->y + v2->y;
-	res.z =	v1->z + v2->z;
+	res.z = v1->z + v2->z;
 	return (res);
 }
 
@@ -52,50 +53,4 @@ t_vec3	vector_multiply(t_vec3 *v1, t_vec3 *v2)
 	new.y = v1->y * v2->y;
 	new.z = v1->z * v2->z;
 	return (new);
-}
-
-t_vec3	vector_x_d(t_vec3 *v1, double d)
-{
-	t_vec3	new;
-
-	new.x = v1->x * d;
-	new.y = v1->y * d;
-	new.z = v1->z * d;
-	return (new);
-}
-
-t_vec3	crossproduct(t_vec3 *v1, t_vec3 *v2)
-{	
-	t_vec3	new;
-
-	new.x = v1->y * v2->z - v1->z * v2->y;
-	new.y = v1->z * v2->x - v1->x * v2->z;
-	new.z = v1->x * v2->y - v1->y * v2->x;
-	return (new);
-}
-
-t_mat4	mat4(t_vec3 x, t_vec3 y, t_vec3 z, t_vec3 l)
-{
-	t_mat4 new;
-
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	new.l = l;
-	return(new);
-}
-
-double	vec3_pow(t_vec3 *v)
-{
-	return (pow(v->x, 2) + pow(v->y, 2) + pow(v->z, 2));
-}
-
-double	v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z)
-{
-	double	res;
-	t_vec3	temp;
-
-	temp = vectorSub(y, z);
-	res = vectorDot(x, &temp);
-	return (res);
 }

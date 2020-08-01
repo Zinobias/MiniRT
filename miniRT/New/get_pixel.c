@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   colors.c                                           :+:    :+:            */
+/*   get_pixel.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/05 19:17:32 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 16:32:55 by zgargasc      ########   odam.nl         */
+/*   Created: 2020/08/01 17:56:06 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/08/01 21:08:06 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int			rgba(int r, int g, int b, int t)
+t_colors	get_pixel(t_data *mlx, int x, int y)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
-}
+	unsigned		i;
+	unsigned int	color;
+	t_colors		col;
 
-int			get_t(int trgb)
-{
-	return ((trgb >> 24) & 255);
-}
-
-int			get_r(int trgb)
-{
-	return ((trgb >> 16) & 255);
-}
-
-int			get_g(int trgb)
-{
-	return ((trgb >> 8) & 255);
-}
-
-int			get_b(int trgb)
-{
-	return (trgb & 255);
+	i = y * mlx->line_l + x * (mlx->bits_p_p / 8);
+	color = *(unsigned int*)(mlx->img_l->addr + i);
+	col = get_c_struct(color);
+	return (col);
 }

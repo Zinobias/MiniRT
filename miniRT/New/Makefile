@@ -1,9 +1,13 @@
 
 NAME := miniRT
 
-SRC := atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c \
-utils.c GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c \
-intersect.c vector_lib.c lighting.c
+SRC := GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c \
+atod.c color_structs.c colors.c get_pixel.c hooks.c img_list.c intersect.c \
+intersect_cylinder.c intersect_plane.c intersect_sphere.c intersect_square.c \
+intersect_triangle.c lighting.c lights_list.c make_bmp.c minirt.c mlx_start.c \
+obj_functions1.c object_functions2.c parser.c parser_utils.c parser_utils2.c \
+quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
+look_at.c list_utils.c
 
 MLX_PATH := ./mlx/
 
@@ -19,10 +23,16 @@ OBJ := $(SRC:.c=.o)
 
 test:
 	@printf "\e[1;34mMaking test\n\e[0m"
-	@gcc -Wall -Werror -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ -Lmlx -framework OpenGL -framework AppKit -g -o MiniRT atod.c miniRT.c obj_functions1.c parser_utils.c colors.c parser.c intersect.c vector_lib.c \
-	 utils.c GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c lighting.c ./libmlx.dylib
+	@gcc -Wall -Werror -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ -Lmlx -framework OpenGL -framework AppKit -g -o MiniRT GNL/get_next_line_bonus.c \
+	GNL/get_next_line_utils_bonus.c \
+	atod.c color_structs.c colors.c get_pixel.c hooks.c img_list.c intersect.c \
+	intersect_cylinder.c intersect_plane.c intersect_sphere.c intersect_square.c \
+	intersect_triangle.c lighting.c lights_list.c make_bmp.c minirt.c mlx_start.c \
+	obj_functions1.c object_functions2.c parser.c parser_utils.c parser_utils2.c \
+	quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
+	look_at.c list_utils.c
 	@./minirt scene.rt
-	
+
 testc:
 	@printf "\e[1;34mMaking clean\n\e[0m"
 	@$(RM) -f ./minirt

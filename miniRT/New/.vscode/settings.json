@@ -10,6 +10,8 @@
 		"memory": "c",
 		"tuple": "c",
 		"utility": "c",
-		"iterator": "c"
+		"iterator": "c",
+		"mactypes.h": "c",
+		"nssystemdirectories.h": "c"
 	}
 }

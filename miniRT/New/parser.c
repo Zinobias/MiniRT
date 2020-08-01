@@ -6,20 +6,18 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:44:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/28 20:36:48 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/01 12:36:20 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_obj_list	*parser(char *scene_f)
+t_obj_list	*parser(int fd)
 {
 	int			ret;
 	char		*line;
-	int			fd;
 	t_obj_list	*head;
 
-	fd = open(scene_f, O_RDONLY);
 	ret = 3;
 	make_head(&head);
 	while (ret != 0)
@@ -37,6 +35,5 @@ t_obj_list	*parser(char *scene_f)
 		if (line)
 			free(line);
 	}
-	close(fd);
 	return (head);
 }

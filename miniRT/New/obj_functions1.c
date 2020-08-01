@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 20:23:05 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 12:30:20 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_object	get_res(char *line)
 	t_res	ret;
 	t_i_ret	int_ret;
 	int		i;
-	
+
 	i = 1;
 	int_ret = get_int(line + i);
 	ret.x = (int)int_ret.val;

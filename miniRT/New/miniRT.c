@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 03:32:58 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 12:37:32 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ void	check_string(char *s)
 	int					i;
 	static const char 	*example = "--save";
 	
-	
 	i = 0;
 	while (i < 7)
 	{
@@ -161,12 +160,18 @@ void	check_string(char *s)
 int		main(int argc, char **argv)
 {
 	t_obj_list *list;
+	int			fd;
 
 	if (argc != 2 && argc != 3)
 		error(INVAL_I);
 	if (argc == 3)
 		check_string(argv[2]);
-	list = parser(argv[1]);
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+		error(OPEN_CLOSE_WRITE);
+	list = parser(fd);
+	if (close(fd) == -1)
+		error(OPEN_CLOSE_WRITE);
 	raytracer_(list, argc);
 	exit(0);
 	return (0);
@@ -279,9 +284,12 @@ void	raytracer_(t_obj_list *list, int argc)
 	mlx_load_cams(&mlx, &list);
 	if (argc == 3)
 		save_img(mlx);
-	// (void)argc;
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
-	mlx_hooks_(&mlx);
+	else
+	{
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
+		mlx_hooks_(&mlx);
+	}
+	
 	return ;
 }
 

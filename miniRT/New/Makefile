@@ -1,12 +1,13 @@
 
-NAME := miniRT
+NAME := minirt
 
 SRC := GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c \
-atod.c color_structs.c colors.c get_pixel.c hooks.c img_list.c intersect.c \
-intersect_cylinder.c intersect_plane.c intersect_sphere.c intersect_square.c \
-intersect_triangle.c lighting.c lights_list.c make_bmp.c minirt.c mlx_start.c \
-obj_functions1.c object_functions2.c parser.c parser_utils.c parser_utils2.c \
-quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
+atod.c color_structs.c colors.c get_pixel.c hooks.c img_list.c ./inter_objects/intersect.c \
+./inter_objects/intersect_cylinder.c ./inter_objects/intersect_plane.c \
+./inter_objects/intersect_sphere.c ./inter_objects/intersect_square.c \
+./inter_objects/intersect_triangle.c lighting.c lights_list.c make_bmp.c \
+minirt.c mlx_start.c obj_functions1.c object_functions2.c parser.c parser_utils.c \
+ parser_utils2.c quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
 look_at.c list_utils.c libmlx.dylib
 
 MLX_PATH := ./mlx/
@@ -23,12 +24,15 @@ OBJ := $(SRC:.c=.o)
 
 test:
 	@printf "\e[1;34mMaking test\n\e[0m"
-	@gcc -Wall -Werror -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ -Lmlx -framework OpenGL -framework AppKit -g -o MiniRT GNL/get_next_line_bonus.c \
+	@gcc -Wall -Werror -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ \
+	-Lmlx -framework OpenGL -framework AppKit -g -o MiniRT \
+	GNL/get_next_line_bonus.c \
 	GNL/get_next_line_utils_bonus.c libmlx.dylib \
 	atod.c color_structs.c colors.c get_pixel.c hooks.c img_list.c intersect.c \
-	intersect_cylinder.c intersect_plane.c intersect_sphere.c intersect_square.c \
-	intersect_triangle.c lighting.c lights_list.c make_bmp.c minirt.c mlx_start.c \
-	obj_functions1.c object_functions2.c parser.c parser_utils.c parser_utils2.c \
+	intersect_cylinder.c intersect_plane.c intersect_sphere.c \
+	intersect_square.c intersect_triangle.c lighting.c lights_list.c \
+	make_bmp.c minirt.c mlx_start.c obj_functions1.c object_functions2.c \
+	parser.c parser_utils.c parser_utils2.c \
 	quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
 	look_at.c list_utils.c
 	@./minirt scene.rt

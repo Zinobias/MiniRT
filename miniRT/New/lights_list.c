@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:53:59 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 22:29:44 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/02 00:41:30 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
 
 	current = *list;
 	mlx = *mlx_;
-	while(current)
+	while (current)
 	{
 		if (current->obj_type->f_code == LIGHT)
 		{
@@ -29,7 +29,7 @@ void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
 				create_light_head(&mlx, current->object.light);
 				current_l = mlx->l_head;
 			}
-			else 
+			else
 			{
 				while (current_l->next)
 					current_l = current_l->next;
@@ -44,17 +44,17 @@ void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
 void	create_light_head(t_data **target, t_light object)
 {
 	t_data		*current;
-	
+
 	current = *target;
 	current->l_head = (t_light_l*)malloc(sizeof(t_light_l));
 	if (!current->l_head)
 		error(MALLOC);
-	current->l_head->t_light = object;
+	current->l_head->light = object;
 	current->l_head->next = NULL;
 	return ;
 }
 
-void	create_light_node(t_light_l	**target, t_light object)
+void	create_light_node(t_light_l **target, t_light object)
 {
 	t_light_l	*current;
 
@@ -62,7 +62,7 @@ void	create_light_node(t_light_l	**target, t_light object)
 	current->next = (t_light_l*)malloc(sizeof(t_light_l));
 	if (!current->next)
 		error(MALLOC);
-	current->next->t_light = object;
+	current->next->light = object;
 	current->next->next = NULL;
 	return ;
 }

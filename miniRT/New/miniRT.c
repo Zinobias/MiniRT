@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 13:05:24 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 13:54:15 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,25 @@ void	mlx_load_cams(t_data **mlx_data, t_obj_list **head)
 	return ;
 }
 
+void	link_cam_list(t_data **mlx_)
+{
+	t_img_list	*current;
+	t_img_list	*temp;
+	t_data		*mlx;
+
+	mlx = *mlx_;
+	current = mlx->img_l;
+	if (!(current->next))
+		return ;
+	while (current->next)
+	{
+		temp = current;
+		current = current->next;
+		current->back = temp;
+	}
+	mlx->img_tail = current;
+}
+
 void	raytracer_(t_obj_list *list, int argc)
 {
 	t_data	*mlx;
@@ -299,10 +318,10 @@ void	raytracer_(t_obj_list *list, int argc)
 		save_img(mlx);
 	else
 	{
+		link_cam_list(&mlx);
 		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
 		mlx_hooks_(&mlx);
 	}
-	
 	return ;
 }
 

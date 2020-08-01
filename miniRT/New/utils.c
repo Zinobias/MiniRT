@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 12:32:54 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 13:56:58 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,16 @@ void	error(int code)
 	exit(1);
 }
 
-int	close_window_esc(int keycode, t_data *mlx)
+int	key_input(int keycode, t_data *mlx)
 {
 	t_img_list	*temp;
 	t_img_list	*current;
 
 	current = mlx->img_l;
+	if (keycode == 123)
+		cam_next(mlx);
+	if (keycode == 124)
+		cam_back(mlx);
 	if (keycode == 53)
 	{
 		while (current)
@@ -271,12 +275,34 @@ void mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 	}
 }
 
+void	cam_next(t_data *mlx)
+{
+	if(mlx->current_cam->next)
+		mlx->current_cam = mlx->current_cam->next;
+	else
+		mlx->current_cam = mlx->img_l;
+	mlx_clear_window(mlx->mlx, mlx->win);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->current_cam->img, 0, 0);
+}
+
+void	cam_back(t_data *mlx)
+{
+	if (mlx->current_cam->back)
+		mlx->current_cam = mlx->current_cam->back;
+	else
+		mlx->current_cam = mlx->img_tail;
+	mlx_clear_window(mlx->mlx, mlx->win);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->current_cam->img, 0, 0);
+}
+
 void	mlx_hooks_(t_data **mlx_)
 {
 	t_data *mlx;
 
 	mlx = *mlx_;
-	mlx_key_hook(mlx->win, close_window_esc, mlx);
+	// change_cam(mlx_);
+	mlx->current_cam = mlx->img_l;
+	mlx_key_hook(mlx->win, key_input, mlx);
 	mlx_hook(mlx->win, 17, 0, close_win_x, mlx);
 	mlx_loop(mlx->mlx);
 	return ;

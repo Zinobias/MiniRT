@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 12:37:19 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 13:53:40 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,8 @@ typedef struct  s_data {
     int         bits_p_p;
     int         line_l;
     int         endian;
+	t_img_list	*current_cam;
+	t_img_list	*img_tail;
 	t_img_list 	*img_l;
 	t_light_l	*l_head;
 }               t_data;
@@ -273,7 +275,7 @@ t_object			get_triangle(char *line);
 void				check_line_valid(char *line);
 void				check_vec3_range(t_vec3 data, double min, double max);
 t_obj_list			*parser(int fd);
-int					close_window_esc(int keycode, t_data *mlx);
+int					key_input(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);
 void				l_get_A(t_data **mlx_data, t_obj_list **list);
 void				l_get_R(t_data **mlx_data, t_obj_list **list);
@@ -315,4 +317,6 @@ t_colors			color_add(t_colors c1, t_colors c2);
 double				vec3_pow(t_vec3 *v);
 double				v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
 void				save_img(t_data *mlx);
+void				cam_next(t_data *mlx);
+void				cam_back(t_data *mlx);
 #endif

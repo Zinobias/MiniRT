@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 01:16:39 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 04:10:43 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ INVAL = 1,
 MALLOC = 2,
 GNL = 3,
 MLX = 4,
-INVAL_I
+INVAL_I = 5,
+OPEN_CLOSE_WRITE = 6,
 }				t_error;
 
 typedef	enum	e_f_code {
@@ -247,7 +248,7 @@ void				obj_add(t_f_data *ojb_data, t_obj_list **list, char *line);
 void				error(int);
 t_vec3				vec3(double x, double y, double z);
 t_vec2				vec2(int x, int y);
-int		rgba(int r, int g, int b, int t);
+int					rgba(int r, int g, int b, int t);
 int					get_t(int trgb);
 int					get_r(int trgb);
 int					get_g(int trgb);
@@ -313,4 +314,5 @@ t_colors			color_multiply(t_colors c1, t_colors c2, double s);
 t_colors			color_add(t_colors c1, t_colors c2);
 double				vec3_pow(t_vec3 *v);
 double				v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
+void				save_img(t_data *mlx);
 #endif

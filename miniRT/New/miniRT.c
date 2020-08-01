@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/29 06:19:00 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 03:32:58 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,6 @@ int		main(int argc, char **argv)
 {
 	t_obj_list *list;
 
-	// add ARGC ARGV compatability, open FD here and parse it to parser, rather than open scene.rt 
-	// by default in parser();
 	if (argc != 2 && argc != 3)
 		error(INVAL_I);
 	if (argc == 3)
@@ -197,61 +195,6 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	return ;
 }
 
-	// for (int i = 50; i < 200; i++) {
-	// 	for (int j = 50; j < 200; j++) {
-	// 		my_mlx_pixel_put(mlx->img_l, mlx, i, j, rgba(0, 55, 55, 255));
-	// 	}
-	// }
-// const Vec3f &rayorig, const Vec3f &raydir, float &t0, float &t1
-
-// t_ray	intersect_sph(const t_vec3 r_orig, const t_vec3 r_dir, t_obj_list *sphere, float t0, float t1)
-// {
-// 	t_ray ray;
-
-// 	float tca = vectorDot(&r_dir, &r_dir); 
-// 	t_vec3 dist = vectorMin(&sphere->object.sphere.center, &r_orig);
-// 	tca = vectorDot(&dist, &r_dir);
-// 	if (tca < 0) 
-// 	{
-// 		ray.colors = 0;
-// 		return (ray);
-// 	}
-// 	float d2 = vectordot() - tca * tca; 
-// 	if (d2 > (sphere->object.sphere.diam / 2)) 
-// 	{
-// 		ray.colors = 0;
-// 		return (ray);
-// 	} 
-// 	float thc = sqrt((sphere->object.sphere.diam / 2) - d2); 
-// 	t0 = tca - thc; 
-// 	t1 = tca + thc; 
-// 	ray.colors = sphere->object.sphere.colors;
-// 	return (ray);
-// }
-
-// int	trace(const t_vec3 r_orig, const t_vec3 r_dir, t_obj_list **head)
-// {
-// 	t_obj_list	*current;
-// 	t_ray		ray;
-// 	t_ray		temp;
-// 	// float		t0;
-// 	// float		t1;
-
-// 	// t0 = 0;
-// 	// t1 = 0;
-// 	current = *head;
-// 	ray.norm_dir = 0;
-// 	temp.norm_dir = 0;
-// 	while (current)
-// 	{
-// 		temp = intersect_sph(r_orig, r_dir, current, t0, t1);
-// 		ray.norm_dir = ray.norm_dir < temp.norm_dir ? ray.norm_dir : temp.norm_dir;
-// 		ray.colors = ray.norm_dir < temp.norm_dir ? temp.colors : temp.colors;
-// 		current = current->next;
-// 	}
-// 	return (ray.colors);
-// }
-
 void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 {
 	t_data 	*mlx;
@@ -266,7 +209,6 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	y = 0;
 	mlx = *mlx_;
 	// calculating aspecct ratio, width / height.
-	// mlx->aspect_ratio = mlx->res.x > mlx->res.y ? mlx->res.x / mlx->res.y : mlx->res.y / mlx->res.x;
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;
 	// calculating right angle fov
 	ray->angle = tan(M_PI * 0.5 * dest->cam_vals.fov / 180.);
@@ -275,7 +217,7 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 	while (y < mlx->res.y)
 	{
 		x = 0;
-		// calculating height imagine plane
+		// calculating height image plane
 		yy = ((1 - 2 * ((y + 0.5) / (mlx->res.y))) * ray->angle);
 		while (x < mlx->res.x)
 		{
@@ -286,19 +228,12 @@ void	render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 			ray->dir = (t_vec3){xx, yy, -1};
 			// normalizing ray_dir
 			ray->norm_dir = vec_normalize(&ray->dir);
-			// https://www.scratchapixel.com/code.php?id=10&origin=/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes
 			ray->norm_dir = setcam(ray->norm_dir, dest);
 			ray->norm_dir = vec_normalize(&ray->norm_dir);
 			check_hit(&ray, head);
 			if (ray->hit.check == 1)
 				check_light(&ray, mlx, head);
 			my_mlx_pixel_put(dest, mlx, x, y, ray->hit.color);
-			// Find object
-			// Check light intersection
-			// if (inter_sph(ray, (*head)->object.sphere, dest) == 1)
-			// 	my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 255, 0, 0));
-			// else
-			// 	my_mlx_pixel_put(dest, mlx, x, y, rgba(0, 0, 0, 0));
 			x++;
 		}
 		y++;
@@ -342,9 +277,9 @@ void	raytracer_(t_obj_list *list, int argc)
 	mlx_get_lights(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
 	mlx_load_cams(&mlx, &list);
-	// if (argc == 3)
-	// 	save_img(mlx);
-	(void)argc;
+	if (argc == 3)
+		save_img(mlx);
+	// (void)argc;
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img_l->img, 0, 0);
 	mlx_hooks_(&mlx);
 	return ;

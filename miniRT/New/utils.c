@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 18:18:48 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 04:11:05 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ void	error(int code)
 		write(1, "ERROR\nMLX", 10);
 	if (code == INVAL_I)
 		write(1, "ERROR\nBAD INPUT", 16);
+	if (code == OPEN_CLOSE_WRITE)
+		write(1, "ERROR\nOpen/close/Write, bad return val", 39);
 	exit(1);
 }
 
@@ -392,4 +394,93 @@ void	create_light_node(t_light_l	**target, t_light object)
 	current->next->t_light = object;
 	current->next->next = NULL;
 	return ;
+}
+
+t_colors get_pixel(t_data *mlx, int x, int y)
+{
+	unsigned		i;
+	unsigned int	color;
+	t_colors		col;
+
+	i = y * mlx->line_l + x * (mlx->bits_p_p / 8);
+	color = *(unsigned int*)(mlx->img_l->addr + i);
+	col = get_c_struct(color);
+	return (col);
+}
+
+// file header for bmp file;
+// 0x4d42 is the file type BM
+// type -- size -- offset  -- non reserved
+static void create_bmp_file_header(char *buf, size_t fsize)
+{
+	*((uint16_t *)&buf[0x00]) = (uint16_t)0x4d42; // 0x00 BMP signature 'B' 'M'
+	*((uint32_t *)&buf[0x02]) = (uint32_t)fsize; // 0X02 size in bytes of the file, including heder and pixel data;
+	// 0x06 unused, reserved data
+	
+	*((uint32_t *)&buf[0x0A]) = (uint32_t)0X0E + 40; // data offset 0x0A
+}	
+
+// bmp info header
+// https://elcharolin.wordpress.com/2018/11/28/read-and-write-bmp-files-in-c-c/
+static void create_bmp_info_header(char *buf, t_data *mlx)
+{
+	*((uint32_t *)&buf[0x0E]) = (uint32_t)40; // Size of header, fixed size 40 bytes
+	*((uint32_t *)&buf[0x12]) = (uint32_t)mlx->res.x; // width img pix
+	*((uint32_t *)&buf[0x16]) = (uint32_t)mlx->res.y; // height img pix
+	*((uint16_t *)&buf[0x1A]) = (uint16_t)1; // numb color planes, must be 1
+	*((uint16_t *)&buf[0x1C]) = (uint16_t)24; // number of bits pp
+}	
+//  3 * x & y. 3 is the amount of bytes pp, x * y is the amount of bytes
+// 14 = fileheadersize
+// 40 = infoheadersize
+// fsize
+
+// get ft_bzero from my libft
+static void fill_bmp(char *buf, t_data *mlx)
+{
+	uint32_t	x;
+	uint32_t	y;
+	uint32_t	i;
+	t_colors	col;
+
+	y = (unsigned int)mlx->res.y - 1;
+	i = 0x0E + 40;
+	while (y > 0)
+	{
+		x = 0;
+		while (x < mlx->res.x)
+		{
+			col = get_pixel(mlx, x, y);
+			buf[i + 0] = (unsigned int)col.b;
+			buf[i + 1] = (unsigned int)col.g;
+			buf[i + 2] = (unsigned int)col.r;
+			i += 3;
+			x++;
+		}
+		y--;
+	}
+}
+
+void	save_img(t_data *mlx)
+{
+	int		fd;
+	size_t	fsize;
+	char	*buf;
+
+	fd = open("ScreenyUwU.bmp", O_WRONLY | O_CREAT, 0644);
+	if (fd == -1)
+		error(OPEN_CLOSE_WRITE);
+	fsize = 57 * (unsigned int)((int)mlx->res.x * (int)mlx->res.y);
+	buf = calloc(fsize, 1);
+	// use ft_calloc instead
+	if (!buf)
+		error(MALLOC);
+	create_bmp_file_header(buf, fsize);
+	create_bmp_info_header(buf, mlx);
+	fill_bmp(buf, mlx);
+	if (write(fd, buf, fsize) < 0)
+		error(OPEN_CLOSE_WRITE);
+	if (close(fd) == -1)
+		error(OPEN_CLOSE_WRITE);
+	free(buf);
 }

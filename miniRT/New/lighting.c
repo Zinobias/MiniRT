@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 18:09:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/07/31 20:19:38 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/01 01:30:34 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static t_colors	apply_light(t_ray *ray, t_light light, int temp, t_vec3 dist)
 	double		l_intensity;
 	double		r2;
 
-	// ray->hit.hit_normal = vec_normalize(&ray->hit.hit_normal);
 	dotnormal = vectorDot(&ray->hit.hit_normal, &ray->norm_dir);
 	if (dotnormal <= 1e-6)
 		return ((t_colors){0,0,0});

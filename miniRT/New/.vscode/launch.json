@@ -8,7 +8,7 @@
 			"name": "(lldb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "${workspaceFolder}/minirt",
+			"program": "${workspaceFolder}/minirt scene.rt --save",
 			"args": [],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",

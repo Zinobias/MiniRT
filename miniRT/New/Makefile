@@ -7,7 +7,7 @@ intersect_cylinder.c intersect_plane.c intersect_sphere.c intersect_square.c \
 intersect_triangle.c lighting.c lights_list.c make_bmp.c minirt.c mlx_start.c \
 obj_functions1.c object_functions2.c parser.c parser_utils.c parser_utils2.c \
 quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
-look_at.c list_utils.c libmlx.dylib 
+look_at.c list_utils.c libmlx.dylib
 
 MLX_PATH := ./mlx/
 

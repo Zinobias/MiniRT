@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:28:03 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:35:00 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 00:25:40 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	quad_solve(double *res, t_hit *hit)
 {
 	double	disc;
-	float	q;
+	double	q;
 
 	disc = (res[1] * res[1]) - 4.0 * res[0] * res[2];
-	if (disc < 0.0)
+	if (disc < 1e-6)
 	{
 		hit->check = INFINITY;
 		return ;

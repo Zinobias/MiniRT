@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:25:57 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 22:14:28 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 00:24:19 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ static t_vec3	get_cy_normal(t_ray *ray, t_cy cy)
 {
 	t_vec3	ret[3];
 
-	ret[0] = vector_x_d(&ray->norm_dir, -1.0);
+	ret[0] = vector_x_d(&ray->norm_dir, -1);
 	ret[1] = vector_plus(&ray->orig, &ret[0]);
 	ret[2] = vector_sub(&ret[1], &cy.cords);
 	ret[2] = vec_normalize(&ret[2]);
-	return (ret[0]);
+	return (ret[2]);
 }
 
 static void		get_cy_vals(t_cy_vals *v, t_ray *ray, t_cy cy)
@@ -76,13 +76,13 @@ static	void	cy_check_hit(t_cy_vals v, t_hit *hit, t_cy cy, t_ray *ray)
 		}
 		if (v.ret > 1e-6)
 		{
+
 			hit->t1 = v.ret;
 			hit->color = cy.colors;
-			hit->check = 1;
+			if (hit->t1 > 1e-6)
+				hit->check = 1;
 			hit->hit_normal = get_cy_normal(ray, cy);
 		}
-		else
-			hit->check = 0;
 	}
 }
 
@@ -98,7 +98,7 @@ t_hit			inter_cylinder(t_ray *ray, t_object obj)
 	if (cy.norm_vec.x == 0 && cy.norm_vec.y == 0 && cy.norm_vec.z == 0)
 		cy.norm_vec = (t_vec3){0, 1, 0};
 	hit = (t_hit){(t_vec3){0, 0, 0}, rgba(0, 0, 0, 0),
-		INFINITY, INFINITY, 0, (t_vec3){0, 0, 0}};
+		INFINITY, INFINITY, 0, (t_vec3){0, 0, 0}, -1};
 	get_cy_vals(&vals, ray, cy);
 	quad_solve(vals.abc, &hit);
 	get_dotproducts_cy(ray, &vals, cy, hit);

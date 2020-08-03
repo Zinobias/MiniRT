@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:30:12 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 17:55:35 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 22:48:42 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ t_hit			inter_triangle(t_ray *ray, t_object triangle)
 	v.hit.color = v.tr.colors;
 	v.hit.t1 = v.t;
 	v.hit.check = 1;
+	v.hit.obj_type = TR;
 	return (v.hit);
 }

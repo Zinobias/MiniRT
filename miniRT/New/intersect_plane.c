@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:28:50 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 18:08:00 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 22:48:24 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 			hit.t1 = t;
 			hit.color = pl.colors;
 			hit.hit_normal = vector_x_d(&pl.norm_vec, -1);
+			hit.obj_type = PL;
 			return (hit);
 		}
 	}

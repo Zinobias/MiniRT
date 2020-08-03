@@ -24,8 +24,8 @@ OBJ := $(SRC:.c=.o)
 
 test:
 	@printf "\e[1;34mMaking test\n\e[0m"
-	@gcc -Wall -Werror -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ \
-	-Lmlx -framework OpenGL -framework AppKit -g -o MiniRT \
+	@gcc -Wall -Werror -O3 -Wextra -I. -Imlx -Iinc -Ilibft -Lmlx/ \
+	-Lmlx -framework OpenGL -framework AppKit -o MiniRT \
 	GNL/get_next_line_bonus.c \
 	GNL/get_next_line_utils_bonus.c libmlx.dylib \
 	atod.c color_structs.c colors.c get_pixel.c hooks.c img_list.c intersect.c \
@@ -35,7 +35,7 @@ test:
 	parser.c parser_utils.c parser_utils2.c \
 	quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
 	look_at.c list_utils.c
-	@./minirt /Users/pani_zino/pani/minirt_new/scene.rt
+	@./minirt scene.rt
 
 testc:
 	@printf "\e[1;34mMaking clean\n\e[0m"

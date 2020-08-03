@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 18:48:12 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 22:48:13 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct		s_hit {
 	double			t2;
 	short			check;
 	t_vec3			hit_normal;
+	int				obj_type;
 }					t_hit;
 
 typedef struct		s_ray {

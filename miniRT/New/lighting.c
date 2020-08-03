@@ -6,7 +6,7 @@
 /*   By: pani_zino <pani_zino@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/02 00:14:26 by pani_zino     #+#    #+#                 */
-/*   Updated: 2020/08/03 18:51:34 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 00:18:01 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,10 @@ static t_colors		apply_light(t_ray *ray, t_light light,
 	double		r2;
 
 	dotnormal = vector_dot(&ray->hit.hit_normal, &ray->norm_dir);
-	if (dotnormal <= 1e-6)
+	if (dotnormal <= 1e-6 && (ray->hit.obj_type == PL || ray->hit.obj_type == TR))
 		dotnormal = fabs(dotnormal);
+	if (dotnormal < 1e-6)
+		return ((t_colors){0, 0, 0});
 	r2 = vec3_pow(&dist);
 	l_intensity = (light.brightness * dotnormal * 1000) / (4.0 * M_PI * r2);
 	new = get_c_struct(temp);
@@ -81,7 +83,7 @@ void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 		dist = vector_sub(&current->light.light_p, &hit_p);
 		(*ray)->norm_dir = vec_normalize(&dist);
 		(*ray)->orig = hit_p;
-		check_hit_l(ray, list, sqrt(vector_dot(&dist, &dist) - 1e-6));
+		check_hit_l(ray, list, sqrt(vector_dot(&dist, &dist) - 10 * 1e-6));
 		if ((*ray)->hit.check == 0)
 			color = color_add(color, apply_light(*ray, current->light,
 				(*ray)->hit.color, dist));

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:29:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 18:08:21 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 19:10:35 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_hit			inter_sph(t_ray *ray, t_object sphe)
 	hit.t2 = txy[0] + txy[1];
 	hit.color = sph.colors;
 	hit.check = 1;
-	hit.hit_normal = sphere_normal(ray, sph, hit.t1);
 	if (hit.t1 > hit.t2)
 	{
 		double	tempp;
@@ -60,6 +59,7 @@ t_hit			inter_sph(t_ray *ray, t_object sphe)
 		if (hit.t1 < hit.t2)
 			hit.check = 0;
 	}
+	hit.hit_normal = sphere_normal(ray, sph, hit.t1);
 	return (hit);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pani_zino <pani_zino@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/02 00:14:26 by pani_zino     #+#    #+#                 */
-/*   Updated: 2020/08/03 18:10:34 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 18:51:34 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_colors		apply_light(t_ray *ray, t_light light,
 	l_intensity = (light.brightness * dotnormal * 1000) / (4.0 * M_PI * r2);
 	new = get_c_struct(temp);
 	new = color_multiply(new, get_c_struct(light.colors),
-		fmin(1.0, fmax(0.0, l_intensity)));
+		fmin(1., fmax(0.0, l_intensity)));
 	return (new);
 }
 

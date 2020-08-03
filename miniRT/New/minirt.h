@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 17:22:53 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 18:48:12 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ typedef struct		s_tr {
 
 typedef struct		s_sph {
 	t_vec3			center;
-	int				diam;
+	double			diam;
 	int				colors;
 }					t_sph;
 

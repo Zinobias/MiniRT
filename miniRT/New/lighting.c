@@ -6,7 +6,7 @@
 /*   By: pani_zino <pani_zino@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/02 00:14:26 by pani_zino     #+#    #+#                 */
-/*   Updated: 2020/08/03 17:34:17 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 18:10:34 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_colors		apply_light(t_ray *ray, t_light light,
 
 	dotnormal = vector_dot(&ray->hit.hit_normal, &ray->norm_dir);
 	if (dotnormal <= 1e-6)
-		return ((t_colors){0, 0, 0});
+		dotnormal = fabs(dotnormal);
 	r2 = vec3_pow(&dist);
 	l_intensity = (light.brightness * dotnormal * 1000) / (4.0 * M_PI * r2);
 	new = get_c_struct(temp);

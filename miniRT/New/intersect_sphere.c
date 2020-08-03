@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:29:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 17:31:28 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/03 18:08:21 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,5 @@ t_hit			inter_sph_l(t_ray *ray, t_object sphe)
 		if (hit.t1 < hit.t2)
 			hit.check = 0;
 	}
-	t_vec3	t[4];
-	double	z;
-	t[0] = vector_x_d(&ray->norm_dir, hit.t1);
-	t[1] = vector_plus(&ray->orig, &t[0]);
-	t[0] = vector_sub(&t[1], &sph.center);
-	z = sqrt(vector_dot(&t[0], &t[0]));
-	if (z <= sph.diam / 2 && z > 0.0)
-		hit.check = 1;
 	return (hit);
 }

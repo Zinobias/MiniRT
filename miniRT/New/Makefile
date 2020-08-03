@@ -35,7 +35,7 @@ test:
 	parser.c parser_utils.c parser_utils2.c \
 	quad_solve.c raytracer.c utils.c vector_lib.c vector_lib2.c vector_lib3.c \
 	look_at.c list_utils.c
-	@./minirt scene.rt
+	@./minirt /Users/pani_zino/pani/minirt_new/scene.rt
 
 testc:
 	@printf "\e[1;34mMaking clean\n\e[0m"

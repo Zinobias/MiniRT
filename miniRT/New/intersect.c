@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/12 16:47:31 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 16:40:39 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/03 17:31:32 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	check_hit_l(t_ray **ray, t_obj_list **head, double l)
 			if (i.current_f->f_code == i.current->obj_type->f_code)
 			{
 				i.hit = (*g_f_array_int[i.i].function)(*ray, i.current->object);
-				if (i.hit.check == 1 && (i.hit.t1 <= l && i.hit.t1 >= 0))
+				if (i.hit.check == 1 && (i.hit.t1 <= l && i.hit.t1 > 0.))
 				{
 					(*ray)->hit.check = 1;
 					return ;

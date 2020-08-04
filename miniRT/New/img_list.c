@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:51:17 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 18:03:34 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 18:06:34 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals)
 	current->next->img = NULL;
 	current->next->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
 	if (!current->next->img)
-		error(MLX);
+		error("MLX error, new img, create node", 32);
 	current->next->addr = mlx_get_data_addr(current->next->img,
 		&mlx->bits_p_p, &mlx->line_l, &mlx->endian);
 	if (!current->next->addr)
-		error(MLX);
+		error("Getting img address went wrong", 31);
 	current->next->cam_vals = vals;
 	return ;
 }

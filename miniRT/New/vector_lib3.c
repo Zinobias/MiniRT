@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:50:14 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 22:02:43 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:26:15 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_vec3_range(t_vec3 data, double min, double max)
 {
 	if ((data.x > max || data.y > max || data.z > max)
 	|| (data.x < min || data.y < min || data.z < min))
-		error(INVAL);
+		error("Value out of range", 19);
 }
 
 t_vec3	vec3_x_matrix(t_vec3 *from, t_mat4 *c2w)

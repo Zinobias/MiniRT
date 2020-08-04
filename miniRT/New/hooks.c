@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:02:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 02:37:08 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 18:35:46 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,29 @@ int		close_win_x(t_data *mlx)
 void	cam_next(t_data *mlx)
 {
 	if (mlx->current_cam->next)
+	{
 		mlx->current_cam = mlx->current_cam->next;
+		mlx_put_image_to_window(mlx->mlx, mlx->win,
+			mlx->current_cam->img, 0, 0);
+	}
 	else
+	{
 		mlx->current_cam = mlx->img_l;
-	mlx_clear_window(mlx->mlx, mlx->win);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->current_cam->img, 0, 0);
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx, mlx->win,
+			mlx->current_cam->img, 0, 0);
+	}
 }
 
 void	cam_back(t_data *mlx)
 {
 	if (mlx->current_cam->back)
+	{
 		mlx->current_cam = mlx->current_cam->back;
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx,
+			mlx->win, mlx->current_cam->img, 0, 0);
+	}
 	else if (mlx->img_tail)
 	{
 		mlx->current_cam = mlx->img_tail;

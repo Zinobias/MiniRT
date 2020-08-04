@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:06:32 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:33:06 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:31:52 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_f3_ret		get_fields(char *line)
 		data.i += line[data.i] == ',' && data.fields != 3 ? 1 : 0;
 	}
 	if (data.fields != 3 && (line[data.i] == ' ' || line[data.i] == '\0'))
-		error(INVAL);
+		error("Some fields went wrong", 23);
 	return (data);
 }
 
@@ -45,16 +45,16 @@ t_d_ret			get_double(char *line)
 	ret.i = 0;
 	while (line[ret.i] == ' ')
 		ret.i++;
-	if (line[ret.i] >= '0' || line[ret.i] <= '9' || line[ret.i] == '-')
+	if ((line[ret.i] >= '0' && line[ret.i] <= '9') || line[ret.i] == '-')
 	{
 		atod_data = ft_atod(line + ret.i);
 		ret.val = atod_data.val;
 		ret.i += atod_data.i;
 		ret.i++;
 	}
-	else if ((line[ret.i] >= '0' || line[ret.i] <= '9')
+	else if ((line[ret.i] >= '0' && line[ret.i] <= '9')
 	|| line[ret.i] != ' ')
-		error(INVAL);
+		error("Invalid Scene", 14);
 	return (ret);
 }
 
@@ -74,6 +74,6 @@ t_i_ret			get_int(char *line)
 		ret.i += atod_data.i;
 	}
 	else
-		error(INVAL);
+		error("Invalid scene", 14);
 	return (ret);
 }

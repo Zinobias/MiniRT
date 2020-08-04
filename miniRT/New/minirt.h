@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 17:59:48 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/05 00:14:46 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@
 
 typedef	enum		e_error {
 	ERROR = -1,
-	INVAL = 1,
-	MALLOC = 2,
-	GNL = 3,
-	MLX = 4,
-	INVAL_I = 5,
-	OPEN_CLOSE_WRITE = 6,
 }					t_error;
 
 typedef	enum		e_f_code {

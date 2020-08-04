@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   miniRT.c                                           :+:    :+:            */
+/*   minirt.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:57:18 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:39:39 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	check_string(char *s)
 	while (i < 7)
 	{
 		if (s[i] != example[i])
-			error(INVAL_I);
+			error("Invalid command line input", 27);
 		i++;
 	}
 }
@@ -32,15 +32,15 @@ int			main(int argc, char **argv)
 	int				fd;
 
 	if (argc != 2 && argc != 3)
-		error(INVAL_I);
+		error("Invalid command line input", 27);
 	if (argc == 3)
 		check_string(argv[2]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		error(OPEN_CLOSE_WRITE);
+		error("Opening f_name.rt went wrong", 29);
 	list = parser(fd);
 	if (close(fd) == -1)
-		error(OPEN_CLOSE_WRITE);
+		error("Closing f_name.rt fd went wrong", 32);
 	raytracer_(list, argc);
 	exit(0);
 	return (0);

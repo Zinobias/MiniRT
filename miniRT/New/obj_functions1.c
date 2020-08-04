@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:30:44 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:19:20 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_object	get_res(char *line)
 	while (line[i])
 	{
 		if (line[i] != ' ')
-			error(INVAL);
+			error("Invalid scene", 14);
 		i++;
 	}
 	return ((t_object)ret);
@@ -50,7 +50,7 @@ t_object	get_amb(char *line)
 	if ((f_ret.f_info.x > 255 || f_ret.f_info.y > 255 || f_ret.f_info.z > 255)
 	|| (f_ret.f_info.x < 0 || f_ret.f_info.y < 0 || f_ret.f_info.z < 0)
 	|| amb.ratio < 0 || amb.ratio > 1)
-		error(INVAL);
+		error("Invalid amb", 12);
 	amb.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
 	check_line_valid(line + i);
 	return ((t_object)amb);
@@ -73,7 +73,7 @@ t_object	get_cam(char *line)
 	i += f_ret.i;
 	i_ret = get_int(line + i);
 	if (i_ret.val > 180 || i_ret.val < 0)
-		error(INVAL);
+		error("invalid cam fov", 16);
 	i += i_ret.i;
 	cam.fov = i_ret.val;
 	check_line_valid(line + i);
@@ -93,7 +93,7 @@ t_object	get_light(char *line)
 	i += f_ret.i;
 	d_ret = get_double(line + i);
 	if (d_ret.val < 0.0 || d_ret.val > 1.0)
-		error(INVAL);
+		error("invalid light brightness", 25);
 	light.brightness = d_ret.val;
 	i += d_ret.i;
 	f_ret = get_fields(line + i);

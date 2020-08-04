@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 18:54:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:32:25 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:20:22 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_f_data		*line_to_data(char *line)
 	i = 0;
 	current = NULL;
 	if (line[2] != ' ' && line[1] != ' ')
-		error(INVAL);
+		error("Invalid specifier", 18);
 	while (i < 9)
 	{
 		current = &g_f_array[i];
@@ -41,7 +41,7 @@ t_f_data		*line_to_data(char *line)
 			return (current);
 		i++;
 	}
-	error(INVAL);
+	error("Invalid specifier", 18);
 	return (0);
 }
 
@@ -50,7 +50,7 @@ void			obj_add(t_f_data *obj_data, t_obj_list **head, char *line)
 	t_obj_list	*current;
 
 	if (!obj_data)
-		error(INVAL);
+		error("Invalid scene", 14);
 	current = *head;
 	if (current->obj_type)
 	{
@@ -58,7 +58,7 @@ void			obj_add(t_f_data *obj_data, t_obj_list **head, char *line)
 			current = current->next;
 		current->next = (t_obj_list *)malloc(sizeof(t_obj_list));
 		if (!current->next)
-			error(MALLOC);
+			error("Malloc obj struct", 18);
 		current = current->next;
 		current->next = NULL;
 	}
@@ -70,7 +70,7 @@ void			line_handler(char *line, t_obj_list **head)
 {
 	if (((*line == 'A' && (*head)->rac & 1) ||
 		(*line == 'R' && (*head)->rac & 2)))
-		error(INVAL);
+		error("Multiple R or A", 16);
 	if (*line == 'R')
 		(*head)->rac |= 2;
 	if (*line == 'A')

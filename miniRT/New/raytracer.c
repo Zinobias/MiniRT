@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:24:28 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 22:47:04 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:25:53 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void			render_(t_data **mlx_, t_obj_list **head, t_img_list *dest)
 
 	ray = (t_ray*)malloc(1 * sizeof(t_ray));
 	if (!ray)
-		error(MALLOC);
+		error("Ray malloc", 11);
 	xy[1] = 0;
 	mlx = *mlx_;
 	mlx->aspect_ratio = mlx->res.x / mlx->res.y;

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 02:36:36 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 18:09:17 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,18 @@ void		save_img(t_data *mlx)
 
 	fd = open("ScreenyUwU.bmp", O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
-		error(OPEN_CLOSE_WRITE);
+		error("save img open went wrong", 25);
 	fsize = 57 * (unsigned int)((int)mlx->res.x * (int)mlx->res.y);
 	// replace with ft_calloc
 	buf = calloc(fsize, 1);
 	if (!buf)
-		error(MALLOC);
+		error("save img, buf malloc went wrong", 32);
 	create_bmp_file_header(buf, fsize);
 	create_bmp_info_header(buf, mlx);
 	fill_bmp(buf, mlx);
 	if (write(fd, buf, fsize) < 0)
-		error(OPEN_CLOSE_WRITE);
+		error("save img, write went wrong", 27);
 	if (close(fd) == -1)
-		error(OPEN_CLOSE_WRITE);
+		error("save img, close went wrong", 27);
 	free(buf);
 }

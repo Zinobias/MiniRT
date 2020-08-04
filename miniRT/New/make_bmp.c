@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:18:06 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 02:36:36 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void		save_img(t_data *mlx)
 	if (fd == -1)
 		error(OPEN_CLOSE_WRITE);
 	fsize = 57 * (unsigned int)((int)mlx->res.x * (int)mlx->res.y);
+	// replace with ft_calloc
 	buf = calloc(fsize, 1);
 	if (!buf)
 		error(MALLOC);

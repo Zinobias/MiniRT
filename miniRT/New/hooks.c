@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:02:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 02:30:16 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 02:37:08 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	cam_back(t_data *mlx)
 	{
 		mlx->current_cam = mlx->img_tail;
 		mlx_clear_window(mlx->mlx, mlx->win);
-		mlx_put_image_to_window(mlx->mlx, 
+		mlx_put_image_to_window(mlx->mlx,
 			mlx->win, mlx->current_cam->img, 0, 0);
 	}
 }

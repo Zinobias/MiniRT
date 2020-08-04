@@ -6,7 +6,7 @@
 /*   By: pani_zino <pani_zino@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/02 00:14:26 by pani_zino     #+#    #+#                 */
-/*   Updated: 2020/08/04 00:18:01 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 02:36:26 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static t_colors		apply_light(t_ray *ray, t_light light,
 	double		r2;
 
 	dotnormal = vector_dot(&ray->hit.hit_normal, &ray->norm_dir);
-	if (dotnormal <= 1e-6 && (ray->hit.obj_type == PL || ray->hit.obj_type == TR))
+	if (dotnormal <= 1e-6 && (ray->hit.obj_type == PL
+								|| ray->hit.obj_type == TR))
 		dotnormal = fabs(dotnormal);
 	if (dotnormal < 1e-6)
 		return ((t_colors){0, 0, 0});
@@ -72,8 +73,6 @@ void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 	t_colors	color;
 	t_light_l	*current;
 
-
-	// add ft_calloc
 	color = color_multiply(get_c_struct((*ray)->hit.color),
 		get_c_struct(mlx->ambient_light.colors), mlx->ambient_light.ratio);
 	hit_p = get_hit_point(ray);

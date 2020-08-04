@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 22:48:13 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 02:34:10 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,5 +324,4 @@ double				v_dot_s(t_vec3 *x, t_vec3 *y, t_vec3 *z);
 t_vec3				vec3(double x, double y, double z);
 void				check_vec3_range(t_vec3 data, double min, double max);
 t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
-t_hit				inter_sph_l(t_ray *ray, t_object sphe);
 #endif

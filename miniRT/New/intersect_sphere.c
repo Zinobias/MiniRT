@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:29:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/03 19:10:35 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 02:34:35 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ static t_vec3	sphere_normal(t_ray *ray, t_sph sph, double t)
 	normal = vector_plus(&normal, &ray->orig);
 	normal = vector_sub(&normal, &sph.center);
 	return (normal);
+}
+
+static void		check_sph_inter(t_hit *hit)
+{
+	double	tempp;
+
+	if (hit->t1 > hit->t2)
+	{
+		tempp = hit->t1;
+		hit->t1 = hit->t2;
+		hit->t2 = tempp;
+	}
+	if (hit->t1 < 0)
+	{
+		hit->t1 = hit->t2;
+		if (hit->t1 < hit->t2)
+			hit->check = 0;
+	}
 }
 
 t_hit			inter_sph(t_ray *ray, t_object sphe)
@@ -46,60 +64,7 @@ t_hit			inter_sph(t_ray *ray, t_object sphe)
 	hit.t2 = txy[0] + txy[1];
 	hit.color = sph.colors;
 	hit.check = 1;
-	if (hit.t1 > hit.t2)
-	{
-		double	tempp;
-		tempp = hit.t1;
-		hit.t1 = hit.t2;
-		hit.t2 = tempp;
-	}
-	if (hit.t1 < 0)
-	{
-		hit.t1 = hit.t2;
-		if (hit.t1 < hit.t2)
-			hit.check = 0;
-	}
+	check_sph_inter(&hit);
 	hit.hit_normal = sphere_normal(ray, sph, hit.t1);
-	return (hit);
-}
-
-t_hit			inter_sph_l(t_ray *ray, t_object sphe)
-{
-	t_sph	sph;
-	t_vec3	l;
-	double	txy[3];
-	t_hit	hit;
-
-	sph = sphe.sphere;
-	l = vector_sub(&sph.center, &ray->orig);
-	txy[0] = vector_dot(&l, &ray->norm_dir);
-	hit.check = 0;
-	hit.t1 = INFINITY;
-	hit.t2 = INFINITY;
-	hit.color = 0;
-	if (txy[0] < 0)
-		return (hit);
-	txy[2] = vector_dot(&l, &l) - txy[0] * txy[0];
-	if (txy[2] > (sph.diam * (sph.diam * 0.25)))
-		return (hit);
-	txy[1] = sqrt((sph.diam * (sph.diam * 0.25)) - txy[2]);
-	hit.t1 = txy[0] - txy[1];
-	hit.t2 = txy[0] + txy[1];
-	hit.color = sph.colors;
-	hit.check = 1;
-	hit.hit_normal = sphere_normal(ray, sph, hit.t1);
-	if (hit.t1 > hit.t2)
-	{
-		double	tempp;
-		tempp = hit.t1;
-		hit.t1 = hit.t2;
-		hit.t2 = tempp;
-	}
-	if (hit.t1 < 0)
-	{
-		hit.t1 = hit.t2;
-		if (hit.t1 < hit.t2)
-			hit.check = 0;
-	}
 	return (hit);
 }

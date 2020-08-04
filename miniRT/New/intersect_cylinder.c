@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:25:57 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 00:24:19 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 02:30:55 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,9 @@ static	void	cy_check_hit(t_cy_vals v, t_hit *hit, t_cy cy, t_ray *ray)
 		}
 		if (v.ret > 1e-6)
 		{
-
 			hit->t1 = v.ret;
 			hit->color = cy.colors;
-			if (hit->t1 > 1e-6)
-				hit->check = 1;
+			hit->check = 1;
 			hit->hit_normal = get_cy_normal(ray, cy);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:51:17 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:24:01 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 02:19:22 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	link_cam_list(t_data **mlx_)
 
 	mlx = *mlx_;
 	current = mlx->img_l;
+	mlx->img_tail = NULL;
 	if (!(current->next))
 		return ;
 	while (current->next)

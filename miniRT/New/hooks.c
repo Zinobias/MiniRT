@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:02:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 22:28:59 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 02:19:44 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int		key_input(int keycode, t_data *mlx)
 	t_img_list	*current;
 
 	current = mlx->img_l;
-	if (keycode == 123)
-		cam_next(mlx);
 	if (keycode == 124)
+		cam_next(mlx);
+	if (keycode == 123)
 		cam_back(mlx);
 	if (keycode == 53)
 	{
@@ -67,10 +67,12 @@ void	cam_back(t_data *mlx)
 {
 	if (mlx->current_cam->back)
 		mlx->current_cam = mlx->current_cam->back;
-	else
+	else if (mlx->img_tail)
+	{
 		mlx->current_cam = mlx->img_tail;
-	mlx_clear_window(mlx->mlx, mlx->win);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->current_cam->img, 0, 0);
+		mlx_clear_window(mlx->mlx, mlx->win);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->current_cam->img, 0, 0);
+	}
 }
 
 void	mlx_hooks_(t_data **mlx_)

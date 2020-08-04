@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 02:34:10 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 17:59:48 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,7 +307,7 @@ void				raytracer_(t_obj_list *list, int argc);
 void				my_mlx_pixel_put(t_img_list *img_l, t_data *mlx,
 						int *xy, int color);
 void				check_line_valid(char *line);
-void				error(int code);
+void				error(char *message, int char_c);
 void				l_get_a(t_data **mlx_data, t_obj_list **list);
 void				l_get_r(t_data **mlx_data, t_obj_list **list);
 t_vec3				setcam(t_vec3 from, t_img_list *dest);

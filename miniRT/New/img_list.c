@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:51:17 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 02:19:22 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/04 18:03:34 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	cam_head(t_data **mlx_data, t_cam vals)
 	mlx = *mlx_data;
 	mlx->img_l = (t_img_list*)malloc(sizeof(t_img_list));
 	if (!mlx->img_l)
-		error(MALLOC);
+		error("MALLOC, IMG_L", 14);
 	mlx->img_l->cam = 1;
 	mlx->img_l->next = NULL;
 	mlx->img_l->back = NULL;
@@ -27,11 +27,11 @@ void	cam_head(t_data **mlx_data, t_cam vals)
 	mlx->img_l->img = NULL;
 	mlx->img_l->img = mlx_new_image(mlx->mlx, mlx->res.x, mlx->res.y);
 	if (!mlx->img_l->img)
-		error(MLX);
+		error("MLX IMG creation boohoo", 24);
 	mlx->img_l->addr = mlx_get_data_addr(mlx->img_l->img,
 		&mlx->bits_p_p, &mlx->line_l, &mlx->endian);
 	if (!mlx->img_l->addr)
-		error(MLX);
+		error("MLX get addr of img, booho", 27);
 	mlx->img_l->cam_vals = vals;
 	return ;
 }
@@ -47,7 +47,7 @@ void	create_cam_node(t_img_list **img_l, t_data **mlx_data, t_cam vals)
 	temp = current->cam;
 	current->next = (t_img_list*)malloc(1 * sizeof(t_img_list));
 	if (!current->next)
-		error(MALLOC);
+		error("MALLOC in camnode boo", 22);
 	current->next->cam = temp + 1;
 	current->next->back = current;
 	current->next->next = NULL;

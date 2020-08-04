@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/01 21:48:03 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/04 18:05:01 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,29 @@ void	check_line_valid(char *line)
 	return ;
 }
 
-void	error(int code)
+void	error(char *message, int char_c)
 {
-	if (code == INVAL)
-		write(1, "ERROR\nINVALID SCENE", 20);
-	if (code == MALLOC)
-		write(1, "ERROR\nMALLOC", 13);
-	if (code == GNL)
-		write(1, "ERROR\nGET_NEXT_LINE", 20);
-	if (code == MLX)
-		write(1, "ERROR\nMLX", 10);
-	if (code == INVAL_I)
-		write(1, "ERROR\nBAD INPUT", 16);
-	if (code == OPEN_CLOSE_WRITE)
-		write(1, "ERROR\nOpen/close/Write, bad return val", 39);
+	write(1, "ERROR\n", 7);
+	write(1, message, char_c);
 	exit(1);
 }
+
+// void	error(int code)
+// {
+// 	if (code == INVAL)
+// 		write(1, "ERROR\nINVALID SCENE", 20);
+// 	if (code == MALLOC)
+// 		write(1, "ERROR\nMALLOC", 13);
+// 	if (code == GNL)
+// 		write(1, "ERROR\nGET_NEXT_LINE", 20);
+// 	if (code == MLX)
+// 		write(1, "ERROR\nMLX", 10);
+// 	if (code == INVAL_I)
+// 		write(1, "ERROR\nBAD INPUT", 16);
+// 	if (code == OPEN_CLOSE_WRITE)
+// 		write(1, "ERROR\nOpen/close/Write, bad return val", 39);
+// 	exit(1);
+// }
 
 void	l_get_a(t_data **mlx_data, t_obj_list **list)
 {

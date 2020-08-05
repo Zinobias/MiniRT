@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lighting.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: pani_zino <pani_zino@student.codam.nl>       +#+                     */
+/*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/08/02 00:14:26 by pani_zino     #+#    #+#                 */
-/*   Updated: 2020/08/05 04:16:02 by pani_zino     ########   odam.nl         */
+/*   Created: 2020/08/05 17:54:26 by zgargasc      #+#    #+#                 */
+/*   Updated: 2020/08/05 17:54:27 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 		l_p.dist = vector_sub(&current->light.light_p, &hit_p);
 		(*ray)->norm_dir = vec_normalize(&l_p.dist);
 		(*ray)->orig = hit_p;
-		check_hit_l(ray, list, sqrt(vector_dot(&l_p.dist, &l_p.dist) - 10 * 1e-6));
+		check_hit_l(ray, list, sqrt(vector_dot(&l_p.dist,
+			&l_p.dist) - 10 * 1e-6));
 		if ((*ray)->hit.check == 0)
 			color = color_add(color, apply_light(*ray, current->light,
 				(*ray)->hit.color, l_p));

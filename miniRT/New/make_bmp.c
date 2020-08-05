@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/04 18:09:17 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/05 17:48:09 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ void		save_img(t_data *mlx)
 	if (fd == -1)
 		error("save img open went wrong", 25);
 	fsize = 57 * (unsigned int)((int)mlx->res.x * (int)mlx->res.y);
-	// replace with ft_calloc
-	buf = calloc(fsize, 1);
+	buf = ft_calloc(fsize, 1);
 	if (!buf)
 		error("save img, buf malloc went wrong", 32);
 	create_bmp_file_header(buf, fsize);

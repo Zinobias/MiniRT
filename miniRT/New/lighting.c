@@ -6,7 +6,7 @@
 /*   By: pani_zino <pani_zino@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/02 00:14:26 by pani_zino     #+#    #+#                 */
-/*   Updated: 2020/08/05 00:11:13 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/05 04:16:02 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,19 @@ static t_vec3		get_hit_point(t_ray **ray)
 }
 
 static t_colors		apply_light(t_ray *ray, t_light light,
-									int temp, t_vec3 dist)
+									int temp, t_l_pass l_p)
 {
 	t_colors	new;
-	double		dotnormal;
+	double		shade;
 	double		l_intensity;
-	double		r2;
 
-	dotnormal = vector_dot(&ray->hit.hit_normal, &ray->norm_dir);
-	if (dotnormal <= 1e-6 && (ray->hit.obj_type == PL
+	shade = vector_dot(&ray->hit.hit_normal, &ray->norm_dir);
+	if (shade <= 1e-6 && (ray->hit.obj_type == PL
 								|| ray->hit.obj_type == TR))
-		dotnormal = fabs(dotnormal);
-	if (dotnormal < 1e-6)
+		shade = fabs(shade);
+	if (shade < 1e-6)
 		return ((t_colors){0, 0, 0});
-	r2 = vec3_pow(&dist);
-	l_intensity = (light.brightness * dotnormal * 1000) / (4.0 * M_PI * r2);
+	l_intensity = light.brightness * shade * (1 - l_p.amb_b);
 	new = get_c_struct(temp);
 	new = color_multiply(new, get_c_struct(light.colors),
 		fmin(1., fmax(0.0, l_intensity)));
@@ -69,23 +67,24 @@ static t_colors		apply_light(t_ray *ray, t_light light,
 void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 {
 	t_vec3		hit_p;
-	t_vec3		dist;
+	t_l_pass	l_p;
 	t_colors	color;
 	t_light_l	*current;
 
+	l_p.amb_b = mlx->ambient_light.ratio;
 	color = color_multiply(get_c_struct((*ray)->hit.color),
 		get_c_struct(mlx->ambient_light.colors), mlx->ambient_light.ratio);
 	hit_p = get_hit_point(ray);
 	current = mlx->l_head;
 	while (current)
 	{
-		dist = vector_sub(&current->light.light_p, &hit_p);
-		(*ray)->norm_dir = vec_normalize(&dist);
+		l_p.dist = vector_sub(&current->light.light_p, &hit_p);
+		(*ray)->norm_dir = vec_normalize(&l_p.dist);
 		(*ray)->orig = hit_p;
-		check_hit_l(ray, list, sqrt(vector_dot(&dist, &dist) - 10 * 1e-6));
+		check_hit_l(ray, list, sqrt(vector_dot(&l_p.dist, &l_p.dist) - 10 * 1e-6));
 		if ((*ray)->hit.check == 0)
 			color = color_add(color, apply_light(*ray, current->light,
-				(*ray)->hit.color, dist));
+				(*ray)->hit.color, l_p));
 		current = current->next;
 	}
 	color = (t_colors){fmin(color.r, 255), fmin(color.g, 255),

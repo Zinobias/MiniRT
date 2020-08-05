@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 00:14:46 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/05 04:09:23 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,11 @@ typedef struct		s_amb {
 	double		ratio;
 	int			colors;
 }					t_amb;
+
+typedef struct		s_l_pass {
+	t_vec3		dist;
+	double		amb_b;
+}					t_l_pass;
 
 typedef struct		s_cam {
 	t_vec3		view_p;

@@ -22,7 +22,7 @@ MLX := libmlx.dylib
 
 INC := minirt.h
 
-CFLAGS := -fsanitize=address -Wall -Wextra -Werror -I.
+CFLAGS := -Wall -Wextra -Werror -Imlx -IINC
 
 LXFLAGS := -Lmlx/ -Lmlx -framework OpenGL -framework AppKit
 
@@ -42,7 +42,7 @@ $(MLX):
 
 %.o: %.c
 	@printf "\e[1;34mCompiling Object files\n\e[0m"
-	@gcc -Wall -Wextra -Werror -Imlx -Iinc -Ilibft -c $< -o $@
+	@gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	@printf "\e[1;34mMaking clean\n\e[0m"
@@ -51,7 +51,7 @@ clean:
 	@$(MAKE) -C $(MLX_PATH) clean
 
 fclean: clean
-	@$(RM) $(MLX) $(NAME) $(NAME).h.gch
+	@$(RM) $(MLX) $(NAME)
 
 re: fclean all
 

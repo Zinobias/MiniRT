@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   miniRT.c                                           :+:    :+:            */
+/*   minirt.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/07/28 21:29:41 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:11 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/06 16:58:25 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,18 @@ static void	check_string(char *s)
 	}
 }
 
+static void	check_file_ext(char *s)
+{
+	int		i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	if (s[i - 1] != 't' || s[i - 2] != 'r' || s[i - 3] != '.')
+		error("Invald file extension", 22);
+	return ;
+}
+
 int			main(int argc, char **argv)
 {
 	t_obj_list		*list;
@@ -35,12 +47,14 @@ int			main(int argc, char **argv)
 		error("Invalid command line input", 27);
 	if (argc == 3)
 		check_string(argv[2]);
+	if (argv[1])
+		check_file_ext(argv[1]);
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
-		error("Opening f_name.rt went wrong", 29);
+		error("Opening file went wrong", 24);
 	list = parser(fd);
 	if (close(fd) == -1)
-		error("Closing f_name.rt fd went wrong", 32);
+		error("Closing file fd went wrong", 27);
 	raytracer_(list, argc);
 	exit(0);
 	return (0);

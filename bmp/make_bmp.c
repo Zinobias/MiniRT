@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:09 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/08/07 20:49:13 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ static void	fill_bmp(char *buf, t_data *mlx)
 		while (x < mlx->res.x)
 		{
 			col = get_pixel(mlx, x, y);
-			buf[i + 0] = (unsigned int)col.b;
-			buf[i + 1] = (unsigned int)col.g;
-			buf[i + 2] = (unsigned int)col.r;
+			buf[i + 0] = (uint8_t)col.b;
+			buf[i + 1] = (uint8_t)col.g;
+			buf[i + 2] = (uint8_t)col.r;
 			i += 3;
 			x++;
 		}
@@ -89,7 +89,7 @@ void		save_img(t_data *mlx)
 	fd = open("ScreenyUwU.bmp", O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
 		error("save img open went wrong", 25);
-	fsize = 57 * (unsigned int)((int)mlx->res.x * (int)mlx->res.y);
+	fsize = 54 + ((unsigned int)((int)mlx->res.x * (int)mlx->res.y) * 3);
 	buf = ft_calloc(fsize, 1);
 	if (!buf)
 		error("save img, buf malloc went wrong", 32);

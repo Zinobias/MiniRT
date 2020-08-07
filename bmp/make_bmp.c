@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/07 20:49:13 by pani_zino     ########   odam.nl         */
+/*   Updated: 2020/08/07 20:56:36 by pani_zino     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	create_bmp_file_header(char *buf, size_t fsize)
 {
 	*((uint16_t *)&buf[0x00]) = (uint16_t)0x4d42;
 	*((uint32_t *)&buf[0x02]) = (uint32_t)fsize;
-	*((uint32_t *)&buf[0x0A]) = (uint32_t)0X0E + 40;
+	*((uint32_t *)&buf[0x0A]) = (uint32_t)54;
 }
 
 /*

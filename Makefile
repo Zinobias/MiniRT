@@ -1,5 +1,5 @@
 
-NAME := minirt
+NAME := miniRT
 
 SRC := GNL/get_next_line_bonus.c GNL/get_next_line_utils_bonus.c \
 ./libftish/atod.c ./colors/color_structs.c ./colors/colors.c ./bmp/get_pixel.c \

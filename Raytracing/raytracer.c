@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:24:28 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:27 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/15 15:40:54 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void			raytracer_(t_obj_list *list, int argc)
 {
 	t_data		*mlx;
 
-	mlx_start(&mlx, &list);
+	mlx_start(&mlx, &list, argc);
 	mlx_get_lights(&mlx, &list);
 	mlx_get_cams(&mlx, &list);
 	mlx_load_cams(&mlx, &list);

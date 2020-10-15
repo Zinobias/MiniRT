@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:44:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:24 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:05:15 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ t_obj_list	*parser(int fd)
 		if (line)
 			free(line);
 	}
+	if (!(head->rac & 1 && head->rac & 2))
+		error("Missing R || A", 15);
 	return (head);
 }

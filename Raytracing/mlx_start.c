@@ -6,13 +6,13 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:28:04 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 17:33:03 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/15 15:40:52 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-void	mlx_start(t_data **mlx_data, t_obj_list **list)
+void	mlx_start(t_data **mlx_data, t_obj_list **list, int argc)
 {
 	t_data *mlx;
 
@@ -22,7 +22,7 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	if (!mlx)
 		error("Mallocing mlx struct went wrong", 32);
 	*mlx_data = mlx;
-	l_get_r(mlx_data, list);
+	l_get_r(mlx_data, list, argc);
 	l_get_a(mlx_data, list);
 	mlx->mlx = mlx_init();
 	mlx->img_l = NULL;
@@ -30,7 +30,7 @@ void	mlx_start(t_data **mlx_data, t_obj_list **list)
 	if (!mlx->mlx)
 		error("mlx init went wrong", 20);
 	mlx->win = mlx_new_window(mlx->mlx, mlx->res.x, mlx->res.y,
-		"Headache_generator_9000");
+		"MiniRT");
 	if (!mlx->win)
 		error("making mlx window went wrong", 29);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:35:54 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:30 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/15 15:34:36 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	l_get_a(t_data **mlx_data, t_obj_list **list)
 	return ;
 }
 
-void	l_get_r(t_data **mlx_data, t_obj_list **list)
+void	l_get_r(t_data **mlx_data, t_obj_list **list, int argc)
 {
 	t_obj_list	*current;
 	int			xy[2];
@@ -72,9 +72,12 @@ void	l_get_r(t_data **mlx_data, t_obj_list **list)
 			current = current->next;
 		}
 	}
-	mlx_get_screen_size((*mlx_data)->mlx, &xy[0], &xy[1]);
-	current->object.res.x = fmin(xy[0], current->object.res.x);
-	current->object.res.y = fmin(xy[1], current->object.res.y);
+	if (argc != 3)
+	{
+		mlx_get_screen_size((*mlx_data)->mlx, &xy[0], &xy[1]);
+		current->object.res.x = fmin(xy[0], current->object.res.x);
+		current->object.res.y = fmin(xy[1], current->object.res.y);
+	}
 	(*mlx_data)->res = current->object.res;
 	rm_element(list, RES);
 	return ;

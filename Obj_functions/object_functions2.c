@@ -6,13 +6,13 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:30:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:19 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:36:57 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-t_object	get_sphere(char *line)
+t_object		get_sphere(char *line)
 {
 	t_sph		sphere;
 	t_f3_ret	f_ret;
@@ -30,13 +30,15 @@ t_object	get_sphere(char *line)
 		i++;
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
-	sphere.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	sphere.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	i += f_ret.i;
 	check_line_valid(line + i);
+	if (sphere.diam <= 0)
+		error("diameter size is invalid", 25);
 	return ((t_object)sphere);
 }
 
-t_object	get_square(char *line)
+t_object		get_square(char *line)
 {
 	t_sq		square;
 	t_f3_ret	f_ret;
@@ -57,12 +59,21 @@ t_object	get_square(char *line)
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
 	i += f_ret.i;
-	square.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	square.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	check_line_valid(line + i);
+	if (square.side_size <= 0)
+		error("Invalid sq side size", 21);
 	return ((t_object)square);
 }
 
-t_object	get_cylinder(char *line)
+static t_object	check_cyl_range(t_cy cy)
+{
+	if (cy.dia <= 0 || cy.height <= 0)
+		error("Cy dia || height <= 0", 22);
+	return ((t_object)cy);
+}
+
+t_object		get_cylinder(char *line)
 {
 	t_cy		cylinder;
 	t_f3_ret	f_ret;
@@ -85,13 +96,13 @@ t_object	get_cylinder(char *line)
 	cylinder.height = d_ret.val;
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
-	cylinder.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	cylinder.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	i += f_ret.i;
 	check_line_valid(line + i);
-	return ((t_object)cylinder);
+	return (check_cyl_range(cylinder));
 }
 
-t_object	get_triangle(char *line)
+t_object		get_triangle(char *line)
 {
 	t_f3_ret	f_ret;
 	t_tr		triangle;
@@ -110,7 +121,7 @@ t_object	get_triangle(char *line)
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
 	i += f_ret.i;
-	triangle.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	triangle.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	check_line_valid(line + i);
 	return ((t_object)triangle);
 }

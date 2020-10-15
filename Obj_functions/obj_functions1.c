@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:17 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:34:02 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_object	get_res(char *line)
 			error("Invalid scene", 14);
 		i++;
 	}
+	if (ret.x <= 0 || ret.y <= 0)
+		error("RES INVALID", 12);
 	return ((t_object)ret);
 }
 
@@ -51,7 +53,7 @@ t_object	get_amb(char *line)
 	|| (f_ret.f_info.x < 0 || f_ret.f_info.y < 0 || f_ret.f_info.z < 0)
 	|| amb.ratio < 0 || amb.ratio > 1)
 		error("Invalid amb", 12);
-	amb.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	amb.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	check_line_valid(line + i);
 	return ((t_object)amb);
 }
@@ -98,7 +100,7 @@ t_object	get_light(char *line)
 	i += d_ret.i;
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
-	light.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	light.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	i += f_ret.i;
 	check_line_valid(line + i);
 	return ((t_object)light);
@@ -120,7 +122,7 @@ t_object	get_plane(char *line)
 	plane.norm_vec = f_ret.f_info;
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
-	plane.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z, 0);
+	plane.colors = rgba(f_ret.f_info.x, f_ret.f_info.y, f_ret.f_info.z);
 	i += f_ret.i;
 	check_line_valid(line + i);
 	return ((t_object)plane);

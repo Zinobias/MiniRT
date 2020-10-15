@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 17:54:26 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:54:27 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:32:56 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,5 @@ void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 	}
 	color = (t_colors){fmin(color.r, 255), fmin(color.g, 255),
 	fmin(color.b, 255)};
-	(*ray)->hit.color = rgba(color.r, color.g, color.b, 0);
+	(*ray)->hit.color = rgba(color.r, color.g, color.b);
 }

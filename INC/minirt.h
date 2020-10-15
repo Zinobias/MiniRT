@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 17:32:23 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/15 15:41:09 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ int					get_b(int trgb);
 int					get_g(int trgb);
 int					get_r(int trgb);
 int					get_t(int trgb);
-int					rgba(int r, int g, int b, int t);
+int					rgba(int r, int g, int b);
 t_colors			get_pixel(t_data *mlx, int x, int y);
 int					key_input(int keycode, t_data *mlx);
 int					close_win_x(t_data *mlx);
@@ -282,7 +282,7 @@ void				make_head(t_obj_list **head);
 void				rm_element(t_obj_list **list, int obj_code);
 t_mat4				look_at(t_vec3 from, t_vec3 to);
 void				save_img(t_data *mlx);
-void				mlx_start(t_data **mlx_data, t_obj_list **list);
+void				mlx_start(t_data **mlx_data, t_obj_list **list, int argc);
 void				mlx_load_cams(t_data **mlx_data, t_obj_list **head);
 t_object			get_res(char *line);
 t_object			get_amb(char *line);
@@ -308,7 +308,7 @@ void				my_mlx_pixel_put(t_img_list *img_l, t_data *mlx,
 void				check_line_valid(char *line);
 void				error(char *message, int char_c);
 void				l_get_a(t_data **mlx_data, t_obj_list **list);
-void				l_get_r(t_data **mlx_data, t_obj_list **list);
+void				l_get_r(t_data **mlx_data, t_obj_list **list, int argc);
 t_vec3				setcam(t_vec3 from, t_img_list *dest);
 t_vec3				vec_normalize(t_vec3 *vec3_);
 t_vec3				vector_sub(t_vec3 *v1, t_vec3 *v2);

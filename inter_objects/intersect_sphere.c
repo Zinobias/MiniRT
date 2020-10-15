@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:29:24 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:47:58 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:34:57 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static t_vec3	sphere_normal(t_ray *ray, t_sph sph, double t)
 
 static void		check_sph_inter(t_hit *hit)
 {
-	double	tempp;
+	double	temp;
 
 	if (hit->t1 > hit->t2)
 	{
-		tempp = hit->t1;
+		temp = hit->t1;
 		hit->t1 = hit->t2;
-		hit->t2 = tempp;
+		hit->t2 = temp;
 	}
 	if (hit->t1 < 0)
 	{

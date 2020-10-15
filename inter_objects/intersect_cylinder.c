@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:25:57 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:47:55 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:32:49 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,7 @@ t_hit			inter_cylinder(t_ray *ray, t_object obj)
 	cy = obj.cylinder;
 	if (vec3_pow(&cy.norm_vec) != 0)
 		cy.norm_vec = vec_normalize(&cy.norm_vec);
-	if (cy.norm_vec.x == 0 && cy.norm_vec.y == 0 && cy.norm_vec.z == 0)
-		cy.norm_vec = (t_vec3){0, 1, 0};
-	hit = (t_hit){(t_vec3){0, 0, 0}, rgba(0, 0, 0, 0),
+	hit = (t_hit){(t_vec3){0, 0, 0}, rgba(0, 0, 0),
 		INFINITY, INFINITY, 0, (t_vec3){0, 0, 0}, -1};
 	get_cy_vals(&vals, ray, cy);
 	quad_solve(vals.abc, &hit);

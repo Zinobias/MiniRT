@@ -6,11 +6,20 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:28:50 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:54:00 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/10 21:48:29 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
+
+/*
+** https://forums.unrealengine.com/development-discussion/
+** rendering/91003-new-to-unreal-planes-become-
+** invisible-when-viewing-from-opposite-side
+** this is why you see the plane only from one direction. When
+** looking straight at it.
+** Engines generally use it to reduce computing time.
+*/
 
 t_hit	inter_plane(t_ray *ray, t_object plane)
 {

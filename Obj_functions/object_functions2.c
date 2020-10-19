@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:30:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 21:36:57 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/17 17:59:09 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ t_object		get_sphere(char *line)
 {
 	t_sph		sphere;
 	t_f3_ret	f_ret;
-	t_i_ret		i_ret;
+	t_d_ret		d_ret;
 	int			i;
 
 	i = 2;
 	f_ret = get_fields(line + i);
 	sphere.center = f_ret.f_info;
 	i += f_ret.i;
-	i_ret = get_int(line + i);
-	sphere.diam = i_ret.val;
-	i += i_ret.i;
+	d_ret = get_double(line + i);
+	sphere.diam = d_ret.val;
+	i += d_ret.i;
 	while (line[i] == ' ')
 		i++;
 	f_ret = get_fields(line + i);
@@ -42,7 +42,7 @@ t_object		get_square(char *line)
 {
 	t_sq		square;
 	t_f3_ret	f_ret;
-	t_i_ret		i_ret;
+	t_d_ret		d_ret;
 	int			i;
 
 	i = 2;
@@ -53,9 +53,9 @@ t_object		get_square(char *line)
 	check_vec3_range(f_ret.f_info, -1, 1);
 	i += f_ret.i;
 	square.norm_vec = f_ret.f_info;
-	i_ret = get_int(line + i);
-	i += i_ret.i;
-	square.side_size = i_ret.val;
+	d_ret = get_double(line + i);
+	i += d_ret.i;
+	square.side_size = d_ret.val;
 	f_ret = get_fields(line + i);
 	check_vec3_range(f_ret.f_info, 0, 255);
 	i += f_ret.i;

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 17:33:39 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/17 15:25:56 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	create_bmp_info_header(char *buf, t_data *mlx)
 ** 14 = fileheadersize
 ** 40 = infoheadersize
 ** fsize
+** if (i % 4) is for padding, when res is 1023 for example
 */
 
 static void	fill_bmp(char *buf, t_data *mlx)
@@ -76,6 +77,8 @@ static void	fill_bmp(char *buf, t_data *mlx)
 			i += 3;
 			x++;
 		}
+		if ((i - 0x0E + 40) % 4)
+			i += (i % 4);
 		y--;
 	}
 }
@@ -89,7 +92,8 @@ void		save_img(t_data *mlx)
 	fd = open("ScreenyUwU.bmp", O_WRONLY | O_CREAT, 0644);
 	if (fd == -1)
 		error("save img open went wrong", 25);
-	fsize = 54 + ((unsigned int)((int)mlx->res.x * (int)mlx->res.y) * 3);
+	fsize = 54 + (unsigned int)((((int)mlx->res.x * 3) +
+		((int)mlx->res.x % 4)) * (int)mlx->res.y);
 	buf = ft_calloc(fsize, 1);
 	if (!buf)
 		error("save img, buf malloc went wrong", 32);

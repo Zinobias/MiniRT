@@ -6,21 +6,31 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:25:57 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 21:32:49 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/17 17:50:01 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static t_vec3	get_cy_normal(t_ray *ray, t_cy cy)
+static t_vec3	get_cy_normal(t_ray *ray, t_cy cy, t_hit *hit, short mod)
 {
-	t_vec3	ret[3];
+	t_vec3	tpa[3];
+	t_vec3	surf_norm[2];
+	double	temp;
 
-	ret[0] = vector_x_d(&ray->norm_dir, -1);
-	ret[1] = vector_plus(&ray->orig, &ret[0]);
-	ret[2] = vector_sub(&ret[1], &cy.cords);
-	ret[2] = vec_normalize(&ret[2]);
-	return (ret[2]);
+	tpa[0] = vector_x_d(&ray->dir, hit->t1);
+	tpa[1] = vector_plus(&ray->orig, &tpa[0]);
+	tpa[2] = vector_sub(&tpa[1], &cy.cords);
+	temp = vector_dot(&tpa[2], &cy.norm_vec);
+	surf_norm[0] = vector_x_d(&cy.norm_vec, temp);
+	surf_norm[1] = vector_sub(&tpa[2], &surf_norm[0]);
+	if (mod == 1)
+	{
+		surf_norm[1] = vector_sub(&surf_norm[1], &tpa[2]);
+		surf_norm[1] = vector_x_d(&surf_norm[1], -1);
+	}
+	vec_normalize(&surf_norm[1]);
+	return (surf_norm[1]);
 }
 
 static void		get_cy_vals(t_cy_vals *v, t_ray *ray, t_cy cy)
@@ -62,6 +72,8 @@ static void		get_dotproducts_cy(t_ray *ray, t_cy_vals *v, t_cy cy, t_hit hit)
 
 static	void	cy_check_hit(t_cy_vals v, t_hit *hit, t_cy cy, t_ray *ray)
 {
+	short mod;
+
 	v.ret = INFINITY;
 	if (hit->check == 2)
 	{
@@ -76,10 +88,11 @@ static	void	cy_check_hit(t_cy_vals v, t_hit *hit, t_cy cy, t_ray *ray)
 		}
 		if (v.ret > 1e-6)
 		{
+			mod = hit->t1 == v.ret ? 1 : 2;
 			hit->t1 = v.ret;
 			hit->color = cy.colors;
 			hit->check = 1;
-			hit->hit_normal = get_cy_normal(ray, cy);
+			hit->hit_normal = get_cy_normal(ray, cy, hit, mod);
 		}
 	}
 }

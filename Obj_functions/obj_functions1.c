@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 21:34:02 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/19 14:57:34 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 t_object	get_res(char *line)
 {
 	t_res	ret;
-	t_i_ret	int_ret;
+	t_d_ret	double_ret;
 	int		i;
 
 	i = 1;
-	int_ret = get_int(line + i);
-	ret.x = (int)int_ret.val;
-	i += int_ret.i;
-	int_ret = get_int(line + i);
-	ret.y = int_ret.val;
-	i += int_ret.i;
+	double_ret = get_double(line + i);
+	ret.x = double_ret.val;
+	i += double_ret.i;
+	double_ret = get_double(line + i);
+	ret.y = double_ret.val;
+	i += double_ret.i;
 	while (line[i])
 	{
 		if (line[i] != ' ')
 			error("Invalid scene", 14);
 		i++;
 	}
-	if (ret.x <= 0 || ret.y <= 0)
+	if (ret.x < 1 || ret.y < 1)
 		error("RES INVALID", 12);
 	return ((t_object)ret);
 }

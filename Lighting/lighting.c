@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/05 17:54:26 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 21:32:56 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/17 16:36:58 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static t_vec3		get_hit_point(t_ray **ray)
 	return (hit_p);
 }
 
-static t_colors		apply_light(t_ray *ray, t_light light,
-									int temp, t_l_pass l_p)
+static t_colors		apply_light(t_ray *ray, t_light light, t_l_pass l_p)
 {
 	t_colors	new;
 	double		shade;
@@ -40,11 +39,10 @@ static t_colors		apply_light(t_ray *ray, t_light light,
 		shade = fabs(shade);
 	if (shade < 1e-6)
 		return ((t_colors){0, 0, 0});
-	l_intensity = light.brightness * shade * (1 - l_p.amb_b);
-	new = get_c_struct(temp);
-	new = color_multiply(new, get_c_struct(light.colors),
-		fmin(1., fmax(0.0, l_intensity)));
-	return (new);
+	l_intensity = light.brightness * fmax(0, shade) * (1 - l_p.amb_b);
+	new = get_c_struct(light.colors);
+	new = color_x_double(&new, l_intensity);
+	return ((t_colors){fmin(new.r, 255), fmin(new.g, 255), fmin(new.b, 255)});
 }
 
 /*
@@ -85,7 +83,7 @@ void				check_light(t_ray **ray, t_data *mlx, t_obj_list **list)
 			&l_p.dist) - 10 * 1e-6));
 		if ((*ray)->hit.check == 0)
 			color = color_add(color, apply_light(*ray, current->light,
-				(*ray)->hit.color, l_p));
+				l_p));
 		current = current->next;
 	}
 	color = (t_colors){fmin(color.r, 255), fmin(color.g, 255),

@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 16:28:50 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 21:48:29 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/15 20:51:54 by zgargasc      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 ** this is why you see the plane only from one direction. When
 ** looking straight at it.
 ** Engines generally use it to reduce computing time.
+** back culling, add this statement : if (denom > 1e-6)
+** below t vector dot
 */
 
 t_hit	inter_plane(t_ray *ray, t_object plane)
@@ -35,17 +37,14 @@ t_hit	inter_plane(t_ray *ray, t_object plane)
 	l = vector_sub(&pl.cords, &ray->orig);
 	hit.hit_normal = vector_x_d(&pl.norm_vec, -1);
 	denom = vector_dot(&hit.hit_normal, &ray->norm_dir);
-	if (denom > 1e-6)
+	t = vector_dot(&l, &hit.hit_normal) / denom;
+	if (t > 0)
 	{
-		t = vector_dot(&l, &hit.hit_normal) / denom;
-		if (t > 0)
-		{
-			hit.check = 1;
-			hit.t1 = t;
-			hit.color = pl.colors;
-			hit.obj_type = PL;
-			return (hit);
-		}
+		hit.check = 1;
+		hit.t1 = t;
+		hit.color = pl.colors;
+		hit.obj_type = PL;
+		return (hit);
 	}
 	return (hit);
 }

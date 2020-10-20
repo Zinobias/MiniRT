@@ -22,7 +22,7 @@ MLX := libmlx.dylib
 
 INC := minirt.h
 
-CFLAGS := -Wall -Wextra -Werror -Imlx -IINC
+CFLAGS := -fsanitize=address -Wall -Wextra -Werror -Imlx -IINC
 
 LXFLAGS := -Lmlx/ -Lmlx -framework OpenGL -framework AppKit
 

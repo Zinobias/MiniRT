@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:02:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:47:52 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:22:00 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,13 @@
 
 int		key_input(int keycode, t_data *mlx)
 {
-	t_img_list	*temp;
-	t_img_list	*current;
-
-	current = mlx->img_l;
 	if (keycode == 124)
 		cam_next(mlx);
 	if (keycode == 123)
 		cam_back(mlx);
 	if (keycode == 53)
 	{
-		while (current)
-		{
-			temp = current->img;
-			mlx_destroy_image(mlx->mlx, temp);
-			current = current->next;
-		}
+		clear_img_l(mlx);
 		mlx_destroy_window(mlx->mlx, mlx->win);
 		exit(0);
 	}
@@ -38,16 +29,7 @@ int		key_input(int keycode, t_data *mlx)
 
 int		close_win_x(t_data *mlx)
 {
-	t_img_list	*temp;
-	t_img_list	*current;
-
-	current = mlx->img_l;
-	while (current)
-	{
-		temp = current->img;
-		mlx_destroy_image(mlx->mlx, temp);
-		current = current->next;
-	}
+	clear_img_l(mlx);
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	exit(0);
 	return (0);

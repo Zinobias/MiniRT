@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/02/14 16:17:19 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/17 15:47:05 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:33:51 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,7 +279,7 @@ void				mlx_get_lights(t_data **mlx_, t_obj_list **list);
 void				create_light_head(t_data **target, t_light object);
 void				create_light_node(t_light_l	**target, t_light object);
 void				make_head(t_obj_list **head);
-void				rm_element(t_obj_list **list, int obj_code);
+t_obj_list			*rm_element(t_obj_list **list, int obj_code);
 t_mat4				look_at(t_vec3 from, t_vec3 to);
 void				save_img(t_data *mlx);
 void				mlx_start(t_data **mlx_data, t_obj_list **list, int argc);
@@ -325,4 +325,5 @@ void				check_vec3_range(t_vec3 data, double min, double max);
 t_vec3				vec3_x_matrix(t_vec3 *from, t_mat4 *c2w);
 void				*ft_calloc(size_t count, size_t size);
 t_colors			color_x_double(t_colors *c1, double d);
+void				clear_img_l(t_data *mlx);
 #endif

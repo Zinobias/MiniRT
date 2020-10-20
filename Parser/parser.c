@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 18:44:10 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/10 21:05:15 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:47:00 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_obj_list	*parser(int fd)
 			error("GNL went wrong", 15);
 		if ((*line == '\n' || *line == '\0'))
 		{
-			if (line[1])
+			if (*line)
 				error("Invalid line", 13);
 		}
 		else

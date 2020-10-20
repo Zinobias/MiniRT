@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:54:47 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/17 15:25:56 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:10:09 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,6 @@ void		save_img(t_data *mlx)
 	if (close(fd) == -1)
 		error("save img, close went wrong", 27);
 	free(buf);
+	clear_img_l(mlx);
+	exit(0);
 }

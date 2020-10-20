@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 21:01:43 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:06 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:33:40 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	make_head(t_obj_list **head)
 	return ;
 }
 
-void	rm_element(t_obj_list **list, int obj_code)
+t_obj_list	*rm_element(t_obj_list **list, int obj_code)
 {
 	t_obj_list *current;
 	t_obj_list *temp;
@@ -39,15 +39,17 @@ void	rm_element(t_obj_list **list, int obj_code)
 		if (current)
 			free(current);
 	}
-		else while (current->next)
+	else while (current->next)
+	{
+		if (current->next->obj_type->f_code == obj_code)
 		{
-			if (current->next->obj_type->f_code == obj_code)
-			{
-				temp = current->next;
-				current = current->next->next;
-				break ;
-			}
-			current = current->next;
+			temp = current->next;
+			if (temp)
+				free(temp);
+			current->next = current->next->next;
+			break ;
 		}
-	return ;
+		current = current->next;
+	}
+	return (*list);
 }

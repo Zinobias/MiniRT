@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:53:59 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:48:05 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:32:19 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	mlx_get_lights(t_data **mlx_, t_obj_list **list)
 					current_l = current_l->next;
 				create_light_node(&current_l, current->object.light);
 			}
-			rm_element(list, LIGHT);
+			current = rm_element(list, LIGHT);
 		}
 		current = current->next;
 	}

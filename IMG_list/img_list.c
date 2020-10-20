@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/08/01 17:51:17 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/08/05 17:47:54 by zgargasc      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:32:27 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	mlx_get_cams(t_data **mlx_data, t_obj_list **obj_l)
 					current_i = current_i->next;
 				create_cam_node(&current_i, mlx_data, current->object.cam);
 			}
-			rm_element(obj_l, CAM);
+			current = rm_element(obj_l, CAM);
 		}
 		current = current->next;
 	}
@@ -112,4 +112,18 @@ void	link_cam_list(t_data **mlx_)
 		current->back = temp;
 	}
 	mlx->img_tail = current;
+}
+
+void	clear_img_l(t_data *mlx)
+{
+	t_img_list	*current;
+	t_img_list	*temp;
+
+	current = mlx->img_l;
+	while (current)
+	{
+		temp = current->img;
+		mlx_destroy_image(mlx->mlx, temp);
+		current = current->next;
+	}
 }

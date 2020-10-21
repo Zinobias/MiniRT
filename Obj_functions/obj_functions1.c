@@ -6,7 +6,7 @@
 /*   By: zgargasc <zgargasc@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/09 19:29:08 by zgargasc      #+#    #+#                 */
-/*   Updated: 2020/10/20 14:46:33 by zilisabethp   ########   odam.nl         */
+/*   Updated: 2020/10/21 11:58:31 by zilisabethp   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_object	get_res(char *line)
 			error("Invalid scene", 14);
 		i++;
 	}
-	if (ret.x < 0 || ret.y < 0)
+	if (ret.x <= 0 || ret.y <= 0)
 		error("RES INVALID", 12);
 	return ((t_object)ret);
 }
